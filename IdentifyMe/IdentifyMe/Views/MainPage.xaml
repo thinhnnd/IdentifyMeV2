@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mvvm1:BaseTabbedPage x:TypeArguments="viewModels1:MainPageViewModel" xmlns="http://xamarin.com/schemas/2014/forms" 
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+            xmlns:d="http://xamarin.com/schemas/2014/forms/design" 
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+            mc:Ignorable="d"
+            x:Class="IdentifyMe.Views.MainPage"
+            NavigationPage.HasNavigationBar="false"
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            xmlns:mvvm1="clr-namespace:IdentifyMe.MVVM;assembly=IdentifyMe"
+            xmlns:viewModels1="clr-namespace:IdentifyMe.ViewModels;assembly=IdentifyMe"
+            xmlns:views="clr-namespace:IdentifyMe.Views;assembly=IdentifyMe"
+            android:TabbedPage.ToolbarPlacement="Bottom"
+            android:TabbedPage.BarItemColor="#787878"
+            android:TabbedPage.BarSelectedItemColor="{StaticResource SecondaryColor}"
+            BarBackgroundColor="White">
+    <TabbedPage.Children>
+        <NavigationPage x:Name="Home" Title="Home">
+            <x:Arguments>
+                <views:HomePage BindingContext="{Binding Home}" />
+            </x:Arguments>
+        </NavigationPage>
+        <NavigationPage x:Name="IdentifyMe" Title="IdentifyMe" >
+            <x:Arguments>
+                <views:AboutPage/>
+                <!-- <IdentifyMe:AboutPage BindingContext="{Binding IdentifyMe}"/> -->
+            </x:Arguments>
+        </NavigationPage>
+    </TabbedPage.Children>
+</mvvm1:BaseTabbedPage>
