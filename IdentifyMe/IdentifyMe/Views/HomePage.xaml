@@ -17,7 +17,11 @@
             <Button Text="Open Scanner"
                     HorizontalOptions="CenterAndExpand"
                     VerticalOptions="Start"
-                    Command="{Binding GoToScanCommand}"/> 
+                    Command="{Binding GoToScanCommand}"/>
+            <Button Text="Fetch Inbox"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="Start"
+                    Command="{Binding FetchInboxCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </mvvm:BaseContentPage>

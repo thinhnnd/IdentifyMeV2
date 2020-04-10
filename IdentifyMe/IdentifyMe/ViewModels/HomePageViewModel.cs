@@ -18,17 +18,22 @@ namespace IdentifyMe.ViewModels
         private readonly IEdgeProvisioningService _edgeProvisioningService;
         private readonly IWalletAppConfiguration _walletConfiguration;
         private readonly AgentOptions _options;
+        private CloudWalletService _cloudWalletService;
 
         public ICommand CreateWalletCommand { get; }
         public ICommand GoToScanCommand { get; }
 
-        public HomePageViewModel(IEdgeProvisioningService edgeProvisioningService, IWalletAppConfiguration walletconfiguration, IOptions<AgentOptions> options)
+        public ICommand FetchInboxCommand { get; }
+
+        public HomePageViewModel(IEdgeProvisioningService edgeProvisioningService, IWalletAppConfiguration walletconfiguration, IOptions<AgentOptions> options,CloudWalletService cloudWalletService)
         {
             _edgeProvisioningService = edgeProvisioningService;
             _walletConfiguration = walletconfiguration;
             _options = options.Value;
+            _cloudWalletService = cloudWalletService;
             CreateWalletCommand = new AsyncCommand(CreateAgent);
             GoToScanCommand = new AsyncCommand(GoToScan);
+            FetchInboxCommand = new AsyncCommand(FetchInbox);
         }
 
         public void OnNavigatedTo()
@@ -74,6 +79,11 @@ namespace IdentifyMe.ViewModels
         private async Task GoToScan()
         {
             await Navigation.PushAsync(MakeVm<ScanCodeViewModel>());
+        }
+
+        private async Task FetchInbox()
+        {
+            await _cloudWalletService.FetchCloudMessagesAsync();
         }
     }
 }

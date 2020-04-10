@@ -1,5 +1,5 @@
 {
   "Environment": "Debug",
-  "AgentFrameworkEndpoint": "https://streetcred-mediator-agent-staging.azurewebsites.net/",
+  "AgentFrameworkEndpoint": "http://b634a3d2.ngrok.io",
   "PoolConfigurationName": "sovrin-staging"
 }

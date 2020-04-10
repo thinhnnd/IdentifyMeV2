@@ -3,6 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IdentifyMe.Resources.ColorsDictionary">
     <!--Design guides-->
-    <Color x:Key="PrimaryColor">#7237EC</Color>
-    <Color x:Key="SecondaryColor">#00ACA3</Color>
+    <Color x:Key="PrimaryColor">#5c6bc0</Color>
+    <Color x:Key="SecondaryColor">#8e99f3</Color>
 </ResourceDictionary>

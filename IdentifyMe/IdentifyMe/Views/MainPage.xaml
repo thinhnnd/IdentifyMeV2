@@ -10,6 +10,10 @@
             xmlns:mvvm1="clr-namespace:IdentifyMe.MVVM;assembly=IdentifyMe"
             xmlns:viewModels1="clr-namespace:IdentifyMe.ViewModels;assembly=IdentifyMe"
             xmlns:views="clr-namespace:IdentifyMe.Views;assembly=IdentifyMe"
+            xmlns:connections="clr-namespace:IdentifyMe.Views.Connections;assembly=IdentifyMe"
+            xmlns:credentials="clr-namespace:IdentifyMe.Views.Credentials;assembly=IdentifyMe"
+            xmlns:setting="clr-namespace:IdentifyMe.Views.Setting;assembly=IdentifyMe"
+            xmlns:notification="clr-namespace:IdentifyMe.Views.Notification;assembly=IdentifyMe"
             android:TabbedPage.ToolbarPlacement="Bottom"
             android:TabbedPage.BarItemColor="#787878"
             android:TabbedPage.BarSelectedItemColor="{StaticResource SecondaryColor}"
@@ -20,9 +24,19 @@
                 <views:HomePage BindingContext="{Binding Home}" />
             </x:Arguments>
         </NavigationPage>
-        <NavigationPage x:Name="IdentifyMe" Title="IdentifyMe" >
+        <NavigationPage x:Name="Connections" Title="Connections">
             <x:Arguments>
-                <views:AboutPage/>
+                <connections:ConnectionsPage />
+            </x:Arguments>
+        </NavigationPage>
+        <NavigationPage x:Name="Credentials" Title="Credentials">
+            <x:Arguments>
+                <credentials:CredentialsPage />
+            </x:Arguments>
+        </NavigationPage>
+        <NavigationPage x:Name="Setting" Title="Setting" >
+            <x:Arguments>
+                <setting:SettingPage/>
                 <!-- <IdentifyMe:AboutPage BindingContext="{Binding IdentifyMe}"/> -->
             </x:Arguments>
         </NavigationPage>
