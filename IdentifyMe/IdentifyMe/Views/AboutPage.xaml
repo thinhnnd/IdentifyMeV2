@@ -7,9 +7,10 @@
              x:Class="IdentifyMe.Views.AboutPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Hello, world!"
+            <Label Text="{Binding Name}"
                    VerticalOptions="CenterAndExpand"
                    HorizontalOptions="CenterAndExpand" />
+            
         </StackLayout>
     </ContentPage.Content>
 </mvvm:BaseContentPage>

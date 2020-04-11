@@ -40,5 +40,10 @@
                 <!-- <IdentifyMe:AboutPage BindingContext="{Binding IdentifyMe}"/> -->
             </x:Arguments>
         </NavigationPage>
+        <NavigationPage x:Name="About" Title="About" >
+            <x:Arguments>
+                <views:AboutPage BindingContext="{Binding About}"/>
+            </x:Arguments>
+        </NavigationPage>
     </TabbedPage.Children>
 </mvvm1:BaseTabbedPage>

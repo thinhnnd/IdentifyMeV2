@@ -1,5 +1,5 @@
 {
   "Environment": "Debug",
-  "AgentFrameworkEndpoint": "http://b634a3d2.ngrok.io",
+  "AgentFrameworkEndpoint": "https://83140388.ngrok.io",
   "PoolConfigurationName": "sovrin-staging"
 }
