@@ -9,9 +9,21 @@
              x:Class="IdentifyMe.Views.Connections.ConnectionsPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Connections Page"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="Hey, there!"
+                   VerticalOptions="Start"
+                   HorizontalOptions="CenterAndExpand" />
+            <Button Text="Create Wallet"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="Start"
+                    Command="{Binding CreateWalletCommand}"/>
+            <Button Text="Open Scanner"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="Start"
+                    Command="{Binding GoToScanCommand}"/>
+            <Button Text="Fetch Inbox"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="Start"
+                    Command="{Binding FetchInboxCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </mvvm:BaseContentPage>

@@ -78,7 +78,7 @@ namespace IdentifyMe.ViewModels
         
         private async Task GoToScan()
         {
-            await Navigation.PushAsync(MakeVm<ScanCodeViewModel>());
+            await Navigation.PushModalAsync(MakeVm<ScanCodeViewModel>());
         }
 
         private async Task FetchInbox()

@@ -19,7 +19,22 @@
             android:TabbedPage.BarSelectedItemColor="{StaticResource SecondaryColor}"
             BarBackgroundColor="White">
     <TabbedPage.Children>
-        <NavigationPage x:Name="Home" Title="Home">
+        <connections:ConnectionsPage Icon="users.png"
+            Title="Connections"
+            BindingContext="{Binding Connections}">
+        </connections:ConnectionsPage>
+        <credentials:CredentialsPage
+            Icon="check_circle.png"
+            Title="Credentials"
+            >
+        </credentials:CredentialsPage>
+        <notification:NotificationPage Icon="notification.png"
+            Title="Notification">
+        </notification:NotificationPage>
+        <setting:SettingPage Title="Setting" 
+                             Icon="setting.png" >
+        </setting:SettingPage>
+        <!--<NavigationPage x:Name="Home" Title="Home" IconImageSource="check_circle.png">
             <x:Arguments>
                 <views:HomePage BindingContext="{Binding Home}" />
             </x:Arguments>
@@ -34,11 +49,11 @@
                 <credentials:CredentialsPage />
             </x:Arguments>
         </NavigationPage>
-        <NavigationPage x:Name="Setting" Title="Setting" >
-            <x:Arguments>
+        <NavigationPage x:Name="Setting" Title="Setting" >-->
+            <!--<x:Arguments>
                 <setting:SettingPage/>
-                <!-- <IdentifyMe:AboutPage BindingContext="{Binding IdentifyMe}"/> -->
+                --><!-- <IdentifyMe:AboutPage BindingContext="{Binding IdentifyMe}"/> --><!--
             </x:Arguments>
-        </NavigationPage>
+        </NavigationPage>-->
     </TabbedPage.Children>
 </mvvm1:BaseTabbedPage>
