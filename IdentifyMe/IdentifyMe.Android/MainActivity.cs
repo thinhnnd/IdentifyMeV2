@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Java.Lang;
-
+using Acr.UserDialogs;
 
 using Android.Views;
 using Android.Widget;
@@ -34,6 +34,9 @@ namespace IdentifyMe.Droid
 
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
+
+            UserDialogs.Init(this);
+
 
             var host = App.BuildHost(typeof(DependencyInjection.DroidServiceModule).Assembly)
               .UseContentRoot(System.Environment.GetFolderPath(

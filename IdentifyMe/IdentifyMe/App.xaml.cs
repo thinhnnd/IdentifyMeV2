@@ -18,6 +18,7 @@ using System.IO;
 using IdentifyMe.Configuration;
 using IdentifyMe.Views;
 using IdentifyMe.ViewModels;
+using Acr.UserDialogs;
 
 namespace IdentifyMe
 {
@@ -64,6 +65,7 @@ namespace IdentifyMe
                     containerBuilder.Populate(services);
 
                     Container = containerBuilder.Build();
+                    
                     Container.Resolve<INavigationService>().RegisterViewModels(typeof(BaseViewModel).Assembly);
 
                 });
