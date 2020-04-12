@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Hyperledger.Aries.Features.DidExchange;
 using IdentifyMe.Framework.Utilities;
 using IdentifyMe.MVVM;
+using IdentifyMe.ViewModels.Connections;
 using Xamarin.Forms;
 
 namespace IdentifyMe.ViewModels
@@ -25,7 +27,11 @@ namespace IdentifyMe.ViewModels
                 
                 var message = await MessageDecorder.ParseMessageAsync(scannedCode);
                 Console.WriteLine($@"Decoded message {message}");
-                await Application.Current.MainPage.DisplayAlert("Scanned code", scannedCode, "Close");
+                await Navigation.PopAsync();
+                AcceptInvitationViewModel acceptInvitationViewModel = MakeVm<AcceptInvitationViewModel>();
+                acceptInvitationViewModel.InvitationMessage = (ConnectionInvitationMessage)message;
+                await Navigation.PushPopupAsync<AcceptInvitationViewModel>(acceptInvitationViewModel);
+                //await Application.Current.MainPage.DisplayAlert("Scanned code", scannedCode, "Close");
             }
             catch (Exception e)
             {
