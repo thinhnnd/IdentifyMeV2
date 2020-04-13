@@ -5,6 +5,7 @@
                       xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
                       xmlns:mvvm1="clr-namespace:IdentifyMe.MVVM;assembly=IdentifyMe"
                       xmlns:viewModels="clr-namespace:IdentifyMe.ViewModels;assembly=IdentifyMe"
+                      NavigationPage.HasNavigationBar="True"
                       x:Class="IdentifyMe.Views.ScanCodePage"
                       x:DataType="viewModels:ScanCodeViewModel">
     <ContentPage.Content>

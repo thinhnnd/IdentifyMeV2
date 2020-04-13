@@ -5,7 +5,7 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
             mc:Ignorable="d"
             x:Class="IdentifyMe.Views.MainPage"
-            NavigationPage.HasNavigationBar="false"
+            NavigationPage.HasNavigationBar="true"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
             xmlns:mvvm1="clr-namespace:IdentifyMe.MVVM;assembly=IdentifyMe"
             xmlns:viewModels1="clr-namespace:IdentifyMe.ViewModels;assembly=IdentifyMe"
@@ -14,13 +14,14 @@
             xmlns:credentials="clr-namespace:IdentifyMe.Views.Credentials;assembly=IdentifyMe"
             xmlns:setting="clr-namespace:IdentifyMe.Views.Setting;assembly=IdentifyMe"
             xmlns:notification="clr-namespace:IdentifyMe.Views.Notification;assembly=IdentifyMe"
+            CurrentPageChanged="CurrentPageChanged"
+            Appearing="Appearing"
             android:TabbedPage.ToolbarPlacement="Bottom"
             android:TabbedPage.BarItemColor="#787878"
-            android:TabbedPage.BarSelectedItemColor="{StaticResource SecondaryColor}"
-            BarBackgroundColor="White">
+            android:TabbedPage.BarSelectedItemColor="{StaticResource SecondaryColor}" >
     <TabbedPage.Children>
         <connections:ConnectionsPage Icon="users.png"
-            Title="Connections"
+            Title="{Binding Title}"
             BindingContext="{Binding Connections}">
         </connections:ConnectionsPage>
         <credentials:CredentialsPage

@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using Hyperledger.Aries.Agents;
 using Hyperledger.Aries.Contracts;
@@ -31,30 +33,40 @@ namespace IdentifyMe.Framework.Services
 
         public async Task<IAgentContext> GetContextAsync(params object[] args)
         {
-            var configurationName = Preferences.Get(Constants.PoolConfigurationName, "sovrin-live");
-            return new AgentContext
+            var configurationName = Preferences.Get(Constants.PoolConfigurationName, "sovrin-staging");
+            try
             {
-                SupportedMessages = _agent.GetSupportedMessageTypes(),
-                Wallet = await _walletService.GetWalletAsync(
-                    configuration: new WalletConfiguration
-                    {
-                        Id = Constants.LocalWalletIdKey,
-                        StorageConfiguration = new WalletConfiguration.WalletStorageConfiguration
-                        {
-                            Path = Path.Combine(
-                                FileSystem.AppDataDirectory,
-                                ".indy_client",
-                                "wallets")
-                        }
-                    },
-                    credentials: new WalletCredentials
-                    {
-                        Key = await SyncedSecureStorage.GetAsync(Constants.LocalWalletCredentialKey)
-                    }),
+                var agentContext = new AgentContext
+                {
+                    SupportedMessages = _agent.GetSupportedMessageTypes(),
+                    Wallet = await _walletService.GetWalletAsync(
+                   configuration: new WalletConfiguration
+                   {
+                       Id = Constants.LocalWalletIdKey,
+                       StorageConfiguration = new WalletConfiguration.WalletStorageConfiguration
+                       {
+                           Path = Path.Combine(
+                               FileSystem.AppDataDirectory,
+                               ".indy_client",
+                               "wallets")
+                       }
+                   },
+                   credentials: new WalletCredentials
+                   {
+                       Key = await SyncedSecureStorage.GetAsync(Constants.LocalWalletCredentialKey)
+                   }),
 
-                Pool = new PoolAwaitable(async () => await _poolService.GetPoolAsync(configurationName, 2)),
-                Agent = _agent
-            };
+                    Pool = new PoolAwaitable(async () => await _poolService.GetPoolAsync(configurationName, 2)),
+                    Agent = _agent
+                };
+                return agentContext;
+            } 
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return null;
+            }
+
         }
     }
 }

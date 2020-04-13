@@ -10,6 +10,15 @@ using IdentifyMe.Framework.Services;
 using IdentifyMe.MVVM;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using System.Collections.ObjectModel;
+using Hyperledger.Aries.Features.DidExchange;
+using Hyperledger.Aries.Agents;
+using System.Collections.Generic;
+using Autofac;
+using System.Linq;
+using IdentifyMe.Events;
+using Hyperledger.Aries.Contracts;
+using System.Reactive.Linq;
 
 namespace IdentifyMe.ViewModels.Connections
 {
@@ -19,21 +28,67 @@ namespace IdentifyMe.ViewModels.Connections
         private readonly IWalletAppConfiguration _walletConfiguration;
         private readonly AgentOptions _options;
         private CloudWalletService _cloudWalletService;
-
+        private readonly IAgentProvider _agentProvider;
+        private readonly IConnectionService _connectionService;
+        private readonly ILifetimeScope _scope;
+        private readonly IEventAggregator _eventAggregator;
         public ICommand CreateWalletCommand { get; }
         public ICommand GoToScanCommand { get; }
 
         public ICommand FetchInboxCommand { get; }
 
-        public ConnectionsViewModel(IEdgeProvisioningService edgeProvisioningService, IWalletAppConfiguration walletconfiguration, IOptions<AgentOptions> options, CloudWalletService cloudWalletService)
+        public ICommand RefreshingCommand { get;  }
+
+        public ConnectionsViewModel(IEdgeProvisioningService edgeProvisioningService, 
+            IWalletAppConfiguration walletconfiguration, 
+            IOptions<AgentOptions> options, 
+            IAgentProvider agentProvider,
+            IConnectionService connectionService,
+            ILifetimeScope scope,
+            IEventAggregator eventAggregator,
+            CloudWalletService cloudWalletService)
         {
+            Title = "Connections";
             _edgeProvisioningService = edgeProvisioningService;
             _walletConfiguration = walletconfiguration;
             _options = options.Value;
             _cloudWalletService = cloudWalletService;
+            _connectionService = connectionService;
+            _agentProvider = agentProvider;
+            _eventAggregator = eventAggregator;
+            _scope = scope;
+
             CreateWalletCommand = new AsyncCommand(CreateAgent);
             GoToScanCommand = new AsyncCommand(GoToScan);
             FetchInboxCommand = new AsyncCommand(FetchInbox);
+            RefreshingCommand = new AsyncCommand(RefreshConnectionsList);
+            Task.Run(async () => await RefreshConnectionsList());
+        }
+
+        public override async Task InitAsync()
+        {
+            await base.InitAsync();
+            Console.WriteLine("Init Async work");
+
+            await RefreshConnectionsList();
+        }
+
+        public override async void OnAppearing()
+        {
+            base.OnAppearing();
+            Console.WriteLine("On Apperring works");
+            try
+            {
+                await RefreshConnectionsList();
+
+                _eventAggregator.GetEventByType<ApplicationEvent>()
+                   .Where(_ => _.Type == ApplicationEventType.ConnectionsUpdated)
+                   .Subscribe(async _ => await RefreshConnectionsList());
+            } 
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+            }
         }
 
         public void OnNavigatedTo()
@@ -75,6 +130,50 @@ namespace IdentifyMe.ViewModels.Connections
                 IsBusy = false;
             }
         }
+        public async Task RefreshConnectionsList()
+        {
+            RefreshingConnections = true;
+            var context = await _agentProvider.GetContextAsync();
+            if (context != null)
+            {
+                try
+                {
+                    var records = await _connectionService.ListAsync(context);
+
+                    IList<ConnectionViewModel> connectionViewModels = new List<ConnectionViewModel>();
+
+                    foreach (var record in records)
+                    {
+                        if (record.Alias != null)
+                        {
+                            var connection = _scope.Resolve<ConnectionViewModel>(new NamedParameter("record", record));
+                            connectionViewModels.Add(connection);
+                        }
+
+                    }
+
+                    Connections.Clear();
+
+                    foreach (var connectionVm in connectionViewModels)
+                    {
+                        Connections.Add(connectionVm);
+                    }
+                    //Connections = connectionViewModels;
+                    HasConnections = connectionViewModels.Any();
+                    RefreshingConnections = false;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    RefreshingConnections = false;
+
+                }
+            }
+            RefreshingConnections = false;
+            await Application.Current.MainPage.DisplayAlert("Can't load connections", "", "Ok");
+
+        }
+
 
         private async Task GoToScan()
         {
@@ -84,6 +183,29 @@ namespace IdentifyMe.ViewModels.Connections
         private async Task FetchInbox()
         {
             await _cloudWalletService.FetchCloudMessagesAsync();
+        }
+
+        private bool _refreshingConnections;
+
+        public bool RefreshingConnections
+        {
+            get => _refreshingConnections;
+            set => RaiseAndUpdate(ref _refreshingConnections, value);
+        }
+
+        private bool _hasConnections;
+        public bool HasConnections
+        {
+            get => _hasConnections;
+            set => this.RaiseAndUpdate(ref _hasConnections, value);
+        }
+
+        private ObservableCollection<ConnectionViewModel> _connections = new ObservableCollection<ConnectionViewModel>();
+
+        public ObservableCollection<ConnectionViewModel> Connections
+        {
+            get => _connections;
+            set => RaiseAndUpdate<ObservableCollection<ConnectionViewModel>>(ref _connections, value, "string");
         }
     }
 }

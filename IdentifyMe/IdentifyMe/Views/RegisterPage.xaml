@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mvvm:BaseContentPage x:TypeArguments="viewModels:RegisterPageViewModel"  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mvvm="clr-namespace:IdentifyMe.MVVM;assembly=IdentifyMe"
+             xmlns:viewModels="clr-namespace:IdentifyMe.ViewModels;assembly=IdentifyMe"
+             x:Class="IdentifyMe.Views.RegisterPage">
+    <ContentPage.Content>
+        <StackLayout
+            Spacing="150"
+            VerticalOptions="Center">
+            <Label
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="Welcome to IdentifyMe. You need to create a wallet first"></Label>
+            <Button 
+                VerticalOptions="CenterAndExpand"
+                Text="Create Wallet"
+                Command="{Binding CreateWalletCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</mvvm:BaseContentPage>

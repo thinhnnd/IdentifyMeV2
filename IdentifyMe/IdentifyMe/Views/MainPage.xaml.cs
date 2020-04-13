@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using IdentifyMe.MVVM;
 using IdentifyMe.ViewModels;
+using Xamarin.Forms;
 
 namespace IdentifyMe.Views
 {
@@ -13,6 +14,17 @@ namespace IdentifyMe.Views
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        private void CurrentPageChanged(object sender, System.EventArgs e) => Title = GetPageName(CurrentPage);
+
+        private void Appearing(object sender, System.EventArgs e) => Title = GetPageName(CurrentPage);
+
+        private string GetPageName(Page page)
+        {
+            if (page.BindingContext is BaseNavigationViewModel vmBase)
+                return vmBase.Title;
+            return null;
         }
     }
 }

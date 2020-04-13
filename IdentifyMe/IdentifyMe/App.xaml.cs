@@ -19,6 +19,8 @@ using IdentifyMe.Configuration;
 using IdentifyMe.Views;
 using IdentifyMe.ViewModels;
 using Acr.UserDialogs;
+using Hyperledger.Aries.Agents;
+using System.Threading.Tasks;
 
 namespace IdentifyMe
 {
@@ -74,15 +76,18 @@ namespace IdentifyMe
         {
             Host.Start();
 
-            //            Include this for registering push notifications with AppCenter
-            //            var appSecret = DeviceInfo.Platform == DevicePlatform.iOS
-            //                    ? Constants.IOSAppCenterSecret
-            //                    : Constants.AndroidAppCenterSecret;
-            //            SetupUtilities.SetupPushNotifications(this, appSecret);
-
-            var mainPage = Container.Resolve<MainPage>();
-            mainPage.ViewModel = Container.Resolve<MainPageViewModel>();
-            MainPage = new NavigationPage(mainPage);
+            if (Preferences.Get("LocalWalletProvisioned", false))
+            {
+                var mainPage = Container.Resolve<MainPage>();
+                mainPage.ViewModel = Container.Resolve<MainPageViewModel>();
+                MainPage = new NavigationPage(mainPage);
+            }
+            else
+            {
+                var registerPage = Container.Resolve<RegisterPage>();
+                registerPage.ViewModel = Container.Resolve<RegisterPageViewModel>();
+                MainPage = new NavigationPage(registerPage);
+            }
         }
 
         protected override void OnAppLinkRequestReceived(Uri uri)

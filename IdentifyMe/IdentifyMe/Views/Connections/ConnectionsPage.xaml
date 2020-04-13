@@ -6,10 +6,13 @@
              xmlns:mvvm="clr-namespace:IdentifyMe.MVVM;assembly=IdentifyMe"
              xmlns:viewModels="clr-namespace:IdentifyMe.ViewModels;assembly=IdentifyMe"
              mc:Ignorable="d"
+             Title="{Binding Title}"
+             NavigationPage.TitleView="{Binding Title}"
+             NavigationPage.HasNavigationBar="True"
              x:Class="IdentifyMe.Views.Connections.ConnectionsPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Hey, there!"
+            <Label Text="{Binding Title}"
                    VerticalOptions="Start"
                    HorizontalOptions="CenterAndExpand" />
             <Button Text="Create Wallet"
@@ -24,6 +27,54 @@
                     HorizontalOptions="CenterAndExpand"
                     VerticalOptions="Start"
                     Command="{Binding FetchInboxCommand}"/>
+            <ListView ItemsSource="{Binding Connections}" 
+                      HasUnevenRows="true" 
+                      IsPullToRefreshEnabled="True"
+                      RefreshCommand="{Binding RefreshingCommand}"
+                      IsRefreshing="{Binding RefreshingConnections}"
+                      >
+                <ListView.ItemTemplate >
+                    <DataTemplate >
+                        <ViewCell >
+                            <ViewCell.View>
+                                <Frame Margin="10, 5" 
+                                       VerticalOptions="Start" 
+                                       Padding="0" 
+                                       HorizontalOptions="FillAndExpand" 
+                                       CornerRadius="5" >
+                                    <Grid  Padding="15"   >
+                                        <Grid.RowDefinitions >
+                                            <RowDefinition Height="Auto" ></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <!--<Frame Grid.Column="0" 
+                                           HeightRequest="40" 
+                                           WidthRequest="40" 
+                                           CornerRadius="20" 
+                                           HorizontalOptions="Start" 
+                                           VerticalOptions="Start"
+                                           BackgroundColor="{Binding Path=ConnectionName, Converter={StaticResource NameToColorConverter}}"
+                                           Margin="0" 
+                                           Padding="0">
+                                            <Label HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="White" Text="{Binding Path=ConnectionName, Converter={StaticResource NameToInitialConverter}}" />
+
+                                        </Frame>-->
+                                        <Label Margin="10, 0, 0, 0" Grid.Column="1" 
+                                            Text="{Binding Path=ConnectionName}"
+                                            VerticalOptions="Center"/>
+                                    </Grid>
+                                </Frame>
+
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+
+                </ListView.ItemTemplate>
+                <ListView.RowHeight>10</ListView.RowHeight>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </mvvm:BaseContentPage>

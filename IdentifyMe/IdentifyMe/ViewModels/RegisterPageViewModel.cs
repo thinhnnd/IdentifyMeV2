@@ -10,10 +10,11 @@ using IdentifyMe.Framework.Services;
 using IdentifyMe.MVVM;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using IdentifyMe.Views;
 
 namespace IdentifyMe.ViewModels
 {
-    public class HomePageViewModel : BaseNavigationViewModel, INavigationAware
+    public class RegisterPageViewModel : BaseNavigationViewModel, INavigationAware
     {
         private readonly IEdgeProvisioningService _edgeProvisioningService;
         private readonly IWalletAppConfiguration _walletConfiguration;
@@ -25,15 +26,16 @@ namespace IdentifyMe.ViewModels
 
         public ICommand FetchInboxCommand { get; }
 
-        public HomePageViewModel(IEdgeProvisioningService edgeProvisioningService, IWalletAppConfiguration walletconfiguration, IOptions<AgentOptions> options,CloudWalletService cloudWalletService)
+        public RegisterPageViewModel(IEdgeProvisioningService edgeProvisioningService, 
+            IWalletAppConfiguration walletconfiguration, 
+            IOptions<AgentOptions> options, 
+            CloudWalletService cloudWalletService)
         {
             _edgeProvisioningService = edgeProvisioningService;
             _walletConfiguration = walletconfiguration;
             _options = options.Value;
             _cloudWalletService = cloudWalletService;
             CreateWalletCommand = new AsyncCommand(CreateAgent);
-            GoToScanCommand = new AsyncCommand(GoToScan);
-            FetchInboxCommand = new AsyncCommand(FetchInbox);
         }
 
         public void OnNavigatedTo()
@@ -64,7 +66,11 @@ namespace IdentifyMe.ViewModels
                     value: Utils.Utils.GenerateRandomAsync(32));
                 await _edgeProvisioningService.ProvisionAsync(_options);
                 Preferences.Set("LocalWalletProvisioned", true);
-                await Navigation.PushAsync<MainPageViewModel>();
+                //MainPage a = new MainPage();
+                //a.ViewModel = MainPageViewModel;
+                //App.Current.MainPage = new NavigationPage(new MainPage());
+                //thinhnnd TODO: Push but clear stack of Navigation
+                await Navigation.PushModalAsync<MainPageViewModel>();
                 await Application.Current.MainPage.DisplayAlert("Wallet created", "", "Ok");
             }
             catch (Exception ex)
@@ -77,15 +83,6 @@ namespace IdentifyMe.ViewModels
                 IsBusy = false;
             }
         }
-        
-        private async Task GoToScan()
-        {
-            await Navigation.PushModalAsync(MakeVm<ScanCodeViewModel>());
-        }
-
-        private async Task FetchInbox()
-        {
-            await _cloudWalletService.FetchCloudMessagesAsync();
-        }
+    
     }
 }
