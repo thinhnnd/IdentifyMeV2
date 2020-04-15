@@ -1,33 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mvvm:BaseContentPage x:TypeArguments="viewModels:Connections.ConnectionsViewModel" xmlns="http://xamarin.com/schemas/2014/forms"
+<mvvm:BaseContentPage x:TypeArguments="viewModels:Notification.ProofRequestViewModel" xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
              xmlns:mvvm="clr-namespace:IdentifyMe.MVVM;assembly=IdentifyMe"
              xmlns:viewModels="clr-namespace:IdentifyMe.ViewModels;assembly=IdentifyMe"
-             mc:Ignorable="d"
-             Title="{Binding Title}"
-             NavigationPage.TitleView="{Binding Title}"
-             NavigationPage.HasNavigationBar="True"
-             x:Class="IdentifyMe.Views.Connections.ConnectionsPage">
+             x:Class="IdentifyMe.Views.Notification.ProofRequestPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding Title}"
-                   VerticalOptions="Start"
-                   HorizontalOptions="CenterAndExpand" />
-            <Button Text="Open Scanner"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="Start"
-                    Command="{Binding GoToScanCommand}"/>
-            <Button Text="Fetch Inbox"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="Start"
-                    Command="{Binding FetchInboxCommand}"/>
-            <ListView ItemsSource="{Binding Connections}" 
+            <ListView ItemsSource="{Binding ListRecord}" 
                       HasUnevenRows="true" 
                       IsPullToRefreshEnabled="True"
-                      RefreshCommand="{Binding RefreshingCommand}"
-                      IsRefreshing="{Binding RefreshingConnections}"
+                      RefreshCommand="{Binding RefreshRecordCommand}"
+                      IsRefreshing="{Binding IsRefreshing}"
                       >
                 <ListView.ItemTemplate >
                     <DataTemplate >
@@ -58,8 +44,11 @@
                                             <Label HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="White" Text="{Binding Path=ConnectionName, Converter={StaticResource NameToInitialConverter}}" />
 
                                         </Frame>-->
+                                        <Label Margin="10, 0, 0, 0" Grid.Column="0" 
+                                            Text="{Binding Path=Id}"
+                                            VerticalOptions="Center"/>
                                         <Label Margin="10, 0, 0, 0" Grid.Column="1" 
-                                            Text="{Binding Path=ConnectionName}"
+                                            Text="{Binding Path=TypeName}"
                                             VerticalOptions="Center"/>
                                     </Grid>
                                 </Frame>

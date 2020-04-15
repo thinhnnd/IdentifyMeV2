@@ -6,12 +6,118 @@
              mc:Ignorable="d"
              xmlns:mvvm="clr-namespace:IdentifyMe.MVVM;assembly=IdentifyMe"
              xmlns:viewModels="clr-namespace:IdentifyMe.ViewModels;assembly=IdentifyMe"
+             xmlns:converters="clr-namespace:IdentifyMe.Converters;assembly=IdentifyMe"
+             xmlns:behaviours="clr-namespace:IdentifyMe.Behaviors;assembly=IdentifyMe"
              x:Class="IdentifyMe.Views.Notification.NotificationPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Button Text="Fetch Inbox"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="Start"
+                    Command="{Binding FetchInboxCommand}"/>
+            <Label Text="List Credential Offer:" />
+            <ListView ItemsSource="{Binding ListCredOffer}" 
+                      HasUnevenRows="true" 
+                      IsPullToRefreshEnabled="True"
+                      RefreshCommand="{Binding RefreshRecordCommand}"
+                      IsRefreshing="{Binding IsRefreshing}"
+                    
+                      >
+                <ListView.ItemTemplate >
+                    <DataTemplate >
+                        <ViewCell >
+                            <ViewCell.View>
+                                <Frame Margin="10,5" 
+                                       VerticalOptions="Start" 
+                                       Padding="0" 
+                                       HorizontalOptions="FillAndExpand" 
+                                       CornerRadius="5" >
+                                    <Grid  Padding="15"   >
+                                        <Grid.RowDefinitions >
+                                            <RowDefinition Height="Auto" ></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Frame Grid.Column="0" 
+                                           HeightRequest="40" 
+                                           WidthRequest="40" 
+                                           CornerRadius="20" 
+                                           HorizontalOptions="Start" 
+                                           VerticalOptions="Start"
+                                           BackgroundColor="BurlyWood"
+                                           Margin="0" 
+                                           Padding="0">
+                                            <Label HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="White" Text="C" />
+
+                                        </Frame>
+                                        <Label Margin="10, 0, 0, 0" Grid.Column="0" 
+                                            Text="{Binding Path=Id}"
+                                            VerticalOptions="Center"/>
+                                        
+                                    </Grid>
+                                </Frame>
+
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+
+                </ListView.ItemTemplate>
+                <ListView.RowHeight>10</ListView.RowHeight>
+
+            </ListView>
+            <Label Text="List ProofRequest:" />
+            <ListView ItemsSource="{Binding ListProofRequest}" 
+                      HasUnevenRows="true" 
+                      IsPullToRefreshEnabled="True"
+                      RefreshCommand="{Binding RefreshRecordCommand}"
+                      IsRefreshing="{Binding IsRefreshing}"
+                      >
+                <ListView.ItemTemplate >
+                    <DataTemplate >
+                        <ViewCell >
+                            <ViewCell.View>
+                                <Frame Margin="10, 5" 
+                                       VerticalOptions="Start" 
+                                       Padding="0" 
+                                       HorizontalOptions="FillAndExpand" 
+                                       CornerRadius="5" >
+                                    <Grid  Padding="15"   >
+                                        <Grid.RowDefinitions >
+                                            <RowDefinition Height="Auto" ></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Frame Grid.Column="0" Grid.Row="0"
+                                           HeightRequest="40" 
+                                           WidthRequest="40" 
+                                           CornerRadius="20" 
+                                           HorizontalOptions="Start" 
+                                           VerticalOptions="Start"
+                                           BackgroundColor="AliceBlue"
+                                           Margin="0" 
+                                           Padding="0">
+                                            <Label HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="White" Text="P" />
+
+                                        </Frame>
+                                        <Label Margin="10, 0, 0, 0" Grid.Column="0" 
+                                            Text="{Binding Path=Id}"
+                                            VerticalOptions="Center"/>
+
+                                    </Grid>
+                                </Frame>
+
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+
+                </ListView.ItemTemplate>
+                <ListView.RowHeight>10</ListView.RowHeight>
+               
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </mvvm:BaseContentPage>
