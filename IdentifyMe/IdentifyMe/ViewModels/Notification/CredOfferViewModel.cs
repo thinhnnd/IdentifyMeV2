@@ -18,17 +18,17 @@ namespace IdentifyMe.ViewModels.Notification
 
         public void OnNavigatedTo()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("On Navigated To");
         }
 
         public void OnNavigatingFrom()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("On Navigating From");
         }
 
         public void OnNavigatingTo()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("On Navigating To");
         }
 
         #region Bindable Props 

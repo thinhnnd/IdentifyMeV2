@@ -112,15 +112,20 @@ namespace IdentifyMe.ViewModels.Notification
             throw new NotImplementedException();
         }
 
-        public async Task NavigateToCredentialOfferPage(CredentialRecord credOfferViewModel)
+        public async Task NavigateToCredentialOfferPage(CredentialRecord record)
         {
             //await Navigation.PushModalAsync(credOfferViewModel);
             //await Navigation.PushAsync(MakeVm<CredOfferViewModel>(credOfferViewModel));
             CredOfferViewModel credentialVm = MakeVm<CredOfferViewModel>();
-            //credentialVm.CredentialOffer = credOfferViewModel;
+            credentialVm.CredentialOffer = record;
             //_credentialOffersVm.Add(credentialVm);
-            //await Navigation.PushAsync(MakeVm<CredOfferViewModel>(_credentialOffersVm));
-            await Navigation.PushAsync(MakeVm<ScanCodeViewModel>());
+            //await DisplayAlert("Alert", "You have been alerted", "OK");
+            await Navigation.PushAsync(MakeVm<CredOfferViewModel>(credentialVm));
+
+            await Application.Current.MainPage.DisplayAlert(credentialVm.CredentialOffer.ConnectionId, "", "Ok");
+
+            //await Navigation.PushAsync(credentialVm);
+            //await Navigation.PushAsync(MakeVm<ScanCodeViewModel>());
 
 
         }

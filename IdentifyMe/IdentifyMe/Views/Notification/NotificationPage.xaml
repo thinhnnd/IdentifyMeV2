@@ -9,6 +9,14 @@
              xmlns:converters="clr-namespace:IdentifyMe.Converters;assembly=IdentifyMe"
              xmlns:behaviours="clr-namespace:IdentifyMe.Behaviors;assembly=IdentifyMe"
              x:Class="IdentifyMe.Views.Notification.NotificationPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="BooleanInverse" />
+            <converters:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+
+            <!--<converters:SelecteditemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />-->
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
             <Button Text="Fetch Inbox"
@@ -65,7 +73,9 @@
 
                 </ListView.ItemTemplate>
                 <ListView.RowHeight>10</ListView.RowHeight>
-
+                <ListView.Behaviors>
+                    <behaviours:EventToCommandBehavior EventName="ItemSelected" Command="{Binding SelectCredOfferCommand}" Converter="{StaticResource SelectedItemConverter}" />
+                </ListView.Behaviors>
             </ListView>
             <Label Text="List ProofRequest:" />
             <ListView ItemsSource="{Binding ListProofRequest}" 
@@ -116,7 +126,9 @@
 
                 </ListView.ItemTemplate>
                 <ListView.RowHeight>10</ListView.RowHeight>
-               
+                <ListView.Behaviors>
+                    <behaviours:EventToCommandBehavior EventName="ItemSelected" Command="{Binding SelectCredOfferCommand}" Converter="{StaticResource SelectedItemConverter}" />
+                </ListView.Behaviors>
             </ListView>
         </StackLayout>
     </ContentPage.Content>

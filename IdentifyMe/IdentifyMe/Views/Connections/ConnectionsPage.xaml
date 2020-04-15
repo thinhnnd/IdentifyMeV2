@@ -11,6 +11,7 @@
              NavigationPage.HasNavigationBar="True"
              x:Class="IdentifyMe.Views.Connections.ConnectionsPage">
     <ContentPage.Content>
+        
         <StackLayout>
             <Label Text="{Binding Title}"
                    VerticalOptions="Start"
