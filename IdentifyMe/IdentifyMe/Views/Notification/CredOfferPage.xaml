@@ -44,7 +44,7 @@
             </StackLayout>
             <StackLayout
                 Grid.Row="2"
-                Padding="10"
+                Padding="15,5"
                 Orientation="Horizontal"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand">

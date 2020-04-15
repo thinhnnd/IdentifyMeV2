@@ -122,7 +122,7 @@ namespace IdentifyMe.ViewModels.Notification
             //await DisplayAlert("Alert", "You have been alerted", "OK");
             await Navigation.PushAsync(MakeVm<CredOfferViewModel>(credentialVm));
 
-            await Application.Current.MainPage.DisplayAlert(credentialVm.CredentialOffer.ConnectionId, "", "Ok");
+           // await Application.Current.MainPage.DisplayAlert(credentialVm.CredentialOffer.ConnectionId, "", "Ok");
 
             //await Navigation.PushAsync(credentialVm);
             //await Navigation.PushAsync(MakeVm<ScanCodeViewModel>());

@@ -12,7 +12,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:InverseBooleanConverter x:Key="BooleanInverse" />
-            <converters:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+            <converters:SelecteditemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
 
             <!--<converters:SelecteditemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />-->
         </ResourceDictionary>
@@ -74,7 +74,7 @@
                 </ListView.ItemTemplate>
                 <ListView.RowHeight>10</ListView.RowHeight>
                 <ListView.Behaviors>
-                    <behaviours:EventToCommandBehavior EventName="ItemSelected" Command="{Binding SelectCredOfferCommand}" Converter="{StaticResource SelectedItemConverter}" />
+                    <behaviours:EventToCommandBehavior EventName="ItemSelected" Command="{Binding SelectCredOfferCommand}" Converter="{StaticResource SelectedItemConverter}" DeselectOnClick="true" />
                 </ListView.Behaviors>
             </ListView>
             <Label Text="List ProofRequest:" />
@@ -127,7 +127,7 @@
                 </ListView.ItemTemplate>
                 <ListView.RowHeight>10</ListView.RowHeight>
                 <ListView.Behaviors>
-                    <behaviours:EventToCommandBehavior EventName="ItemSelected" Command="{Binding SelectCredOfferCommand}" Converter="{StaticResource SelectedItemConverter}" />
+                    <behaviours:EventToCommandBehavior EventName="ItemSelected" Command="{Binding SelectCredOfferCommand}" Converter="{StaticResource SelectedItemConverter}" DeselectOnClick="true" />
                 </ListView.Behaviors>
             </ListView>
         </StackLayout>
