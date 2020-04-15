@@ -30,6 +30,7 @@
             >
         </credentials:CredentialsPage>
         <notification:NotificationPage Icon="notification.png"
+            BindingContext="{Binding Notification}"
             Title="Notification">
         </notification:NotificationPage>
         <setting:SettingPage Title="Setting" 
