@@ -1,5 +1,6 @@
 ﻿using Hyperledger.Aries.Features.PresentProof;
 using IdentifyMe.MVVM;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,6 @@ namespace IdentifyMe.ViewModels.Notification
         public ProofRequestViewModel()
         {
             Title = "Proof Request";
-
         }
 
         public void OnNavigatedTo()
@@ -37,8 +37,24 @@ namespace IdentifyMe.ViewModels.Notification
         public ProofRecord ProofRequestRecord
         {
             get => _proofRequestRecord;
-            set => RaiseAndUpdate(ref _proofRequestRecord, value);
+            set 
+            {
+                RaiseAndUpdate(ref _proofRequestRecord, value);
+                _requestedProof = JObject.Parse(_proofRequestRecord.RequestJson);
+            }
         }
+
+        private JObject _requestedProof;
+
+        public JObject RequestedProof
+        {
+            get => _requestedProof;
+            set
+            {
+                RaiseAndUpdate(ref _requestedProof, value);
+            }
+        }
+
 
         #endregion
 

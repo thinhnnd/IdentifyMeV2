@@ -26,7 +26,11 @@
                 <Label
                     FontSize="14"
                     HorizontalTextAlignment="Center"
-                    Text="{Binding CredentialOffer.Id}"/>
+                    Text="{Binding ProofRequestRecord.RequestJson}"/>
+                <Entry
+                    FontSize="14"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding ProofRequestRecord.RequestJson}"/>
             </StackLayout>
             <ScrollView 
                 Grid.Row="1"
@@ -76,13 +80,13 @@
                 VerticalOptions="FillAndExpand">
                 <Button
                     Style="{DynamicResource RedButtonStyle}"
-                    Command="{Binding RejectCredentialOfferCommand}"
+                    Command="{Binding RejectProofRequestCommand}"
                     HorizontalOptions="FillAndExpand"
                     Text="Discline"/>
                 <Button
                     HorizontalOptions="FillAndExpand"
                     Style="{DynamicResource BlueButtonStyle}"
-                    Command="{Binding AcceptCredentialOfferCommand}"
+                    Command="{Binding AcceptProofRequestCommand}"
                     Text="Accept"/>
             </StackLayout>
         </Grid>

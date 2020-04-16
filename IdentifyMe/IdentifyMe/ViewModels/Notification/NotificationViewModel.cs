@@ -62,6 +62,7 @@ namespace IdentifyMe.ViewModels.Notification
             _listRecords.Clear();
             _listCredOffer.Clear();
             _listProofRequest.Clear();
+            _proofRequestsVm.Clear();
             foreach (var item in listCredentials)
             {
                 _listRecords.Add(item);
@@ -70,8 +71,6 @@ namespace IdentifyMe.ViewModels.Notification
                 //credentialVm.CredentialOffer = item;
                 //_credentialOffersVm.Add(credentialVm);
             }
-
-
 
             foreach(var item in listProofRequests)
             {

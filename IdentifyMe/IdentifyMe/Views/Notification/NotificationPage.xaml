@@ -111,10 +111,10 @@
                                            Margin="0" 
                                            Padding="0">
                                             <Label HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="White" Text="P" />
-
+        
                                         </Frame>
                                         <Label Margin="10, 0, 0, 0" Grid.Column="0" 
-                                            Text="{Binding Path=Id}"
+                                            Text="{Binding Path=ProofRequestRecord.Id}"
                                             VerticalOptions="Center"/>
 
                                     </Grid>
