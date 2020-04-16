@@ -7,44 +7,70 @@
              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:mvvm="clr-namespace:IdentifyMe.MVVM;assembly=IdentifyMe"
              xmlns:viewModels="clr-namespace:IdentifyMe.ViewModels;assembly=IdentifyMe"
+             Title="{Binding Title}"
              x:Class="IdentifyMe.Views.Notification.CredOfferPage">
     <ContentPage.Content>
         <Grid
-            Padding="15"
+            Padding="0"
             RowSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="3*" />
-                <RowDefinition Height="1.8*" />
-                <RowDefinition Height="0.5*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="8*" />
+                <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
             <StackLayout
                 Grid.Row="0"
                 Padding="10"
+                
                 VerticalOptions="FillAndExpand">
-                <forms:CachedImage
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="FillAndExpand"
-                    FadeAnimationEnabled="true"
-                    DownsampleUseDipUnits="true"
-                    Source="{ Binding InviterUrl }"
-                    Aspect="Fill"/>
-            </StackLayout>
-            <StackLayout
-                Grid.Row="1"
-                VerticalOptions="StartAndExpand"
-                Spacing="10"
-                Padding="10">
                 <Label
-                    FontSize="26"
+                    FontSize="14"
                     HorizontalTextAlignment="Center"
                     Text="{Binding CredentialOffer.Id}"/>
-                <Label
-                    HorizontalTextAlignment="Center"
-                    Text="Test"/>
             </StackLayout>
-            <StackLayout
+            <ScrollView 
+                Grid.Row="1"
+                Padding="0">
+                
+                <ListView ItemsSource="{Binding CredentialOffer.CredentialAttributesValues}" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate >
+                            <ViewCell >
+                                <ViewCell.View>
+                                   
+                                        <!--<Grid  Padding="0"   >
+                                            <Grid.RowDefinitions >
+                                                <RowDefinition Height="50" ></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="7*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Margin="10,0,0,0"  Grid.Column="0"  Text="{Binding Path=Name}" />
+                                            <Label Margin="10,0,0,0" Grid.Column="1" 
+                                            Text="{Binding Path=Value}"
+                                            VerticalOptions="Center"/>
+
+                                        </Grid>-->
+                                    <StackLayout Spacing="10" Padding="10,5" HeightRequest="100" >
+                                        <Label Margin="0,0,10,0" Padding="0" FontSize="Caption" TextColor="Gray"  Text="{Binding Path=Name}" />
+                                        <Label Margin="10,0,0,0"
+                                               FontSize="Body"
+                                            Text="{Binding Path=Value}"
+                                               TextColor="{DynamicResource AppMainColorLight}"
+                                            VerticalOptions="Center"/>
+                                    </StackLayout>
+
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.RowHeight>80</ListView.RowHeight>
+                </ListView>
+            </ScrollView>
+            <StackLayout                
                 Grid.Row="2"
-                Padding="15,5"
+                Padding="5"
                 Orientation="Horizontal"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand">

@@ -120,7 +120,7 @@ namespace IdentifyMe.ViewModels.Notification
             credentialVm.CredentialOffer = record;
             //_credentialOffersVm.Add(credentialVm);
             //await DisplayAlert("Alert", "You have been alerted", "OK");
-            await Navigation.PushAsync(MakeVm<CredOfferViewModel>(credentialVm));
+            await Navigation.PushAsync(credentialVm);
 
            // await Application.Current.MainPage.DisplayAlert(credentialVm.CredentialOffer.ConnectionId, "", "Ok");
 
@@ -139,7 +139,7 @@ namespace IdentifyMe.ViewModels.Notification
 
         public async Task NavigateToProofRequestPage(ProofRequestViewModel proofRequestViewModel)
         {
-            await Navigation.PushModalAsync(proofRequestViewModel);
+            await Navigation.PushAsync(proofRequestViewModel);
         }
 
         public ICommand SelectProofRequestCommand => new Command<ProofRequestViewModel>(async (proofRequestViewModel) =>

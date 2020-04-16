@@ -78,7 +78,7 @@
                 </ListView.Behaviors>
             </ListView>
             <Label Text="List ProofRequest:" />
-            <ListView ItemsSource="{Binding ListProofRequest}" 
+            <ListView ItemsSource="{Binding ProofRequests}" 
                       HasUnevenRows="true" 
                       IsPullToRefreshEnabled="True"
                       RefreshCommand="{Binding RefreshRecordCommand}"
@@ -127,7 +127,7 @@
                 </ListView.ItemTemplate>
                 <ListView.RowHeight>10</ListView.RowHeight>
                 <ListView.Behaviors>
-                    <behaviours:EventToCommandBehavior EventName="ItemSelected" Command="{Binding SelectCredOfferCommand}" Converter="{StaticResource SelectedItemConverter}" DeselectOnClick="true" />
+                    <behaviours:EventToCommandBehavior EventName="ItemSelected" Command="{Binding SelectProofRequestCommand}" Converter="{StaticResource SelectedItemConverter}" DeselectOnClick="true" />
                 </ListView.Behaviors>
             </ListView>
         </StackLayout>
