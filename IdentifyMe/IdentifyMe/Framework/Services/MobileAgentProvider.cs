@@ -36,7 +36,7 @@ namespace IdentifyMe.Framework.Services
             var configurationName = Preferences.Get(Constants.PoolConfigurationName, "sovrin-staging");
             try
             {
-                var agentContext = new AgentContext
+                var agentContext = new DefaultAgentContext
                 {
                     SupportedMessages = _agent.GetSupportedMessageTypes(),
                     Wallet = await _walletService.GetWalletAsync(
@@ -56,8 +56,8 @@ namespace IdentifyMe.Framework.Services
                        Key = await SyncedSecureStorage.GetAsync(Constants.LocalWalletCredentialKey)
                    }),
 
-                    Pool = new PoolAwaitable(async () => await _poolService.GetPoolAsync(configurationName, 2)),
-                    Agent = _agent
+                   Pool = new PoolAwaitable(async () => await _poolService.GetPoolAsync(configurationName, 2)),
+                   Agent = _agent
                 };
                 return agentContext;
             } 

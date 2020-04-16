@@ -11,7 +11,9 @@ using Acr.UserDialogs;
 
 using Android.Views;
 using Android.Widget;
-
+using Android;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace IdentifyMe.Droid
 {
@@ -37,6 +39,9 @@ namespace IdentifyMe.Droid
 
             UserDialogs.Init(this);
 
+            //thinh nnd
+            if ((int)Build.VERSION.SdkInt >= 23)
+                CheckAndRequestRequiredPermissions();
 
             var host = App.BuildHost(typeof(DependencyInjection.DroidServiceModule).Assembly)
               .UseContentRoot(System.Environment.GetFolderPath(
@@ -61,10 +66,47 @@ namespace IdentifyMe.Droid
 
             LoadApplication(_application);
         }
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
-        {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        //public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        //{
+        //    Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
+        //    base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        //}
+
+        readonly string[] _permissionsRequired =
+    {
+            Manifest.Permission.ReadExternalStorage,
+            Manifest.Permission.WriteExternalStorage,
+            Manifest.Permission.Camera
+        };
+
+        private int _requestCode = -1;
+        private List<string> _permissionsToBeGranted = new List<string>();
+
+        private void CheckAndRequestRequiredPermissions()
+        {
+            for (int i = 0; i < _permissionsRequired.Length; i++)
+                if (CheckSelfPermission(_permissionsRequired[i]) != (int)Permission.Granted)
+                    _permissionsToBeGranted.Add(_permissionsRequired[i]);
+
+            if (_permissionsToBeGranted.Any())
+            {
+                _requestCode = 10;
+                RequestPermissions(_permissionsRequired.ToArray(), _requestCode);
+            }
+            else
+                System.Diagnostics.Debug.WriteLine("Device already has all the required permissions");
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions,
+            Permission[] grantResults)
+        {
+            if (grantResults.Length == _permissionsToBeGranted.Count)
+                System.Diagnostics.Debug.WriteLine("All permissions required that werent granted, have now been granted");
+            else
+                System.Diagnostics.Debug.WriteLine("Some permissions requested were denied by the user");
+
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
         protected override void OnNewIntent(Intent intent)

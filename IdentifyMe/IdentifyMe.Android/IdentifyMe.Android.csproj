@@ -86,10 +86,6 @@
     <Compile Include="Services\ZXingHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\pool_transactions_builder_genesis" />
-    <AndroidAsset Include="Assets\pool_transactions_bcovrin_test_genesis" />
-    <AndroidAsset Include="Assets\pool_transactions_live_genesis" />
-    <AndroidAsset Include="Assets\pool_transactions_sandbox_genesis" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -209,6 +205,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\users.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\pool_transactions_bcovrin_test_genesis" />
+    <AndroidAsset Include="Assets\pool_transactions_builder_genesis" />
+    <AndroidAsset Include="Assets\pool_transactions_live_genesis" />
+    <AndroidAsset Include="Assets\pool_transactions_sandbox_genesis" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
