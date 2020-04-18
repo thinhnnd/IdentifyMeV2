@@ -1,5 +1,5 @@
 {
   "Environment": "Debug",
-  "AgentFrameworkEndpoint": "https://9622dfcd.ngrok.io",
+  "AgentFrameworkEndpoint": "https://9fe5f8e6.ngrok.io",
   "PoolConfigurationName": "bcovrin-test"
 }

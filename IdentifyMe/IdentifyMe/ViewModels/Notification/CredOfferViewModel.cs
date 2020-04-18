@@ -97,7 +97,7 @@ namespace IdentifyMe.ViewModels.Notification
                 var context = await _agentProvider.GetContextAsync();
                 try
                 {
-                    var poolConfigName = Preferences.Get(Constants.PoolConfigurationName, "sovrin-staging");
+                    var poolConfigName = Preferences.Get(Constants.PoolConfigurationName, "sovrin-staging");    
                     var a = await _poolService.GetPoolAsync(poolConfigName, 2);
                     var (requestMessage, credRecord) = await _credentialService.CreateRequestAsync(context, CredentialOffer.Id);
                     var connectionRecord  = await _connectionService.GetAsync(context, credRecord.ConnectionId);

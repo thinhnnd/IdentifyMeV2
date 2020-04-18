@@ -14,6 +14,9 @@ using Android.Widget;
 using Android;
 using System.Collections.Generic;
 using System.Linq;
+using Xamarin.Forms;
+using IdentifyMe.Messages;
+using IdentifyMe.Droid.Services;
 
 namespace IdentifyMe.Droid
 {
@@ -63,6 +66,7 @@ namespace IdentifyMe.Droid
             Console.WriteLine("CRASH_TEST - indy-loaded");
 
             _application = host.Services.GetRequiredService<App>();
+            WireUpLongRunningTask();
 
             LoadApplication(_application);
         }
@@ -113,5 +117,19 @@ namespace IdentifyMe.Droid
         {
             base.OnNewIntent(intent);
         }
+
+        void WireUpLongRunningTask()
+        {
+            MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", message => {
+                var intent = new Intent(this, typeof(LongRunningTaskService));
+                StartService(intent);
+            });
+
+            MessagingCenter.Subscribe<StopLongRunningTaskMessage>(this, "StopLongRunningTaskMessage", message => {
+                var intent = new Intent(this, typeof(LongRunningTaskService));
+                StopService(intent);
+            });
+        }
+
     }
 }

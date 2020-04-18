@@ -4,6 +4,7 @@ using Hyperledger.Aries.Features.IssueCredential;
 using Hyperledger.Aries.Features.PresentProof;
 using Hyperledger.Aries.Storage;
 using IdentifyMe.Framework.Services;
+using IdentifyMe.Messages;
 using IdentifyMe.MVVM;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,11 @@ namespace IdentifyMe.ViewModels.Notification
             _connectionService = connectionService;
             _cloudWalletService = cloudWalletService;
             Title = "Notification";
+
+            HandleReceivedMessages();
+
+            var message = new StartLongRunningTaskMessage();
+            MessagingCenter.Send(message, "StartLongRunningTaskMessage");
         }
 
         public override async Task InitAsync()
@@ -48,6 +54,21 @@ namespace IdentifyMe.ViewModels.Notification
             Console.WriteLine("Init Async work");
 
             await this.GetRequiredRecord();
+        }
+
+        void HandleReceivedMessages()
+        {
+            MessagingCenter.Subscribe<TickedMessage>(this, "TickedMessage", message => {
+                Device.BeginInvokeOnMainThread(async () => {
+                    await _cloudWalletService.FetchCloudMessagesAsync();
+                });
+            });
+
+            MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message => {
+                Device.BeginInvokeOnMainThread(() => {
+                    
+                });
+            });
         }
 
         private async Task GetRequiredRecord()

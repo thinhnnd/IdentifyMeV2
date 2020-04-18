@@ -21,6 +21,7 @@ using IdentifyMe.ViewModels;
 using Acr.UserDialogs;
 using Hyperledger.Aries.Agents;
 using System.Threading.Tasks;
+using IdentifyMe.Messages;
 
 namespace IdentifyMe
 {
@@ -81,6 +82,9 @@ namespace IdentifyMe
                 var mainPage = Container.Resolve<MainPage>();
                 mainPage.ViewModel = Container.Resolve<MainPageViewModel>();
                 MainPage = new NavigationPage(mainPage);
+                var walletService = Container.Resolve<CloudWalletService>();
+                var message = new StartLongRunningTaskMessage();
+                MessagingCenter.Send(message, "StartLongRunningTaskMessage");
             }
             else
             {
