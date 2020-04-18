@@ -21,11 +21,6 @@ namespace IdentifyMe.Droid.Services
 
 		}
 
-		public LongRunningTaskService(CloudWalletService cloudWalletService)
-		{
-			_cloudWalletService = cloudWalletService;
-		}
-
 		public override IBinder OnBind(Intent intent)
 		{
 			return null;

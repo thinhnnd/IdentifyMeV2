@@ -6,6 +6,7 @@ using Hyperledger.Aries.Storage;
 using IdentifyMe.Framework.Services;
 using IdentifyMe.Messages;
 using IdentifyMe.MVVM;
+using Plugin.LocalNotification;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -42,10 +43,10 @@ namespace IdentifyMe.ViewModels.Notification
             _cloudWalletService = cloudWalletService;
             Title = "Notification";
 
-            HandleReceivedMessages();
+            //HandleReceivedMessages();
 
-            var message = new StartLongRunningTaskMessage();
-            MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+           // var message = new StartLongRunningTaskMessage();
+            //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
         }
 
         public override async Task InitAsync()
@@ -60,15 +61,22 @@ namespace IdentifyMe.ViewModels.Notification
         {
             MessagingCenter.Subscribe<TickedMessage>(this, "TickedMessage", message => {
                 Device.BeginInvokeOnMainThread(async () => {
-                    await _cloudWalletService.FetchCloudMessagesAsync();
+                    var num = await _cloudWalletService.FetchCloudMessagesAsync();
+                    if(num != 0)
+                    {
+                        var notification = new NotificationRequest
+                        {
+                            NotificationId = 100,
+                            Title = "Message from mediator",
+                            Description = $"You've got {num} message from mediator",
+                            ReturningData = "Dummy data", // Returning data when tapped on notification.
+                                                          //NotifyTime = DateTime.Now.AddSeconds(30) // Used for Scheduling local notification, if not specified notification will show immediately.
+                        };
+                        NotificationCenter.Current.Show(notification);
+                    }                    
                 });
             });
 
-            MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message => {
-                Device.BeginInvokeOnMainThread(() => {
-                    
-                });
-            });
         }
 
         private async Task GetRequiredRecord()

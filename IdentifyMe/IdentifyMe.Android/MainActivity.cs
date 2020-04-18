@@ -17,6 +17,7 @@ using System.Linq;
 using Xamarin.Forms;
 using IdentifyMe.Messages;
 using IdentifyMe.Droid.Services;
+using Plugin.LocalNotification;
 
 namespace IdentifyMe.Droid
 {
@@ -69,6 +70,8 @@ namespace IdentifyMe.Droid
             WireUpLongRunningTask();
 
             LoadApplication(_application);
+            NotificationCenter.NotifyNotificationTapped(Intent);
+
         }
         //public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         //{
@@ -115,6 +118,7 @@ namespace IdentifyMe.Droid
         }
         protected override void OnNewIntent(Intent intent)
         {
+            NotificationCenter.NotifyNotificationTapped(intent);
             base.OnNewIntent(intent);
         }
 

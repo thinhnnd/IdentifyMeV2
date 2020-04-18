@@ -22,12 +22,15 @@ using Acr.UserDialogs;
 using Hyperledger.Aries.Agents;
 using System.Threading.Tasks;
 using IdentifyMe.Messages;
+using Plugin.LocalNotification;
+using IdentifyMe.Services.Middlewares;
 
 namespace IdentifyMe
 {
     public partial class App : Application
     {
         public static IContainer Container { get; set; }
+        public static IServiceProvider Provider { get; set; }
         public App() => InitializeComponent();
 
         public App(IHost host) : this() => Host = host;
@@ -53,12 +56,13 @@ namespace IdentifyMe
                                 path3: "wallets")
                         };
                         options.WalletConfiguration.Id = Constants.LocalWalletIdKey;
+                        options.ProtocolVersion = 2;
                     },
                     delayProvisioning: true));
+                    
 
                     services.AddHostedService<PoolConfigurator>();
                     services.OverrideDefaultAgentProvider<MobileAgentProvider>();
-
                     var containerBuilder = new ContainerBuilder();
                     containerBuilder.RegisterAssemblyModules(typeof(ViewModelsModule).Assembly);
                     if (platformSpecific != null)
@@ -66,10 +70,12 @@ namespace IdentifyMe
                         containerBuilder.RegisterAssemblyModules(platformSpecific);
                     }
                     containerBuilder.Populate(services);
-
+                    //Container.Resolve<TestMiddleWare>();
                     Container = containerBuilder.Build();
-                    
+
+                    //Container.Resolve<MessageHandleMiddleWare>();
                     Container.Resolve<INavigationService>().RegisterViewModels(typeof(BaseViewModel).Assembly);
+
 
                 });
 
@@ -82,9 +88,9 @@ namespace IdentifyMe
                 var mainPage = Container.Resolve<MainPage>();
                 mainPage.ViewModel = Container.Resolve<MainPageViewModel>();
                 MainPage = new NavigationPage(mainPage);
-                var walletService = Container.Resolve<CloudWalletService>();
                 var message = new StartLongRunningTaskMessage();
                 MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                HandleReceivedMessages();
             }
             else
             {
@@ -107,6 +113,30 @@ namespace IdentifyMe
         protected override void OnResume()
         {
             Host.Resume();
+        }
+
+        public CloudWalletService _cloudWalletService;
+
+        void HandleReceivedMessages()
+        {
+            System.Diagnostics.Debug.WriteLine($"Tikcked Messsage 1: work");
+            MessagingCenter.Subscribe<TickedMessage>(this, "TickedMessage", message => {
+
+                Device.BeginInvokeOnMainThread(async () => {
+                    System.Diagnostics.Debug.WriteLine($"Tikcked Messsage 2: { message.Message}");
+                    _cloudWalletService = Container.Resolve<CloudWalletService>();
+                    await _cloudWalletService.FetchCloudMessagesAsync();
+                    
+                    //_cloudWalletService = Container.Resolve<CloudWalletService>();
+                   // await _cloudWalletService.FetchCloudMessagesAsync();
+                });
+            });
+
+            MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message => {
+                Device.BeginInvokeOnMainThread(() => {
+                    //ticker.Text = "Cancelled";
+                });
+            });
         }
 
         //public async void HandlePushNotification(PushNotificationReceivedEventArgs e)
