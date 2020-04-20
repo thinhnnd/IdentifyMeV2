@@ -21,23 +21,13 @@ namespace IdentifyMe.ViewModels.Credentials
             _agentProvider = agentProvider;
             _credentialService = credentialService;
             Title = "Credentials";
-            //Task.Run(async () => await LoadCredential());
+            InitializeAsync();
 
         }
 
-        public override void OnAppearing()
+        public async void InitializeAsync()
         {
-            base.OnAppearing();
-            Console.WriteLine("On Apperring");
-            //Task.Run(async () => await Application.Current.MainPage.DisplayAlert("Error", "", "Ok"));
-        }
-
-        public override async Task InitAsync()
-        {
-
-            await base.InitAsync();
-           // await Application.Current.MainPage.DisplayAlert("Error", "", "Ok");
-
+            await LoadCredential();
         }
 
         private async Task LoadCredential()

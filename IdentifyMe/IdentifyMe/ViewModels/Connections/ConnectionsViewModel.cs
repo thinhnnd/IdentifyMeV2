@@ -62,33 +62,12 @@ namespace IdentifyMe.ViewModels.Connections
             GoToScanCommand = new AsyncCommand(GoToScan);
             FetchInboxCommand = new AsyncCommand(FetchInbox);
             RefreshingCommand = new AsyncCommand(RefreshConnectionsList);
-            Task.Run(async () => await RefreshConnectionsList());
+            InitializeAsync();
         }
 
-        public override async Task InitAsync()
+        public async void InitializeAsync()
         {
-            await base.InitAsync();
-            Console.WriteLine("Init Async work");
-
             await RefreshConnectionsList();
-        }
-
-        public override async void OnAppearing()
-        {
-            base.OnAppearing();
-            Console.WriteLine("On Apperring works");
-            try
-            {
-                await RefreshConnectionsList();
-
-                _eventAggregator.GetEventByType<ApplicationEvent>()
-                   .Where(_ => _.Type == ApplicationEventType.ConnectionsUpdated)
-                   .Subscribe(async _ => await RefreshConnectionsList());
-            } 
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
-            }
         }
 
         public void OnNavigatedTo()
@@ -136,41 +115,29 @@ namespace IdentifyMe.ViewModels.Connections
             var context = await _agentProvider.GetContextAsync();
             if (context != null)
             {
-                try
+                var records = await _connectionService.ListAsync(context);
+
+                IList<ConnectionViewModel> connectionViewModels = new List<ConnectionViewModel>();
+
+                foreach (var record in records)
                 {
-                    var records = await _connectionService.ListAsync(context);
-
-                    IList<ConnectionViewModel> connectionViewModels = new List<ConnectionViewModel>();
-
-                    foreach (var record in records)
+                    if (record.Alias != null)
                     {
-                        if (record.Alias != null)
-                        {
-                            var connection = _scope.Resolve<ConnectionViewModel>(new NamedParameter("record", record));
-                            connectionViewModels.Add(connection);
-                        }
-
+                        var connection = _scope.Resolve<ConnectionViewModel>(new NamedParameter("record", record));
+                        connectionViewModels.Add(connection);
                     }
 
-                    Connections.Clear();
-
-                    foreach (var connectionVm in connectionViewModels)
-                    {
-                        Connections.Add(connectionVm);
-                    }
-                    //Connections = connectionViewModels;
-                    HasConnections = connectionViewModels.Any();
-                    RefreshingConnections = false;
                 }
-                catch (Exception e)
+
+                Connections.Clear();
+
+                foreach (var connectionVm in connectionViewModels)
                 {
-                    Console.WriteLine(e.Message);
-                    RefreshingConnections = false;
-
+                    Connections.Add(connectionVm);
                 }
+                HasConnections = connectionViewModels.Any();
+                RefreshingConnections = false;              
             }
-            RefreshingConnections = false;
-            await Application.Current.MainPage.DisplayAlert("Can't load connections", "", "Ok");
 
         }
 

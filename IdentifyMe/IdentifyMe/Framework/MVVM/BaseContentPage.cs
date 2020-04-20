@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Autofac;
 using IdentifyMe.MVVM.Abstractions;
 using Xamarin.Forms;
 
@@ -7,6 +8,11 @@ namespace IdentifyMe.MVVM
 {
     public abstract class BaseContentPage<T> : ContentPage, IViewFor<T> where T : BaseNavigationViewModel
     {
+        protected BaseContentPage()
+        {
+            ViewModel = App.Container.Resolve<T>();
+        }
+
         object IViewFor.ViewModel
         {
             get => _viewModel;
@@ -25,14 +31,17 @@ namespace IdentifyMe.MVVM
                 
                 if (_viewModel is null) return;
                 
-                Task.Run(Init).SafeAwait();;
+                //Task.Run(Init).SafeAwait();;
+                Task.Run(async () => await Init()).SafeAwait();
+
             }
         }
         
         protected override void OnAppearing()
         {
-            _viewModel?.OnAppearing();
             base.OnAppearing();
+            _viewModel?.OnAppearing();
+
         }
 
         private Task Init()

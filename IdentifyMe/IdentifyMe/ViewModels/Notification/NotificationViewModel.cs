@@ -42,19 +42,12 @@ namespace IdentifyMe.ViewModels.Notification
             _connectionService = connectionService;
             _cloudWalletService = cloudWalletService;
             Title = "Notification";
-
-            //HandleReceivedMessages();
-
-           // var message = new StartLongRunningTaskMessage();
-            //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+            InitializeAsync();
         }
 
-        public override async Task InitAsync()
+        public async void InitializeAsync()
         {
-            await base.InitAsync();
-            Console.WriteLine("Init Async work");
-
-            await this.GetRequiredRecord();
+            await GetRequiredRecord();
         }
 
         void HandleReceivedMessages()
