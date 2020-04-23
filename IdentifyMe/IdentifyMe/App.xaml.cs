@@ -24,6 +24,13 @@ using System.Threading.Tasks;
 using IdentifyMe.Messages;
 using Plugin.LocalNotification;
 using IdentifyMe.Services.Middlewares;
+using IdentifyMe.Services.Interfaces;
+using IdentifyMe.ViewModels.Connections;
+using IdentifyMe.Views.Connections;
+using IdentifyMe.ViewModels.Notification;
+using IdentifyMe.Views.Notification;
+using IdentifyMe.ViewModels.Credentials;
+using IdentifyMe.Views.Credentials;
 
 namespace IdentifyMe
 {
@@ -65,6 +72,7 @@ namespace IdentifyMe
                     services.OverrideDefaultAgentProvider<MobileAgentProvider>();
                     var containerBuilder = new ContainerBuilder();
                     containerBuilder.RegisterAssemblyModules(typeof(ViewModelsModule).Assembly);
+                    containerBuilder.RegisterModule(new CoreModule());
                     if (platformSpecific != null)
                     {
                         containerBuilder.RegisterAssemblyModules(platformSpecific);
@@ -75,29 +83,49 @@ namespace IdentifyMe
 
                     //Container.Resolve<MessageHandleMiddleWare>();
                     Container.Resolve<INavigationService>().RegisterViewModels(typeof(BaseViewModel).Assembly);
-
+                    _navigationService = Container.Resolve<INavigationServiceV2>();
 
                 });
-
+        static Task InitializeTask;
+        static INavigationServiceV2 _navigationService;
+        private async static Task Initialize()
+        {
+            _navigationService.AddPageViewModelBinding<TestViewModel, TestPage>();
+            _navigationService.AddPageViewModelBinding<ConnectionsViewModelV2, ConnectionsPageV2>();
+            _navigationService.AddPageViewModelBinding<NotificationViewModelV2, NotificationV2>();
+            _navigationService.AddPageViewModelBinding<CredentialsViewModelV2, CredentialsPageV2>();
+            _navigationService.AddPageViewModelBinding<ScanCodeViewModelV2, ScanCodePageV2>();
+            _navigationService.AddPageViewModelBinding<MainViewModel, MainPageV2>();
+            await _navigationService.NavigateToAsync<MainViewModel>();
+            //if (_contextProvider.AgentExists())
+            //{
+            //    await _navigationService.NavigateToAsync<MainViewModel>();
+            //}
+            //else
+            //{
+            //    await _navigationService.NavigateToAsync<RegisterViewModel>();
+            //}
+        }
         protected override void OnStart()
         {
             Host.Start();
+            InitializeTask = Initialize();
 
-            if (Preferences.Get("LocalWalletProvisioned", false))
-            {
-                var mainPage = Container.Resolve<MainPage>();
-                mainPage.ViewModel = Container.Resolve<MainPageViewModel>();
-                MainPage = new NavigationPage(mainPage);
-                var message = new StartLongRunningTaskMessage();
-                MessagingCenter.Send(message, "StartLongRunningTaskMessage");
-                HandleReceivedMessages();
-            }
-            else
-            {
-                var registerPage = Container.Resolve<RegisterPage>();
-                registerPage.ViewModel = Container.Resolve<RegisterPageViewModel>();
-                MainPage = new NavigationPage(registerPage);
-            }
+            //if (Preferences.Get("LocalWalletProvisioned", false))
+            //{
+            //    var mainPage = Container.Resolve<MainPage>();
+            //    mainPage.ViewModel = Container.Resolve<MainPageViewModel>();
+            //    MainPage = new NavigationPage(mainPage);
+            //    var message = new StartLongRunningTaskMessage();
+            //    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+            //    HandleReceivedMessages();
+            //}
+            //else
+            //{
+            //    var registerPage = Container.Resolve<RegisterPage>();
+            //    registerPage.ViewModel = Container.Resolve<RegisterPageViewModel>();
+            //    MainPage = new NavigationPage(registerPage);
+            //}
         }
 
         protected override void OnAppLinkRequestReceived(Uri uri)

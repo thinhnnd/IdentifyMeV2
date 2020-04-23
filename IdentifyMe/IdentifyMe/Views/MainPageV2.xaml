@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            mc:Ignorable="d"
+            xmlns:views="clr-namespace:IdentifyMe.Views"
+            xmlns:credentials="clr-namespace:IdentifyMe.Views.Credentials;assembly=IdentifyMe"
+            xmlns:connections="clr-namespace:IdentifyMe.Views.Connections;assembly=IdentifyMe"
+            xmlns:notification="clr-namespace:IdentifyMe.Views.Notification;assembly=IdentifyMe"
+            xmlns:setting="clr-namespace:IdentifyMe.Views.Setting;assembly=IdentifyMe"
+            xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            x:Class="IdentifyMe.Views.MainPageV2"
+            android:TabbedPage.ToolbarPlacement="Bottom"
+            android:TabbedPage.BarItemColor="#787878"
+            android:TabbedPage.BarSelectedItemColor="{StaticResource SecondaryColor}"
+            CurrentPageChanged="CurrentPageChanged"
+            Appearing="Appearing">
+
+    <TabbedPage.Children>
+        <connections:ConnectionsPageV2 Icon="users.png"
+            Title="Connection"
+            ios:NavigationPage.PrefersLargeTitles="true"
+            BindingContext="{Binding Connections}">
+        </connections:ConnectionsPageV2>
+        <credentials:CredentialsPageV2
+            Icon="check_circle.png"
+            Title="Credentials"
+            ios:NavigationPage.PrefersLargeTitles="true">
+        </credentials:CredentialsPageV2>
+        <notification:NotificationV2 Icon="notification.png"
+            Title="Notification"
+            BindingContext="{Binding Notification}"
+            ios:NavigationPage.PrefersLargeTitles="true">
+        </notification:NotificationV2>
+        <setting:SettingPageV2 Icon="setting.png"
+            Title="Settings"
+            ios:NavigationPage.PrefersLargeTitles="true">
+        </setting:SettingPageV2>
+
+    </TabbedPage.Children>
+    <!--<ContentPage Title="Hello" />
+    <ContentPage Title="Test" />-->
+
+</TabbedPage>
