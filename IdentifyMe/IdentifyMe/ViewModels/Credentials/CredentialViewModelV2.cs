@@ -14,9 +14,9 @@ namespace IdentifyMe.ViewModels.Credentials
 
         public CredentialViewModelV2(IUserDialogs userDialogs,
             INavigationServiceV2 navigationService) : 
-            base ("Credential Detail", userDialogs, navigationService )
+            base (nameof(CredentialViewModelV2), userDialogs, navigationService )
         {
-
+            Title = "Credential Detail";
         }
      
 

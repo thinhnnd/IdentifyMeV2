@@ -28,13 +28,13 @@ namespace IdentifyMe.ViewModels
             IEdgeProvisioningService edgeProvisioningService,
             IWalletAppConfiguration walletconfiguration,
             IOptions<AgentOptions> options,
-            CloudWalletService cloudWalletService) : base ("Register Wallet", userDialogs, navigationService)
+            CloudWalletService cloudWalletService) : base (nameof(RegisterPageViewModelV2), userDialogs, navigationService)
         {
             _edgeProvisioningService = edgeProvisioningService;
             _walletConfiguration = walletconfiguration;
             _options = options.Value;
             _cloudWalletService = cloudWalletService;
-
+            Title = "Register Wallet";
         }
 
         private async Task CreateAgent()

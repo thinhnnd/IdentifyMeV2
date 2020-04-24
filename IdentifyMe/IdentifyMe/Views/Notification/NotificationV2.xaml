@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              xmlns:converters="clr-namespace:IdentifyMe.Converters;assembly=IdentifyMe"
              xmlns:behaviours="clr-namespace:IdentifyMe.Behaviors;assembly=IdentifyMe"
-             Title="{Binding Name}"
+             Title="{Binding Title}"
              x:Class="IdentifyMe.Views.Notification.NotificationV2">
     <ContentPage.Resources>
         <ResourceDictionary>

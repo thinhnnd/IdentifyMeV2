@@ -15,9 +15,9 @@ namespace IdentifyMe.ViewModels.Notification
     public class ProofRequestViewModelV2 : ABaseViewModel
     {
         public ProofRequestViewModelV2(IUserDialogs userDialogs,
-            INavigationServiceV2 navigationService) : base ("Proof Request", userDialogs, navigationService)
+            INavigationServiceV2 navigationService) : base (nameof(ProofRequestViewModelV2), userDialogs, navigationService)
         {
-           
+            Title = "Proof Request";
         }
 
         #region Bindable Props 

@@ -21,9 +21,10 @@ namespace IdentifyMe.ViewModels
         public ScanCodeViewModelV2(IUserDialogs userDialogs,
             INavigationServiceV2 navigationService,
             ILifetimeScope scope) : 
-            base("Scan QR", userDialogs, navigationService)
+            base(nameof(ScanCodeViewModelV2), userDialogs, navigationService)
         {
             _scope = scope;
+            Title = "Scan QR";
         }
 
 

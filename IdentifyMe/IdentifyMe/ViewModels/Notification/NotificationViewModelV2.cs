@@ -37,7 +37,7 @@ namespace IdentifyMe.ViewModels.Notification
                                    IMessageService messageService,
                                    CloudWalletService cloudWalletService,
                                    IProofService proofService, 
-                                   ILifetimeScope scope) : base ("Notification", userDialogs, navigationService)
+                                   ILifetimeScope scope) : base (nameof(NotificationViewModelV2), userDialogs, navigationService)
         {
             _agentProvider = agentProvider;
             _credentialService = credentialService;
@@ -45,6 +45,7 @@ namespace IdentifyMe.ViewModels.Notification
             _connectionService = connectionService;
             _cloudWalletService = cloudWalletService;
             _scope = scope;
+            Title = "Notification";
         }
 
         public async override Task InitializeAsync(object navigationData)

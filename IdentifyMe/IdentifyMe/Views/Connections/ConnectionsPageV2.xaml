@@ -4,10 +4,11 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             Title="{Binding Title}"
              x:Class="IdentifyMe.Views.Connections.ConnectionsPageV2">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding Name}"
+            <Label Text="{Binding Title}"
                    VerticalOptions="Start"
                    HorizontalOptions="CenterAndExpand" />
             <Button Text="Open Scanner"

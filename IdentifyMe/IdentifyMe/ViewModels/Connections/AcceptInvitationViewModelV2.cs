@@ -21,12 +21,13 @@ namespace IdentifyMe.ViewModels.Connections
             IConnectionService connectionService,
             IProvisioningService provisioningService, 
             IMessageService messageService, 
-            IAgentProvider mobileAgentProvider) : base("Invitation", userDialogs, navigationService)
+            IAgentProvider mobileAgentProvider) : base(nameof(AcceptInvitation), userDialogs, navigationService)
         {
             _mobileAgentProvider = mobileAgentProvider;
             _provisioningService = provisioningService;
             _connectionService = connectionService;
             _messageService = messageService;
+            Title = "Invitation";
         }
 
         private async Task CreateConnection(IAgentContext context, ConnectionInvitationMessage invite)

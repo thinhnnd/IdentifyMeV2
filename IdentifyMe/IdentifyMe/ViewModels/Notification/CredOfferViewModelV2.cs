@@ -40,7 +40,7 @@ namespace IdentifyMe.ViewModels.Notification
             IPoolService poolService,
             IWalletRecordService recordService,
             IConnectionService connectionService) :
-            base("Credential Detail", userDialogs, navigationService)
+            base(nameof(CredOfferViewModelV2), userDialogs, navigationService)
         {
             _agentProvider = agentProvider;
             _credentialService = credentialService;
@@ -48,6 +48,7 @@ namespace IdentifyMe.ViewModels.Notification
             _messageService = messageService;
             _poolService = poolService;
             _recordService = recordService;
+            Title = "Offer Detail";
         }
 
         public void OnNavigatedTo()

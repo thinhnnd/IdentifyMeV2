@@ -46,6 +46,7 @@ namespace IdentifyMe.ViewModels
             await base.InitializeAsync(navigationData);
             MessagingCenter.Send(new StartLongRunningTaskMessage(), "StartLongRunningTaskMessage");
             HandleReceivedMessages();
+            Title = "Main Page";
         }
 
         private void HandleReceivedMessages()

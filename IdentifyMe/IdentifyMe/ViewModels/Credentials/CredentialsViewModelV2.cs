@@ -22,11 +22,12 @@ namespace IdentifyMe.ViewModels.Credentials
                                   IAgentProvider agentProvider,
                                   ICredentialService credentialService, 
                                   ILifetimeScope scope ) : 
-            base("Credentials", userDialogs, navigationService)
+            base(nameof(CredentialsViewModelV2), userDialogs, navigationService)
         {
             _agentProvider = agentProvider;
             _credentialService = credentialService;
             _scope = scope;
+            Title = "Credentials";
         }
 
         public async override Task InitializeAsync(object navigationData)

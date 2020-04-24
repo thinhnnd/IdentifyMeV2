@@ -42,7 +42,7 @@ namespace IdentifyMe.ViewModels.Connections
                                    ILifetimeScope scope,
                                    IEventAggregator eventAggregator,
                                    CloudWalletService cloudWalletService ) :
-                                   base("Connections", userDialogs, navigationService)
+                                   base(nameof(ConnectionsViewModelV2), userDialogs, navigationService)
         {
             _edgeProvisioningService = edgeProvisioningService;
             _walletConfiguration = walletconfiguration;
@@ -51,7 +51,8 @@ namespace IdentifyMe.ViewModels.Connections
             _connectionService = connectionService;
             _agentProvider = agentProvider;
             _eventAggregator = eventAggregator;
-            _scope = scope;           
+            _scope = scope;
+            Title = "Connections";
         }
 
         public override async Task InitializeAsync(object navigationData)

@@ -19,15 +19,14 @@ namespace IdentifyMe.Views
         }
 
 
-        //       private void CurrentPageChanged(object sender, System.EventArgs e) => Title = GetPageName(CurrentPage);
-        //            CurrentPageChanged="CurrentPageChanged"
+        private void CurrentPageChanged(object sender, System.EventArgs e) => Title = GetPageName(CurrentPage);
 
         private void Appearing(object sender, System.EventArgs e) => Title = GetPageName(CurrentPage);
 
         private string GetPageName(Page page)
         {
             if (page.BindingContext is ABaseViewModel vmBase)
-                return vmBase.Name;
+                return vmBase.Title;
             return null;
         }
     }

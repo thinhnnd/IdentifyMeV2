@@ -13,6 +13,7 @@
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
             x:Class="IdentifyMe.Views.MainPageV2"
             Appearing="Appearing"
+            CurrentPageChanged="CurrentPageChanged"
             android:TabbedPage.ToolbarPlacement="Bottom"
             android:TabbedPage.BarSelectedItemColor="{StaticResource SecondaryColor}"
             android:TabbedPage.BarItemColor="#787878">
