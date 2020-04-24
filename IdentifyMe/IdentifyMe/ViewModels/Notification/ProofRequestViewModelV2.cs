@@ -1,6 +1,5 @@
 ﻿using Acr.UserDialogs;
 using Hyperledger.Aries.Features.PresentProof;
-using IdentifyMe.MVVM;
 using IdentifyMe.Services.Interfaces;
 using Newtonsoft.Json.Linq;
 using ReactiveUI;

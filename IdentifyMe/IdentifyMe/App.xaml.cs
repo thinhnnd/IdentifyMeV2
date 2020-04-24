@@ -9,8 +9,6 @@ using IdentifyMe.DependencyInjection;
 using Autofac.Extensions.DependencyInjection;
 //using Microsoft.AppCenter.Push;
 using IdentifyMe.Framework.Services;
-using IdentifyMe.MVVM;
-using IdentifyMe.MVVM.Abstractions;
 using Xamarin.Essentials;
 using IdentifyMe.Services;
 using Hyperledger.Aries.Storage;
@@ -82,15 +80,13 @@ namespace IdentifyMe
                     Container = containerBuilder.Build();
 
                     //Container.Resolve<MessageHandleMiddleWare>();
-                    Container.Resolve<INavigationService>().RegisterViewModels(typeof(BaseViewModel).Assembly);
                     _navigationService = Container.Resolve<INavigationServiceV2>();
 
                 });
-        static Task InitializeTask;
+        Task InitializeTask;
         static INavigationServiceV2 _navigationService;
-        private void Initialize()
+        private async Task Initialize()
         {
-            _navigationService.AddPageViewModelBinding<TestViewModel, TestPage>();
             _navigationService.AddPageViewModelBinding<ConnectionsViewModelV2, ConnectionsPageV2>();
             _navigationService.AddPageViewModelBinding<NotificationViewModelV2, NotificationV2>();
             _navigationService.AddPageViewModelBinding<CredentialsViewModelV2, CredentialsPageV2>();
@@ -100,22 +96,23 @@ namespace IdentifyMe
             _navigationService.AddPopupViewModelBinding<AcceptInvitationViewModelV2, AcceptInvitationPopupV2>();
             _navigationService.AddPageViewModelBinding<MainViewModel, MainPageV2>();
             _navigationService.AddPageViewModelBinding<RegisterPageViewModelV2, RegisterPageV2>();
-           
-        }
-        protected override void OnStart()
-        {
-            Host.Start();
-            Initialize();
             if (Preferences.Get("LocalWalletProvisioned", false))
             {
-                Device.BeginInvokeOnMainThread(async () => await _navigationService.NavigateToAsync<MainViewModel>());
+                //Task.Run(async () => await _navigationService.NavigateToAsync<MainViewModel>());
+                await _navigationService.NavigateToAsync<MainViewModel>();
             }
             else
             {
                 //Task.Run(async () => await _navigationService.NavigateToAsync<RegisterPageViewModelV2>());
-                Device.BeginInvokeOnMainThread(async () => await _navigationService.NavigateToAsync<RegisterPageViewModelV2>());
-
+                //Task.Run(async () => await _navigationService.NavigateToAsync<RegisterPageViewModelV2>());
+                await _navigationService.NavigateToAsync<RegisterPageViewModelV2>();
             }
+        }
+        protected override void OnStart()
+        {
+            Host.Start();
+            InitializeTask = Initialize();
+
         }
 
         protected override void OnAppLinkRequestReceived(Uri uri)

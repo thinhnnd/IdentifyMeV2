@@ -6,7 +6,6 @@ using Hyperledger.Aries.Features.DidExchange;
 using Hyperledger.Aries.Features.IssueCredential;
 using Hyperledger.Aries.Storage;
 using IdentifyMe.Framework.Services;
-using IdentifyMe.MVVM;
 using IdentifyMe.Services.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

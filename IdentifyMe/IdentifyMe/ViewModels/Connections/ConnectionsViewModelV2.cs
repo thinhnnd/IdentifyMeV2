@@ -70,13 +70,13 @@ namespace IdentifyMe.ViewModels.Connections
             {
                 var records = await _connectionService.ListAsync(context);
 
-                IList<ConnectionViewModel> connectionViewModels = new List<ConnectionViewModel>();
+                IList<ConnectionViewModelV2> connectionViewModels = new List<ConnectionViewModelV2>();
 
                 foreach (var record in records)
                 {
                     if (record.Alias != null)
                     {
-                        var connection = _scope.Resolve<ConnectionViewModel>(new NamedParameter("record", record));
+                        var connection = _scope.Resolve<ConnectionViewModelV2>(new NamedParameter("record", record));
                         connectionViewModels.Add(connection);
                     }
 
@@ -111,9 +111,9 @@ namespace IdentifyMe.ViewModels.Connections
             set => this.RaiseAndSetIfChanged(ref _hasConnections, value);
         }
 
-        private ObservableCollection<ConnectionViewModel> _connections = new ObservableCollection<ConnectionViewModel>();
+        private ObservableCollection<ConnectionViewModelV2> _connections = new ObservableCollection<ConnectionViewModelV2>();
 
-        public ObservableCollection<ConnectionViewModel> Connections
+        public ObservableCollection<ConnectionViewModelV2> Connections
         {
             get => _connections;
             set => this.RaiseAndSetIfChanged(ref _connections, value);

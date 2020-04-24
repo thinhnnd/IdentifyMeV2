@@ -6,6 +6,7 @@ using IdentifyMe.Services.Interfaces;
 using ReactiveUI;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace IdentifyMe.ViewModels.Connections
@@ -75,7 +76,7 @@ namespace IdentifyMe.ViewModels.Connections
                     DialogService.Alert("Something went wrong!");
                 }
                 loadingDialog.Hide();
-                await NavigationService.ClosePopupAsync();
+                await NavigationService.CloseAllPopupsAsync();
                 var toastConfig = new ToastConfig("Connection Saved!");
                 toastConfig.BackgroundColor = Color.Green;
                 toastConfig.Position = ToastPosition.Top;
@@ -91,5 +92,9 @@ namespace IdentifyMe.ViewModels.Connections
             get => _invitation;
             set => this.RaiseAndSetIfChanged(ref _invitation, value);
         }
+
+        #region Binding Command
+        public ICommand AcceptInvitationCommand => new Command(async () => await AcceptInvitation());
+        #endregion
     }
 }

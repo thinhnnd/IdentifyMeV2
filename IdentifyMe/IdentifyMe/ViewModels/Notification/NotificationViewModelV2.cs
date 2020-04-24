@@ -161,8 +161,8 @@ namespace IdentifyMe.ViewModels.Notification
 
         #region Bindable Props 
 
-        private ObservableCollection<CredOfferViewModel> _credentialOffersVm = new ObservableCollection<CredOfferViewModel>();
-        public ObservableCollection<CredOfferViewModel> CredOffers
+        private ObservableCollection<CredOfferViewModelV2> _credentialOffersVm = new ObservableCollection<CredOfferViewModelV2>();
+        public ObservableCollection<CredOfferViewModelV2> CredOffers
         {
             get => _credentialOffersVm;
             set => this.RaiseAndSetIfChanged(ref _credentialOffersVm, value);

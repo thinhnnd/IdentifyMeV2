@@ -7,9 +7,6 @@ namespace IdentifyMe.DependencyInjection
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterAssemblyTypes(GetType().Assembly)
-                        .Where(x => x.IsAssignableTo<Page>())
-                        .AsSelf();
             builder
                 .RegisterAssemblyTypes(ThisAssembly)
                 .Where(x => x.Namespace.Contains("IdentifyMe.Views"))

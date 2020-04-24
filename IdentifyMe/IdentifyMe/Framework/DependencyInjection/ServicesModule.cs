@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Hyperledger.Aries.Agents;
 using IdentifyMe.Framework.Services;
-using IdentifyMe.MVVM;
 
 namespace IdentifyMe.DependencyInjection
 {
@@ -9,9 +8,6 @@ namespace IdentifyMe.DependencyInjection
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<NavigationService>()
-                .AsImplementedInterfaces()
-                .SingleInstance();
 
             builder.RegisterType<MobileAgentProvider>()
                 .AsImplementedInterfaces()
