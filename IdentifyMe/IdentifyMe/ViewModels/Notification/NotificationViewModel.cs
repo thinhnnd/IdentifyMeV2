@@ -98,7 +98,7 @@ namespace IdentifyMe.ViewModels.Notification
             {
                 _listRecords.Add(item);
                 _listProofRequest.Add(item);
-                ProofRequestViewModel proofRequestVm = MakeVm<ProofRequestViewModel>();
+                ProofRequestViewModelV2 proofRequestVm = MakeVm<ProofRequestViewModelV2>();
                 proofRequestVm.ProofRequestRecord = item;
                 _proofRequestsVm.Add(proofRequestVm);
             }
@@ -180,8 +180,8 @@ namespace IdentifyMe.ViewModels.Notification
             set => this.RaiseAndUpdate(ref _credentialOffersVm, value);
         }
         
-        private ObservableCollection<ProofRequestViewModel> _proofRequestsVm = new ObservableCollection<ProofRequestViewModel>();
-        public ObservableCollection<ProofRequestViewModel> ProofRequests
+        private ObservableCollection<ProofRequestViewModelV2> _proofRequestsVm = new ObservableCollection<ProofRequestViewModelV2>();
+        public ObservableCollection<ProofRequestViewModelV2> ProofRequests
         {
             get => _proofRequestsVm;
             set => this.RaiseAndUpdate(ref _proofRequestsVm, value);

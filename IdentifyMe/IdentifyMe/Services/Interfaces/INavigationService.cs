@@ -26,6 +26,8 @@ namespace IdentifyMe.Services.Interfaces
 
         Task NavigateToPopupAsync<TViewModel>(object parameter, bool animate, TViewModel viewModel) where TViewModel : IABaseViewModel;
 
+        Task ClosePopupAsync();
+
         Task CloseAllPopupsAsync();
 
         IList<IABaseViewModel> GetMainViewTabChildren();

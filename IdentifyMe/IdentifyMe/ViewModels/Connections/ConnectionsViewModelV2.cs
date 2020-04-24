@@ -32,9 +32,6 @@ namespace IdentifyMe.ViewModels.Connections
         private readonly ILifetimeScope _scope;
         private readonly IEventAggregator _eventAggregator;
 
-        public ICommand FetchInboxCommand { get; }
-
-
         public ConnectionsViewModelV2(IUserDialogs userDialogs,
                                    INavigationServiceV2 navigationService,
                                    IConnectionService connectionService,
@@ -54,9 +51,7 @@ namespace IdentifyMe.ViewModels.Connections
             _connectionService = connectionService;
             _agentProvider = agentProvider;
             _eventAggregator = eventAggregator;
-            _scope = scope;
-            //GoToScanCommand = new AsyncCommand(GoToScan);
-           
+            _scope = scope;           
         }
 
         public override async Task InitializeAsync(object navigationData)
@@ -65,28 +60,6 @@ namespace IdentifyMe.ViewModels.Connections
             await base.InitializeAsync(navigationData);
         }
 
-        private bool _refreshingConnections;
-
-        public bool RefreshingConnections
-        {
-            get => _refreshingConnections;
-            set => this.RaiseAndSetIfChanged(ref _refreshingConnections, value);
-        }
-
-        private bool _hasConnections;
-        public bool HasConnections
-        {
-            get => _hasConnections;
-            set => this.RaiseAndSetIfChanged(ref _hasConnections, value);
-        }
-
-        private ObservableCollection<ConnectionViewModel> _connections = new ObservableCollection<ConnectionViewModel>();
-
-        public ObservableCollection<ConnectionViewModel> Connections
-        {
-            get => _connections;
-            set => this.RaiseAndSetIfChanged(ref _connections, value);
-        }
 
         public async Task RefreshConnectionsList()
         {
@@ -120,7 +93,36 @@ namespace IdentifyMe.ViewModels.Connections
 
         }
 
+        #region Bindable props
+
+        private bool _refreshingConnections;
+
+        public bool RefreshingConnections
+        {
+            get => _refreshingConnections;
+            set => this.RaiseAndSetIfChanged(ref _refreshingConnections, value);
+        }
+
+        private bool _hasConnections;
+        public bool HasConnections
+        {
+            get => _hasConnections;
+            set => this.RaiseAndSetIfChanged(ref _hasConnections, value);
+        }
+
+        private ObservableCollection<ConnectionViewModel> _connections = new ObservableCollection<ConnectionViewModel>();
+
+        public ObservableCollection<ConnectionViewModel> Connections
+        {
+            get => _connections;
+            set => this.RaiseAndSetIfChanged(ref _connections, value);
+        }
+
+        #endregion
+
+        #region Binable Command 
         public ICommand RefreshingCommand => new Command(async () => await RefreshConnectionsList());
         public ICommand GoToScanCommand => new Command(async () => await NavigationService.NavigateToAsync<ScanCodeViewModelV2>());
+        #endregion
     }
 }

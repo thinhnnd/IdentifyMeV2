@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="{Binding Name}"
+             x:Class="IdentifyMe.Views.Notification.ProofRequestPageV2">
+    <ContentPage.Content>
+        <Grid
+            Padding="0"
+            RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="8*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <StackLayout
+                Grid.Row="0"
+                Padding="10"
+                
+                VerticalOptions="FillAndExpand">
+                <Label
+                    FontSize="14"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding ProofRequestRecord.RequestJson}"/>
+                <Entry
+                    FontSize="14"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding ProofRequestRecord.RequestJson}"/>
+            </StackLayout>
+            <ScrollView 
+                Grid.Row="1"
+                Padding="0">
+
+                <ListView ItemsSource="{Binding ProofRequestRecord.CredentialAttributesValues}" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate >
+                            <ViewCell >
+                                <ViewCell.View>
+
+                                    <!--<Grid  Padding="0"   >
+                                            <Grid.RowDefinitions >
+                                                <RowDefinition Height="50" ></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="7*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Margin="10,0,0,0"  Grid.Column="0"  Text="{Binding Path=Name}" />
+                                            <Label Margin="10,0,0,0" Grid.Column="1" 
+                                            Text="{Binding Path=Value}"
+                                            VerticalOptions="Center"/>
+
+                                        </Grid>-->
+                                    <StackLayout Spacing="10" Padding="10,5" HeightRequest="100" >
+                                        <Label Margin="0,0,10,0" Padding="0" FontSize="Caption" TextColor="Gray"  Text="{Binding Path=Name}" />
+                                        <Label Margin="10,0,0,0"
+                                               FontSize="Body"
+                                            Text="{Binding Path=Value}"
+                                               TextColor="{DynamicResource AppMainColorLight}"
+                                            VerticalOptions="Center"/>
+                                    </StackLayout>
+
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.RowHeight>80</ListView.RowHeight>
+                </ListView>
+            </ScrollView>
+            <StackLayout                
+                Grid.Row="2"
+                Padding="5"
+                Orientation="Horizontal"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+                <Button
+                    Style="{DynamicResource RedButtonStyle}"
+                    Command="{Binding RejectProofRequestCommand}"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Discline"/>
+                <Button
+                    HorizontalOptions="FillAndExpand"
+                    Style="{DynamicResource BlueButtonStyle}"
+                    Command="{Binding AcceptProofRequestCommand}"
+                    Text="Accept"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

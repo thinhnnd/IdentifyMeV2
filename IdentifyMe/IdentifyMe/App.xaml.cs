@@ -94,7 +94,10 @@ namespace IdentifyMe
             _navigationService.AddPageViewModelBinding<ConnectionsViewModelV2, ConnectionsPageV2>();
             _navigationService.AddPageViewModelBinding<NotificationViewModelV2, NotificationV2>();
             _navigationService.AddPageViewModelBinding<CredentialsViewModelV2, CredentialsPageV2>();
+            _navigationService.AddPageViewModelBinding<CredOfferViewModelV2, CredOfferPageV2>();
+            _navigationService.AddPageViewModelBinding<ProofRequestViewModelV2, ProofRequestPageV2>();
             _navigationService.AddPageViewModelBinding<ScanCodeViewModelV2, ScanCodePageV2>();
+            _navigationService.AddPopupViewModelBinding<AcceptInvitationViewModelV2, AcceptInvitationPopupV2>();
             _navigationService.AddPageViewModelBinding<MainViewModel, MainPageV2>();
             await _navigationService.NavigateToAsync<MainViewModel>();
             //if (_contextProvider.AgentExists())

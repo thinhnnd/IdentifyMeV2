@@ -4,13 +4,131 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             Title="{Binding Title}"
+             xmlns:converters="clr-namespace:IdentifyMe.Converters;assembly=IdentifyMe"
+             xmlns:behaviours="clr-namespace:IdentifyMe.Behaviors;assembly=IdentifyMe"
+             Title="{Binding Name}"
              x:Class="IdentifyMe.Views.Notification.NotificationV2">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="BooleanInverse" />
+            <converters:SelecteditemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+
+            <!--<converters:SelecteditemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />-->
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Button Text="Fetch Inbox"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="Start"
+                    Command="{Binding FetchInboxCommand}"/>
+            <Label Text="List Credential Offer:" />
+            <ListView ItemsSource="{Binding ListCredOffer}" 
+                      HasUnevenRows="true" 
+                      IsPullToRefreshEnabled="True"
+                      RefreshCommand="{Binding RefreshRecordCommand}"
+                      IsRefreshing="{Binding IsRefreshing}"
+                    
+                      >
+                <ListView.ItemTemplate >
+                    <DataTemplate >
+                        <ViewCell >
+                            <ViewCell.View>
+                                <Frame Margin="10,5" 
+                                       VerticalOptions="Start" 
+                                       Padding="0" 
+                                       HorizontalOptions="FillAndExpand" 
+                                       CornerRadius="5" >
+                                    <Grid  Padding="15"   >
+                                        <Grid.RowDefinitions >
+                                            <RowDefinition Height="Auto" ></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Frame Grid.Column="0" 
+                                           HeightRequest="40" 
+                                           WidthRequest="40" 
+                                           CornerRadius="20" 
+                                           HorizontalOptions="Start" 
+                                           VerticalOptions="Start"
+                                           BackgroundColor="BurlyWood"
+                                           Margin="0" 
+                                           Padding="0">
+                                            <Label HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="White" Text="C" />
+
+                                        </Frame>
+                                        <Label Margin="10, 0, 0, 0" Grid.Column="0" 
+                                            Text="{Binding Path=Id}"
+                                            VerticalOptions="Center"/>
+
+                                    </Grid>
+                                </Frame>
+
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+
+                </ListView.ItemTemplate>
+                <ListView.RowHeight>10</ListView.RowHeight>
+                <ListView.Behaviors>
+                    <behaviours:EventToCommandBehavior EventName="ItemSelected" Command="{Binding SelectCredOfferCommand}" Converter="{StaticResource SelectedItemConverter}" DeselectOnClick="true" />
+                </ListView.Behaviors>
+            </ListView>
+            <Label Text="List ProofRequest:" />
+            <ListView ItemsSource="{Binding ProofRequests}" 
+                      HasUnevenRows="true" 
+                      IsPullToRefreshEnabled="True"
+                      RefreshCommand="{Binding RefreshRecordCommand}"
+                      IsRefreshing="{Binding IsRefreshing}"
+                      >
+                <ListView.ItemTemplate >
+                    <DataTemplate >
+                        <ViewCell >
+                            <ViewCell.View>
+                                <Frame Margin="10, 5" 
+                                       VerticalOptions="Start" 
+                                       Padding="0" 
+                                       HorizontalOptions="FillAndExpand" 
+                                       CornerRadius="5" >
+                                    <Grid  Padding="15"   >
+                                        <Grid.RowDefinitions >
+                                            <RowDefinition Height="Auto" ></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Frame Grid.Column="0" Grid.Row="0"
+                                           HeightRequest="40" 
+                                           WidthRequest="40" 
+                                           CornerRadius="20" 
+                                           HorizontalOptions="Start" 
+                                           VerticalOptions="Start"
+                                           BackgroundColor="AliceBlue"
+                                           Margin="0" 
+                                           Padding="0">
+                                            <Label HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="White" Text="P" />
+
+                                        </Frame>
+                                        <Label Margin="10, 0, 0, 0" Grid.Column="0" 
+                                            Text="{Binding Path=ProofRequestRecord.Id}"
+                                            VerticalOptions="Center"/>
+
+                                    </Grid>
+                                </Frame>
+
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+
+                </ListView.ItemTemplate>
+                <ListView.RowHeight>10</ListView.RowHeight>
+                <ListView.Behaviors>
+                    <behaviours:EventToCommandBehavior EventName="ItemSelected" Command="{Binding SelectProofRequestCommand}" Converter="{StaticResource SelectedItemConverter}" DeselectOnClick="true" />
+                </ListView.Behaviors>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

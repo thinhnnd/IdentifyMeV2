@@ -26,8 +26,9 @@
         </connections:ConnectionsPageV2>
         <credentials:CredentialsPageV2
             Icon="check_circle.png"
-            Title="Credentials"
-            ios:NavigationPage.PrefersLargeTitles="true">
+            Title="Credentials"         
+            ios:NavigationPage.PrefersLargeTitles="true"
+            BindingContext="{Binding Credentials}">
         </credentials:CredentialsPageV2>
         <notification:NotificationV2 Icon="notification.png"
             Title="Notification"

@@ -38,6 +38,7 @@ namespace IdentifyMe.ViewModels
         {
             await Connections.InitializeAsync(null);
             await Credentials.InitializeAsync(null);
+            await Notification.InitializeAsync(null);
             await base.InitializeAsync(navigationData);
         }
 

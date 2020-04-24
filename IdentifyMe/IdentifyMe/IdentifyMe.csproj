@@ -54,6 +54,9 @@
     <Compile Update="Views\MainPageV2.xaml.cs">
       <DependentUpon>MainPageV2.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Notification\ProofRequestPageV2.xaml.cs">
+      <DependentUpon>ProofRequestPageV2.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ScanCodePageV2.xaml.cs">
       <DependentUpon>ScanCodePageV2.xaml</DependentUpon>
     </Compile>
@@ -61,6 +64,9 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Views\Connections\AcceptInvitationPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Connections\AcceptInvitationPopupV2.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Connections\ConnectionsPage.xaml">
@@ -78,6 +84,9 @@
     <EmbeddedResource Update="Views\Notification\CredOfferPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Notification\CredOfferPageV2.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Notification\NotificationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -85,6 +94,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Notification\ProofRequestPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Notification\ProofRequestPageV2.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\RegisterPage.xaml">

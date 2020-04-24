@@ -189,6 +189,12 @@ namespace IdentifyMe.Services
 
         }
 
+        public async Task ClosePopupAsync()
+        {
+            if (PopupNavigation.Instance.PopupStack.Count >= 1)
+                await PopupNavigation.Instance.PopAsync(true);
+        }
+
         public async Task CloseAllPopupsAsync() => await PopupNavigation.Instance.PopAllAsync(true);
 
         protected virtual async Task InternalNavigateToAsync(Type viewModelType, NavigationType type, object viewModel, object parameter)
