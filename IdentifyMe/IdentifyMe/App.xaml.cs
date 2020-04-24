@@ -88,7 +88,7 @@ namespace IdentifyMe
                 });
         static Task InitializeTask;
         static INavigationServiceV2 _navigationService;
-        private async static Task Initialize()
+        private void Initialize()
         {
             _navigationService.AddPageViewModelBinding<TestViewModel, TestPage>();
             _navigationService.AddPageViewModelBinding<ConnectionsViewModelV2, ConnectionsPageV2>();
@@ -99,36 +99,23 @@ namespace IdentifyMe
             _navigationService.AddPageViewModelBinding<ScanCodeViewModelV2, ScanCodePageV2>();
             _navigationService.AddPopupViewModelBinding<AcceptInvitationViewModelV2, AcceptInvitationPopupV2>();
             _navigationService.AddPageViewModelBinding<MainViewModel, MainPageV2>();
-            await _navigationService.NavigateToAsync<MainViewModel>();
-            //if (_contextProvider.AgentExists())
-            //{
-            //    await _navigationService.NavigateToAsync<MainViewModel>();
-            //}
-            //else
-            //{
-            //    await _navigationService.NavigateToAsync<RegisterViewModel>();
-            //}
+            _navigationService.AddPageViewModelBinding<RegisterPageViewModelV2, RegisterPageV2>();
+           
         }
         protected override void OnStart()
         {
             Host.Start();
-            InitializeTask = Initialize();
+            Initialize();
+            if (Preferences.Get("LocalWalletProvisioned", false))
+            {
+                Device.BeginInvokeOnMainThread(async () => await _navigationService.NavigateToAsync<MainViewModel>());
+            }
+            else
+            {
+                //Task.Run(async () => await _navigationService.NavigateToAsync<RegisterPageViewModelV2>());
+                Device.BeginInvokeOnMainThread(async () => await _navigationService.NavigateToAsync<RegisterPageViewModelV2>());
 
-            //if (Preferences.Get("LocalWalletProvisioned", false))
-            //{
-            //    var mainPage = Container.Resolve<MainPage>();
-            //    mainPage.ViewModel = Container.Resolve<MainPageViewModel>();
-            //    MainPage = new NavigationPage(mainPage);
-            //    var message = new StartLongRunningTaskMessage();
-            //    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
-            //    HandleReceivedMessages();
-            //}
-            //else
-            //{
-            //    var registerPage = Container.Resolve<RegisterPage>();
-            //    registerPage.ViewModel = Container.Resolve<RegisterPageViewModel>();
-            //    MainPage = new NavigationPage(registerPage);
-            //}
+            }
         }
 
         protected override void OnAppLinkRequestReceived(Uri uri)
@@ -148,27 +135,7 @@ namespace IdentifyMe
 
         public CloudWalletService _cloudWalletService;
 
-        void HandleReceivedMessages()
-        {
-            System.Diagnostics.Debug.WriteLine($"Tikcked Messsage 1: work");
-            MessagingCenter.Subscribe<TickedMessage>(this, "TickedMessage", message => {
-
-                Device.BeginInvokeOnMainThread(async () => {
-                    System.Diagnostics.Debug.WriteLine($"Tikcked Messsage 2: { message.Message}");
-                    _cloudWalletService = Container.Resolve<CloudWalletService>();
-                    await _cloudWalletService.FetchCloudMessagesAsync();
-                    
-                    //_cloudWalletService = Container.Resolve<CloudWalletService>();
-                   // await _cloudWalletService.FetchCloudMessagesAsync();
-                });
-            });
-
-            MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message => {
-                Device.BeginInvokeOnMainThread(() => {
-                    //ticker.Text = "Cancelled";
-                });
-            });
-        }
+        
 
         //public async void HandlePushNotification(PushNotificationReceivedEventArgs e)
         //{

@@ -19,7 +19,8 @@ namespace IdentifyMe.Views
         }
 
 
-        private void CurrentPageChanged(object sender, System.EventArgs e) => Title = GetPageName(CurrentPage);
+        //       private void CurrentPageChanged(object sender, System.EventArgs e) => Title = GetPageName(CurrentPage);
+        //            CurrentPageChanged="CurrentPageChanged"
 
         private void Appearing(object sender, System.EventArgs e) => Title = GetPageName(CurrentPage);
 

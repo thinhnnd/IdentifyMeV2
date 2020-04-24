@@ -25,12 +25,12 @@ namespace IdentifyMe.ViewModels.Notification
 {
     public class CredOfferViewModelV2 : ABaseViewModel
     {
-        private IAgentProvider _agentProvider;
-        private ICredentialService _credentialService;
-        private IConnectionService _connectionService;
-        private IMessageService _messageService;
-        private IPoolService _poolService;
-        private IWalletRecordService _recordService;
+        private readonly IAgentProvider _agentProvider;
+        private readonly ICredentialService _credentialService;
+        private readonly IConnectionService _connectionService;
+        private readonly IMessageService _messageService;
+        private readonly IPoolService _poolService;
+        private readonly IWalletRecordService _recordService;
 
         public CredOfferViewModelV2(IUserDialogs userDialogs,
             INavigationServiceV2 navigationService, 

@@ -12,11 +12,10 @@
             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
             x:Class="IdentifyMe.Views.MainPageV2"
+            Appearing="Appearing"
             android:TabbedPage.ToolbarPlacement="Bottom"
-            android:TabbedPage.BarItemColor="#787878"
             android:TabbedPage.BarSelectedItemColor="{StaticResource SecondaryColor}"
-            CurrentPageChanged="CurrentPageChanged"
-            Appearing="Appearing">
+            android:TabbedPage.BarItemColor="#787878">
 
     <TabbedPage.Children>
         <connections:ConnectionsPageV2 Icon="users.png"
