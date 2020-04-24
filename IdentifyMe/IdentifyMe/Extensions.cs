@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace IdentifyMe
 {
-    public static class Extensions
+    public static class ExtensionTools
     {
         public static string TimeAgo(this DateTime dateTime)
         {

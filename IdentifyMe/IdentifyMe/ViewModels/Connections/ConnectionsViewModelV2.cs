@@ -18,6 +18,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using IdentifyMe.Extensions;
+using IdentifyMe.Events;
+using System.Reactive.Linq;
 
 namespace IdentifyMe.ViewModels.Connections
 {
@@ -58,6 +61,9 @@ namespace IdentifyMe.ViewModels.Connections
         public override async Task InitializeAsync(object navigationData)
         {
             await RefreshConnectionsList();
+            _eventAggregator.GetEventByType<ApplicationEvent>()
+                            .Where(_ => _.Type == ApplicationEventType.ConnectionsUpdated)
+                            .Subscribe(async _ => await RefreshConnectionsList());
             await base.InitializeAsync(navigationData);
         }
 
@@ -111,9 +117,9 @@ namespace IdentifyMe.ViewModels.Connections
             set => this.RaiseAndSetIfChanged(ref _hasConnections, value);
         }
 
-        private ObservableCollection<ConnectionViewModelV2> _connections = new ObservableCollection<ConnectionViewModelV2>();
+        private RangeEnabledObservableCollection<ConnectionViewModelV2> _connections = new RangeEnabledObservableCollection<ConnectionViewModelV2>();
 
-        public ObservableCollection<ConnectionViewModelV2> Connections
+        public RangeEnabledObservableCollection<ConnectionViewModelV2> Connections
         {
             get => _connections;
             set => this.RaiseAndSetIfChanged(ref _connections, value);

@@ -1,7 +1,9 @@
 ﻿using Acr.UserDialogs;
 using Hyperledger.Aries.Agents;
 using Hyperledger.Aries.Configuration;
+using Hyperledger.Aries.Contracts;
 using Hyperledger.Aries.Features.DidExchange;
+using IdentifyMe.Events;
 using IdentifyMe.Services.Interfaces;
 using ReactiveUI;
 using System;
@@ -17,17 +19,20 @@ namespace IdentifyMe.ViewModels.Connections
         private readonly IMessageService _messageService;
         private readonly IProvisioningService _provisioningService;
         private readonly IAgentProvider _mobileAgentProvider;
+        private readonly IEventAggregator _eventAggregator;
         public AcceptInvitationViewModelV2(IUserDialogs userDialogs, 
             INavigationServiceV2 navigationService,
             IConnectionService connectionService,
             IProvisioningService provisioningService, 
             IMessageService messageService, 
-            IAgentProvider mobileAgentProvider) : base(nameof(AcceptInvitation), userDialogs, navigationService)
+            IAgentProvider mobileAgentProvider, 
+            IEventAggregator eventAggregator) : base(nameof(AcceptInvitation), userDialogs, navigationService)
         {
             _mobileAgentProvider = mobileAgentProvider;
             _provisioningService = provisioningService;
             _connectionService = connectionService;
             _messageService = messageService;
+            _eventAggregator = eventAggregator;
             Title = "Invitation";
         }
 
@@ -67,6 +72,14 @@ namespace IdentifyMe.ViewModels.Connections
                     {
                         string processRes = await _connectionService.ProcessResponseAsync(agentContext, respone, connectionRecord);
                     }
+                    loadingDialog.Hide();
+                    await NavigationService.CloseAllPopupsAsync();
+                    var toastConfig = new ToastConfig("Connection Saved!");
+                    toastConfig.BackgroundColor = Color.Green;
+                    toastConfig.Position = ToastPosition.Top;
+                    toastConfig.SetDuration(3000);
+                    DialogService.Toast(toastConfig);
+                    _eventAggregator.Publish(new ApplicationEvent() { Type = ApplicationEventType.ConnectionsUpdated });
 
                 }
                 catch (Exception e)
@@ -75,13 +88,7 @@ namespace IdentifyMe.ViewModels.Connections
                     loadingDialog.Hide();
                     DialogService.Alert("Something went wrong!");
                 }
-                loadingDialog.Hide();
-                await NavigationService.CloseAllPopupsAsync();
-                var toastConfig = new ToastConfig("Connection Saved!");
-                toastConfig.BackgroundColor = Color.Green;
-                toastConfig.Position = ToastPosition.Top;
-                toastConfig.SetDuration(3000);
-                DialogService.Toast(toastConfig);
+
             }
 
         }

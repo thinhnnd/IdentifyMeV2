@@ -2,6 +2,7 @@
 using Autofac;
 using Hyperledger.Aries.Agents;
 using Hyperledger.Aries.Features.IssueCredential;
+using IdentifyMe.Extensions;
 using IdentifyMe.Services.Interfaces;
 using ReactiveUI;
 using System.Collections.ObjectModel;
@@ -64,9 +65,9 @@ namespace IdentifyMe.ViewModels.Credentials
             IsRefreshing = false;
         }
 
-        private ObservableCollection<CredentialViewModelV2> _credentialVm = new ObservableCollection<CredentialViewModelV2>();
+        private RangeEnabledObservableCollection<CredentialViewModelV2> _credentialVm = new RangeEnabledObservableCollection<CredentialViewModelV2>();
 
-        public ObservableCollection<CredentialViewModelV2> CredentialViewModel
+        public RangeEnabledObservableCollection<CredentialViewModelV2> CredentialViewModel
         {
             get => _credentialVm;
             set => this.RaiseAndSetIfChanged(ref _credentialVm, value);

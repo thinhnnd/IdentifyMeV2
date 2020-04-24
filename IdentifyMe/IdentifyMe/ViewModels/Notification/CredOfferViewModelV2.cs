@@ -5,6 +5,7 @@ using Hyperledger.Aries.Extensions;
 using Hyperledger.Aries.Features.DidExchange;
 using Hyperledger.Aries.Features.IssueCredential;
 using Hyperledger.Aries.Storage;
+using IdentifyMe.Events;
 using IdentifyMe.Framework.Services;
 using IdentifyMe.Services.Interfaces;
 using Newtonsoft.Json;
@@ -30,6 +31,7 @@ namespace IdentifyMe.ViewModels.Notification
         private readonly IMessageService _messageService;
         private readonly IPoolService _poolService;
         private readonly IWalletRecordService _recordService;
+        private readonly IEventAggregator _eventAggregator;
 
         public CredOfferViewModelV2(IUserDialogs userDialogs,
             INavigationServiceV2 navigationService, 
@@ -38,7 +40,8 @@ namespace IdentifyMe.ViewModels.Notification
             IMessageService messageService,
             IPoolService poolService,
             IWalletRecordService recordService,
-            IConnectionService connectionService) :
+            IConnectionService connectionService, 
+            IEventAggregator eventAggregator) :
             base(nameof(CredOfferViewModelV2), userDialogs, navigationService)
         {
             _agentProvider = agentProvider;
@@ -47,6 +50,7 @@ namespace IdentifyMe.ViewModels.Notification
             _messageService = messageService;
             _poolService = poolService;
             _recordService = recordService;
+            _eventAggregator = eventAggregator;
             Title = "Offer Detail";
         }
 
@@ -101,17 +105,27 @@ namespace IdentifyMe.ViewModels.Notification
             if(this.CredentialOffer != null)
             {
                 var context = await _agentProvider.GetContextAsync();
+                var loadingDialog = DialogService.Loading("Proccessing");
                 try
                 {
                     var poolConfigName = Preferences.Get(Constants.PoolConfigurationName, "sovrin-staging");    
                     var a = await _poolService.GetPoolAsync(poolConfigName, 2);
                     var (requestMessage, credRecord) = await _credentialService.CreateRequestAsync(context, CredentialOffer.Id);
                     var connectionRecord  = await _connectionService.GetAsync(context, credRecord.ConnectionId);
-                    var result = await _messageService.SendReceiveAsync(context.Wallet, requestMessage, connectionRecord);
-                    await NavigationService.NavigateBackAsync();                   
+                    await _messageService.SendAsync(context.Wallet, requestMessage, connectionRecord);      
+                    loadingDialog.Hide();
+                    await NavigationService.NavigateBackAsync();
+                    var toastConfig = new ToastConfig("Accepted Credential Offer");
+                    toastConfig.BackgroundColor = Color.Green;
+                    toastConfig.Position = ToastPosition.Top;
+                    toastConfig.SetDuration(3000);
+                    DialogService.Toast(toastConfig);
+                    _eventAggregator.Publish(new ApplicationEvent() { Type = ApplicationEventType.CredentialsUpdated });
                 }
                 catch (Exception e)
                 {
+                    loadingDialog.Hide();
+                    await NavigationService.NavigateBackAsync();
                     await Application.Current.MainPage.DisplayAlert("Error", "", "Ok");
                     Console.WriteLine($"Error: {e.Message}");
                 }

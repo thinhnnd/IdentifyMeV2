@@ -7,10 +7,12 @@ namespace IdentifyMe.Events
 
     public enum ApplicationEventType
     {
-        ConnectionsUpdated
+        ConnectionsUpdated,
+        CredentialsUpdated
     }
     public class ApplicationEvent
     {
         public ApplicationEventType Type { get; set; }
+
     }
 }

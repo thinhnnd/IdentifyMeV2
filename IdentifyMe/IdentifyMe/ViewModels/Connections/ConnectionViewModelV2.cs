@@ -3,6 +3,7 @@ using Hyperledger.Aries.Agents;
 using Hyperledger.Aries.Contracts;
 using Hyperledger.Aries.Features.DidExchange;
 using Hyperledger.Aries.Features.Discovery;
+using IdentifyMe.Extensions;
 using IdentifyMe.Services.Interfaces;
 using ReactiveUI;
 using System;
@@ -80,8 +81,8 @@ namespace IdentifyMe.ViewModels.Connections
             set => this.RaiseAndSetIfChanged(ref _connectionSubtitle, value);
         }
 
-        private ObservableCollection<TransactionItem> _transactions = new ObservableCollection<TransactionItem>();
-        public ObservableCollection<TransactionItem> Transactions
+        private RangeEnabledObservableCollection<TransactionItem> _transactions = new RangeEnabledObservableCollection<TransactionItem>();
+        public RangeEnabledObservableCollection<TransactionItem> Transactions
         {
             get => _transactions;
             set => this.RaiseAndSetIfChanged(ref _transactions, value);

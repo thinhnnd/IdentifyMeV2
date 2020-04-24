@@ -17,6 +17,10 @@ using System.Collections.ObjectModel;
 using Hyperledger.Aries.Storage;
 using System.Linq;
 using Autofac;
+using IdentifyMe.Extensions;
+using Hyperledger.Aries.Contracts;
+using IdentifyMe.Events;
+using System.Reactive.Linq;
 
 namespace IdentifyMe.ViewModels.Notification
 {
@@ -28,7 +32,7 @@ namespace IdentifyMe.ViewModels.Notification
         private IAgentProvider _agentProvider;
         private CloudWalletService _cloudWalletService;
         private readonly ILifetimeScope _scope;
-
+        private readonly IEventAggregator _eventAggregator;
         public NotificationViewModelV2(IUserDialogs userDialogs,
                                    INavigationServiceV2 navigationService,
                                    IAgentProvider agentProvider,
@@ -37,7 +41,8 @@ namespace IdentifyMe.ViewModels.Notification
                                    IMessageService messageService,
                                    CloudWalletService cloudWalletService,
                                    IProofService proofService, 
-                                   ILifetimeScope scope) : base (nameof(NotificationViewModelV2), userDialogs, navigationService)
+                                   ILifetimeScope scope, 
+                                   IEventAggregator eventAggregator) : base (nameof(NotificationViewModelV2), userDialogs, navigationService)
         {
             _agentProvider = agentProvider;
             _credentialService = credentialService;
@@ -45,12 +50,18 @@ namespace IdentifyMe.ViewModels.Notification
             _connectionService = connectionService;
             _cloudWalletService = cloudWalletService;
             _scope = scope;
+            _eventAggregator = eventAggregator;
             Title = "Notification";
         }
 
         public async override Task InitializeAsync(object navigationData)
         {
+           
             await base.InitializeAsync(navigationData);
+            _eventAggregator.GetEventByType<ApplicationEvent>()
+               .Where(_ => _.Type == ApplicationEventType.CredentialsUpdated)
+               .Subscribe(async _ => await GetRequiredRecord());
+
             await GetRequiredRecord();
         }
 
@@ -161,36 +172,36 @@ namespace IdentifyMe.ViewModels.Notification
 
         #region Bindable Props 
 
-        private ObservableCollection<CredOfferViewModelV2> _credentialOffersVm = new ObservableCollection<CredOfferViewModelV2>();
-        public ObservableCollection<CredOfferViewModelV2> CredOffers
+        private RangeEnabledObservableCollection<CredOfferViewModelV2> _credentialOffersVm = new RangeEnabledObservableCollection<CredOfferViewModelV2>();
+        public RangeEnabledObservableCollection<CredOfferViewModelV2> CredOffers
         {
             get => _credentialOffersVm;
             set => this.RaiseAndSetIfChanged(ref _credentialOffersVm, value);
         }
 
-        private ObservableCollection<ProofRequestViewModelV2> _proofRequestsVm = new ObservableCollection<ProofRequestViewModelV2>();
-        public ObservableCollection<ProofRequestViewModelV2> ProofRequests
+        private RangeEnabledObservableCollection<ProofRequestViewModelV2> _proofRequestsVm = new RangeEnabledObservableCollection<ProofRequestViewModelV2>();
+        public RangeEnabledObservableCollection<ProofRequestViewModelV2> ProofRequests
         {
             get => _proofRequestsVm;
             set => this.RaiseAndSetIfChanged(ref _proofRequestsVm, value);
         }
 
-        private ObservableCollection<RecordBase> _listRecords = new ObservableCollection<RecordBase>();
-        public ObservableCollection<RecordBase> ListRecord
+        private RangeEnabledObservableCollection<RecordBase> _listRecords = new RangeEnabledObservableCollection<RecordBase>();
+        public RangeEnabledObservableCollection<RecordBase> ListRecord
         {
             get => _listRecords;
             set => this.RaiseAndSetIfChanged(ref _listRecords, value);
         }
 
-        private ObservableCollection<CredentialRecord> _listCredOffer = new ObservableCollection<CredentialRecord>();
-        public ObservableCollection<CredentialRecord> ListCredOffer
+        private RangeEnabledObservableCollection<CredentialRecord> _listCredOffer = new RangeEnabledObservableCollection<CredentialRecord>();
+        public RangeEnabledObservableCollection<CredentialRecord> ListCredOffer
         {
             get => _listCredOffer;
             set => this.RaiseAndSetIfChanged(ref _listCredOffer, value);
         }
 
-        private ObservableCollection<RecordBase> _listProofRequest = new ObservableCollection<RecordBase>();
-        public ObservableCollection<RecordBase> ListProofRequest
+        private RangeEnabledObservableCollection<RecordBase> _listProofRequest = new RangeEnabledObservableCollection<RecordBase>();
+        public RangeEnabledObservableCollection<RecordBase> ListProofRequest
         {
             get => _listProofRequest;
             set => this.RaiseAndSetIfChanged(ref _listProofRequest, value);
