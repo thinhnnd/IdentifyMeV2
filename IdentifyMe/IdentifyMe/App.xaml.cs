@@ -87,15 +87,15 @@ namespace IdentifyMe
         static INavigationService _navigationService;
         private async Task Initialize()
         {
-            _navigationService.AddPageViewModelBinding<ConnectionsViewModel, ConnectionsPageV2>();
-            _navigationService.AddPageViewModelBinding<NotificationViewModel, NotificationV2>();
-            _navigationService.AddPageViewModelBinding<CredentialsViewModel, CredentialsPageV2>();
-            _navigationService.AddPageViewModelBinding<CredOfferViewModel, CredOfferPageV2>();
-            _navigationService.AddPageViewModelBinding<ProofRequestViewModel, ProofRequestPageV2>();
-            _navigationService.AddPageViewModelBinding<ScanCodeViewModel, ScanCodePageV2>();
-            _navigationService.AddPopupViewModelBinding<AcceptInvitationViewModel, AcceptInvitationPopupV2>();
-            _navigationService.AddPageViewModelBinding<MainViewModel, MainPageV2>();
-            _navigationService.AddPageViewModelBinding<RegisterPageViewModel, RegisterPageV2>();
+            _navigationService.AddPageViewModelBinding<ConnectionsViewModel, ConnectionsPage>();
+            _navigationService.AddPageViewModelBinding<NotificationViewModel, NotificationPage>();
+            _navigationService.AddPageViewModelBinding<CredentialsViewModel, CredentialsPage>();
+            _navigationService.AddPageViewModelBinding<CredOfferViewModel, CredOfferPage>();
+            _navigationService.AddPageViewModelBinding<ProofRequestViewModel, ProofRequestPage>();
+            _navigationService.AddPageViewModelBinding<ScanCodeViewModel, ScanCodePage>();
+            _navigationService.AddPopupViewModelBinding<AcceptInvitationViewModel, AcceptInvitationPopup>();
+            _navigationService.AddPageViewModelBinding<MainViewModel, MainPage>();
+            _navigationService.AddPageViewModelBinding<RegisterPageViewModel, RegisterPage>();
             if (Preferences.Get("LocalWalletProvisioned", false))
             {
                 //Task.Run(async () => await _navigationService.NavigateToAsync<MainViewModel>());

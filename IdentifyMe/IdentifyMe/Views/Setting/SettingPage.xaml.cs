@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace IdentifyMe.Views.Connections
+namespace IdentifyMe.Views.Setting
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ConnectionsPageV2 : ContentPage
+    public partial class SettingPage : ContentPage
     {
-        public ConnectionsPageV2()
+        public SettingPage()
         {
             InitializeComponent();
         }

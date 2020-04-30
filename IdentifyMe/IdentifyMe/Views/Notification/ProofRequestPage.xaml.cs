@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace IdentifyMe.Views.Setting
+namespace IdentifyMe.Views.Notification
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SettingPageV2 : ContentPage
+    public partial class ProofRequestPage : ContentPage
     {
-        public SettingPageV2()
+        public ProofRequestPage()
         {
             InitializeComponent();
         }

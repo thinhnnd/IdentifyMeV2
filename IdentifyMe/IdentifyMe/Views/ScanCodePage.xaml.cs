@@ -15,10 +15,10 @@ using ZXing.Mobile;
 namespace IdentifyMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ScanCodePageV2 : ContentPage
+    public partial class ScanCodePage : ContentPage
     {
        
-        public ScanCodePageV2()
+        public ScanCodePage()
         {
             InitializeComponent();
             //ViewModel = App.Container.Resolve<ScanCodeViewModelV2>();

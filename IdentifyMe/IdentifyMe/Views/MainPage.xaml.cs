@@ -11,9 +11,9 @@ using Xamarin.Forms.Xaml;
 namespace IdentifyMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainPageV2 : TabbedPage, IRootView
+    public partial class MainPage : TabbedPage, IRootView
     {
-        public MainPageV2()
+        public MainPage()
         {
             InitializeComponent();
         }

@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace IdentifyMe.Views.Notification
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CredOfferPageV2 : ContentPage
+    public partial class NotificationPage : ContentPage
     {
-        public CredOfferPageV2()
+        public NotificationPage()
         {
             InitializeComponent();
         }

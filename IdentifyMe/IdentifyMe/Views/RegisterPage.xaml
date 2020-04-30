@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              Title="{Binding Title}"
-             x:Class="IdentifyMe.Views.RegisterPageV2">
+             x:Class="IdentifyMe.Views.RegisterPage">
     <ContentPage.Content>
         <StackLayout
             Spacing="150"

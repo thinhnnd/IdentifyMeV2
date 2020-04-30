@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace IdentifyMe.Views.Credentials
+namespace IdentifyMe.Views.Notification
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CredentialsPageV2 : ContentPage
+    public partial class CredOfferPage : ContentPage
     {
-        public CredentialsPageV2()
+        public CredOfferPage()
         {
             InitializeComponent();
         }

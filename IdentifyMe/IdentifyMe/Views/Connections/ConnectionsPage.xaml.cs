@@ -1,5 +1,4 @@
-﻿using Rg.Plugins.Popup.Pages;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace IdentifyMe.Views.Connections
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AcceptInvitationPopupV2 : PopupPage
+    public partial class ConnectionsPage : ContentPage
     {
-        public AcceptInvitationPopupV2()
+        public ConnectionsPage()
         {
             InitializeComponent();
         }

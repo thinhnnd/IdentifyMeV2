@@ -54,46 +54,67 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\MainPageV2.xaml.cs">
-      <DependentUpon>MainPageV2.xaml</DependentUpon>
+    <Compile Update="Views\Connections\AcceptInvitationPopup.xaml.cs">
+      <DependentUpon>AcceptInvitationPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Notification\ProofRequestPageV2.xaml.cs">
-      <DependentUpon>ProofRequestPageV2.xaml</DependentUpon>
+    <Compile Update="Views\Connections\ConnectionsPage.xaml.cs">
+      <DependentUpon>ConnectionsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ScanCodePageV2.xaml.cs">
-      <DependentUpon>ScanCodePageV2.xaml</DependentUpon>
+    <Compile Update="Views\Credentials\CredentialsPage.xaml.cs">
+      <DependentUpon>CredentialsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Notification\CredOfferPage.xaml.cs">
+      <DependentUpon>CredOfferPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Notification\NotificationPage.xaml.cs">
+      <DependentUpon>NotificationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Notification\ProofRequestPage.xaml.cs">
+      <DependentUpon>ProofRequestPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RegisterPage.xaml.cs">
+      <DependentUpon>RegisterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ScanCodePage.xaml.cs">
+      <DependentUpon>ScanCodePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Setting\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\Connections\AcceptInvitationPopupV2.xaml">
+    <EmbeddedResource Update="Views\Connections\AcceptInvitationPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Connections\ConnectionsPageV2.xaml">
+    <EmbeddedResource Update="Views\Connections\ConnectionsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Credentials\CredentialsPageV2.xaml">
+    <EmbeddedResource Update="Views\Credentials\CredentialsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainPageV2.xaml">
+    <EmbeddedResource Update="Views\MainPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Notification\CredOfferPageV2.xaml">
+    <EmbeddedResource Update="Views\Notification\CredOfferPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Notification\NotificationV2.xaml">
+    <EmbeddedResource Update="Views\Notification\NotificationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Notification\ProofRequestPageV2.xaml">
+    <EmbeddedResource Update="Views\Notification\ProofRequestPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\RegisterPageV2.xaml">
+    <EmbeddedResource Update="Views\RegisterPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ScanCodePageV2.xaml">
+    <EmbeddedResource Update="Views\ScanCodePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Setting\SettingPageV2.xaml">
+    <EmbeddedResource Update="Views\Setting\SettingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

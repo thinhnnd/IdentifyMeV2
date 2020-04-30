@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace IdentifyMe.Views.Notification
+namespace IdentifyMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NotificationV2 : ContentPage
+    public partial class RegisterPage : ContentPage, IRootView
     {
-        public NotificationV2()
+        public RegisterPage()
         {
             InitializeComponent();
         }
