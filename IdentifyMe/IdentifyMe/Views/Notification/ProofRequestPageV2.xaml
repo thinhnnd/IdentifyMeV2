@@ -4,7 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             Title="{Binding Title}"
+             Title="{Binding ProofRequestObject.Name}"
              x:Class="IdentifyMe.Views.Notification.ProofRequestPageV2">
     <ContentPage.Content>
         <Grid
@@ -15,25 +15,27 @@
                 <RowDefinition Height="8*" />
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
-            <StackLayout
+            <Label Grid.Row="0" Text="The organization requesting the following information: " />
+            <ScrollView 
+                Grid.Row="1"
+                Padding="0">
+                
+                <!--<StackLayout
                 Grid.Row="0"
                 Padding="10"
                 
                 VerticalOptions="FillAndExpand">
-                <Label
+                    <Label
                     FontSize="14"
                     HorizontalTextAlignment="Center"
-                    Text="{Binding ProofRequestRecord.RequestJson}"/>
-                <Entry
+                    Text="{Binding ProofRequestObject}"/>
+                    <Entry
                     FontSize="14"
                     HorizontalTextAlignment="Center"
-                    Text="{Binding ProofRequestRecord.RequestJson}"/>
-            </StackLayout>
-            <ScrollView 
-                Grid.Row="1"
-                Padding="0">
+                    Text="{Binding ProofRequestObject}"/>
+                </StackLayout>-->
 
-                <ListView ItemsSource="{Binding ProofRequestRecord.CredentialAttributesValues}" >
+                <ListView ItemsSource="{Binding ProofRequestAndCredentialMaps}" >
                     <ListView.ItemTemplate>
                         <DataTemplate >
                             <ViewCell >
@@ -54,12 +56,21 @@
 
                                         </Grid>-->
                                     <StackLayout Spacing="10" Padding="10,5" HeightRequest="100" >
-                                        <Label Margin="0,0,10,0" Padding="0" FontSize="Caption" TextColor="Gray"  Text="{Binding Path=Name}" />
-                                        <Label Margin="10,0,0,0"
+                                        <Label Margin="0,0,10,0" Padding="0" FontSize="Caption" TextColor="Gray"  Text="{Binding Path=ProofKey}" />
+                                        <Grid>
+                                            <Grid.RowDefinitions></Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5*" />
+                                                <ColumnDefinition Width="5*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0" Text="{Binding Path=CredentialAttribute.Key}" />
+                                            <Label Grid.Column="1" Margin="10,0,0,0"
                                                FontSize="Body"
-                                            Text="{Binding Path=Value}"
+                                            Text="{Binding Path=CredentialAttribute.Value}"
                                                TextColor="{DynamicResource AppMainColorLight}"
                                             VerticalOptions="Center"/>
+                                        </Grid>
+                                        
                                     </StackLayout>
 
                                 </ViewCell.View>

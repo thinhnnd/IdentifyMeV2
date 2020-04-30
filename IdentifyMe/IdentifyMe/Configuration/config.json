@@ -1,5 +1,5 @@
 {
   "Environment": "Debug",
-  "AgentFrameworkEndpoint": "https://096ba6af.ngrok.io",
+  "AgentFrameworkEndpoint": "https://im-mediator.herokuapp.com",
   "PoolConfigurationName": "bcovrin-test"
-}
+} 
