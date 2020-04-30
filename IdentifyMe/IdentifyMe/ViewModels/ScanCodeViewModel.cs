@@ -15,13 +15,13 @@ using Xamarin.Forms;
 
 namespace IdentifyMe.ViewModels
 {
-    public class ScanCodeViewModelV2 : ABaseViewModel
+    public class ScanCodeViewModel : ABaseViewModel
     {
        private readonly ILifetimeScope _scope;
-        public ScanCodeViewModelV2(IUserDialogs userDialogs,
-            INavigationServiceV2 navigationService,
+        public ScanCodeViewModel(IUserDialogs userDialogs,
+            INavigationService navigationService,
             ILifetimeScope scope) : 
-            base(nameof(ScanCodeViewModelV2), userDialogs, navigationService)
+            base(nameof(ScanCodeViewModel), userDialogs, navigationService)
         {
             _scope = scope;
             Title = "Scan QR";
@@ -54,10 +54,10 @@ namespace IdentifyMe.ViewModels
                 var message = await MessageDecorder.ParseMessageAsync(scannedCode);
                 Console.WriteLine($@"Decoded message {message}");
                 await NavigationService.NavigateBackAsync();
-                AcceptInvitationViewModelV2 acceptInvitationViewModel = _scope.Resolve<AcceptInvitationViewModelV2>();
+                AcceptInvitationViewModel acceptInvitationViewModel = _scope.Resolve<AcceptInvitationViewModel>();
                 acceptInvitationViewModel.InvitationMessage = (ConnectionInvitationMessage)message;
                 await NavigationService.NavigateBackAsync();
-                await NavigationService.NavigateToPopupAsync<AcceptInvitationViewModelV2>(true, acceptInvitationViewModel);
+                await NavigationService.NavigateToPopupAsync<AcceptInvitationViewModel>(true, acceptInvitationViewModel);
                 //await Application.Current.MainPage.DisplayAlert("Scanned code", scannedCode, "Close");
                 
             }

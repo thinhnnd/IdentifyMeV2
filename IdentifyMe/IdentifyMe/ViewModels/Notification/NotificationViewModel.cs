@@ -24,7 +24,7 @@ using System.Reactive.Linq;
 
 namespace IdentifyMe.ViewModels.Notification
 {
-    public class NotificationViewModelV2 : ABaseViewModel
+    public class NotificationViewModel : ABaseViewModel
     {
         private ICredentialService _credentialService;
         private IConnectionService _connectionService;
@@ -33,8 +33,8 @@ namespace IdentifyMe.ViewModels.Notification
         private CloudWalletService _cloudWalletService;
         private readonly ILifetimeScope _scope;
         private readonly IEventAggregator _eventAggregator;
-        public NotificationViewModelV2(IUserDialogs userDialogs,
-                                   INavigationServiceV2 navigationService,
+        public NotificationViewModel(IUserDialogs userDialogs,
+                                   INavigationService navigationService,
                                    IAgentProvider agentProvider,
                                    ICredentialService credentialService,
                                    IConnectionService connectionService,
@@ -42,7 +42,7 @@ namespace IdentifyMe.ViewModels.Notification
                                    CloudWalletService cloudWalletService,
                                    IProofService proofService, 
                                    ILifetimeScope scope, 
-                                   IEventAggregator eventAggregator) : base (nameof(NotificationViewModelV2), userDialogs, navigationService)
+                                   IEventAggregator eventAggregator) : base (nameof(NotificationViewModel), userDialogs, navigationService)
         {
             _agentProvider = agentProvider;
             _credentialService = credentialService;
@@ -113,7 +113,7 @@ namespace IdentifyMe.ViewModels.Notification
             {
                 _listRecords.Add(item);
                 _listProofRequest.Add(item);
-                ProofRequestViewModelV2 proofRequestVm = _scope.Resolve<ProofRequestViewModelV2>();
+                ProofRequestViewModel proofRequestVm = _scope.Resolve<ProofRequestViewModel>();
                 proofRequestVm.ProofRequestRecord = item;
                 _proofRequestsVm.Add(proofRequestVm);
             }
@@ -137,11 +137,11 @@ namespace IdentifyMe.ViewModels.Notification
         {
             //await Navigation.PushModalAsync(credOfferViewModel);
             //await Navigation.PushAsync(MakeVm<CredOfferViewModel>(credOfferViewModel));
-            CredOfferViewModelV2 credentialVm = _scope.Resolve<CredOfferViewModelV2>();
+            CredOfferViewModel credentialVm = _scope.Resolve<CredOfferViewModel>();
             credentialVm.CredentialOffer = record;
             //_credentialOffersVm.Add(credentialVm);
             //await DisplayAlert("Alert", "You have been alerted", "OK");
-            await NavigationService.NavigateToAsync<CredOfferViewModelV2>(credentialVm);
+            await NavigationService.NavigateToAsync<CredOfferViewModel>(credentialVm);
 
             // await Application.Current.MainPage.DisplayAlert(credentialVm.CredentialOffer.ConnectionId, "", "Ok");
 
@@ -157,12 +157,12 @@ namespace IdentifyMe.ViewModels.Notification
                 await NavigateToCredentialOfferPage(credOfferViewModel);
         });
 
-        public async Task NavigateToProofRequestPage(ProofRequestViewModelV2 proofRequestViewModel)
+        public async Task NavigateToProofRequestPage(ProofRequestViewModel proofRequestViewModel)
         {
-            await NavigationService.NavigateToAsync<ProofRequestViewModelV2>(proofRequestViewModel);
+            await NavigationService.NavigateToAsync<ProofRequestViewModel>(proofRequestViewModel);
         }
 
-        public ICommand SelectProofRequestCommand => new Command<ProofRequestViewModelV2>(async (proofRequestViewModel) =>
+        public ICommand SelectProofRequestCommand => new Command<ProofRequestViewModel>(async (proofRequestViewModel) =>
         {
             if (proofRequestViewModel != null)
                 await NavigateToProofRequestPage(proofRequestViewModel);
@@ -172,15 +172,15 @@ namespace IdentifyMe.ViewModels.Notification
 
         #region Bindable Props 
 
-        private RangeEnabledObservableCollection<CredOfferViewModelV2> _credentialOffersVm = new RangeEnabledObservableCollection<CredOfferViewModelV2>();
-        public RangeEnabledObservableCollection<CredOfferViewModelV2> CredOffers
+        private RangeEnabledObservableCollection<CredOfferViewModel> _credentialOffersVm = new RangeEnabledObservableCollection<CredOfferViewModel>();
+        public RangeEnabledObservableCollection<CredOfferViewModel> CredOffers
         {
             get => _credentialOffersVm;
             set => this.RaiseAndSetIfChanged(ref _credentialOffersVm, value);
         }
 
-        private RangeEnabledObservableCollection<ProofRequestViewModelV2> _proofRequestsVm = new RangeEnabledObservableCollection<ProofRequestViewModelV2>();
-        public RangeEnabledObservableCollection<ProofRequestViewModelV2> ProofRequests
+        private RangeEnabledObservableCollection<ProofRequestViewModel> _proofRequestsVm = new RangeEnabledObservableCollection<ProofRequestViewModel>();
+        public RangeEnabledObservableCollection<ProofRequestViewModel> ProofRequests
         {
             get => _proofRequestsVm;
             set => this.RaiseAndSetIfChanged(ref _proofRequestsVm, value);

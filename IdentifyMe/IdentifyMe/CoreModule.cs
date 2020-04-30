@@ -18,7 +18,7 @@ namespace IdentifyMe
                 .SingleInstance();
 
             builder
-                .RegisterType<NavigationServiceV2>()
+                .RegisterType<NavigationService>()
                 .AsImplementedInterfaces()
                 .SingleInstance();
 

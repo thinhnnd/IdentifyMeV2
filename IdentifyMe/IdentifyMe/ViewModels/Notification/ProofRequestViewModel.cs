@@ -20,18 +20,18 @@ using Xamarin.Forms;
 
 namespace IdentifyMe.ViewModels.Notification
 {
-    public class ProofRequestViewModelV2 : ABaseViewModel
+    public class ProofRequestViewModel : ABaseViewModel
     {
         private readonly IProofService _proofService;
         private readonly IAgentProvider _agentProvider;
         private readonly IMessageService _messageService;
         private readonly IConnectionService _connectionService;
-        public ProofRequestViewModelV2(IUserDialogs userDialogs,
-            INavigationServiceV2 navigationService, 
+        public ProofRequestViewModel(IUserDialogs userDialogs,
+            INavigationService navigationService, 
             IProofService proofService, 
             IAgentProvider agentProvider, 
             IMessageService messageService, 
-            IConnectionService connectionService) : base (nameof(ProofRequestViewModelV2), userDialogs, navigationService)
+            IConnectionService connectionService) : base (nameof(ProofRequestViewModel), userDialogs, navigationService)
         {
             Title = "Proof Request";
             _proofService = proofService;

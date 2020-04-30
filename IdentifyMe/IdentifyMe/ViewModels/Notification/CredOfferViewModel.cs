@@ -23,7 +23,7 @@ using Xamarin.Forms;
 
 namespace IdentifyMe.ViewModels.Notification
 {
-    public class CredOfferViewModelV2 : ABaseViewModel
+    public class CredOfferViewModel : ABaseViewModel
     {
         private readonly IAgentProvider _agentProvider;
         private readonly ICredentialService _credentialService;
@@ -33,8 +33,8 @@ namespace IdentifyMe.ViewModels.Notification
         private readonly IWalletRecordService _recordService;
         private readonly IEventAggregator _eventAggregator;
 
-        public CredOfferViewModelV2(IUserDialogs userDialogs,
-            INavigationServiceV2 navigationService, 
+        public CredOfferViewModel(IUserDialogs userDialogs,
+            INavigationService navigationService, 
             IAgentProvider agentProvider,
             ICredentialService credentialService,
             IMessageService messageService,
@@ -42,7 +42,7 @@ namespace IdentifyMe.ViewModels.Notification
             IWalletRecordService recordService,
             IConnectionService connectionService, 
             IEventAggregator eventAggregator) :
-            base(nameof(CredOfferViewModelV2), userDialogs, navigationService)
+            base(nameof(CredOfferViewModel), userDialogs, navigationService)
         {
             _agentProvider = agentProvider;
             _credentialService = credentialService;

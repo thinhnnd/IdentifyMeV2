@@ -24,7 +24,7 @@ using System.Reactive.Linq;
 
 namespace IdentifyMe.ViewModels.Connections
 {
-    public class ConnectionsViewModelV2 : ABaseViewModel
+    public class ConnectionsViewModel : ABaseViewModel
     {
         private readonly IEdgeProvisioningService _edgeProvisioningService;
         private readonly IWalletAppConfiguration _walletConfiguration;
@@ -35,8 +35,8 @@ namespace IdentifyMe.ViewModels.Connections
         private readonly ILifetimeScope _scope;
         private readonly IEventAggregator _eventAggregator;
 
-        public ConnectionsViewModelV2(IUserDialogs userDialogs,
-                                   INavigationServiceV2 navigationService,
+        public ConnectionsViewModel(IUserDialogs userDialogs,
+                                   INavigationService navigationService,
                                    IConnectionService connectionService,
                                    IEdgeProvisioningService edgeProvisioningService,
                                    IWalletAppConfiguration walletconfiguration,
@@ -45,7 +45,7 @@ namespace IdentifyMe.ViewModels.Connections
                                    ILifetimeScope scope,
                                    IEventAggregator eventAggregator,
                                    CloudWalletService cloudWalletService ) :
-                                   base(nameof(ConnectionsViewModelV2), userDialogs, navigationService)
+                                   base(nameof(ConnectionsViewModel), userDialogs, navigationService)
         {
             _edgeProvisioningService = edgeProvisioningService;
             _walletConfiguration = walletconfiguration;
@@ -76,13 +76,13 @@ namespace IdentifyMe.ViewModels.Connections
             {
                 var records = await _connectionService.ListAsync(context);
 
-                IList<ConnectionViewModelV2> connectionViewModels = new List<ConnectionViewModelV2>();
+                IList<ConnectionViewModel> connectionViewModels = new List<ConnectionViewModel>();
 
                 foreach (var record in records)
                 {
                     if (record.Alias != null)
                     {
-                        var connection = _scope.Resolve<ConnectionViewModelV2>(new NamedParameter("record", record));
+                        var connection = _scope.Resolve<ConnectionViewModel>(new NamedParameter("record", record));
                         connectionViewModels.Add(connection);
                     }
 
@@ -117,9 +117,9 @@ namespace IdentifyMe.ViewModels.Connections
             set => this.RaiseAndSetIfChanged(ref _hasConnections, value);
         }
 
-        private RangeEnabledObservableCollection<ConnectionViewModelV2> _connections = new RangeEnabledObservableCollection<ConnectionViewModelV2>();
+        private RangeEnabledObservableCollection<ConnectionViewModel> _connections = new RangeEnabledObservableCollection<ConnectionViewModel>();
 
-        public RangeEnabledObservableCollection<ConnectionViewModelV2> Connections
+        public RangeEnabledObservableCollection<ConnectionViewModel> Connections
         {
             get => _connections;
             set => this.RaiseAndSetIfChanged(ref _connections, value);
@@ -129,7 +129,7 @@ namespace IdentifyMe.ViewModels.Connections
 
         #region Binable Command 
         public ICommand RefreshingCommand => new Command(async () => await RefreshConnectionsList());
-        public ICommand GoToScanCommand => new Command(async () => await NavigationService.NavigateToAsync<ScanCodeViewModelV2>());
+        public ICommand GoToScanCommand => new Command(async () => await NavigationService.NavigateToAsync<ScanCodeViewModel>());
         #endregion
     }
 }

@@ -8,9 +8,9 @@ namespace IdentifyMe.ViewModels
     public abstract class ABaseViewModel : ReactiveObject, IABaseViewModel
     {
         protected readonly IUserDialogs DialogService;
-        protected readonly INavigationServiceV2 NavigationService;
+        protected readonly INavigationService NavigationService;
 
-        protected ABaseViewModel(string name, IUserDialogs userDialogs, INavigationServiceV2 navigationService)
+        protected ABaseViewModel(string name, IUserDialogs userDialogs, INavigationService navigationService)
         {
             Name = name;
             DialogService = userDialogs;

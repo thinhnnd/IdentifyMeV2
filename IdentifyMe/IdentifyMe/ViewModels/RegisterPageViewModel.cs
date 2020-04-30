@@ -16,19 +16,19 @@ using Xamarin.Forms;
 
 namespace IdentifyMe.ViewModels
 {
-    public class RegisterPageViewModelV2 : ABaseViewModel
+    public class RegisterPageViewModel : ABaseViewModel
     {
         private readonly IEdgeProvisioningService _edgeProvisioningService;
         private readonly IWalletAppConfiguration _walletConfiguration;
         private readonly AgentOptions _options;
         private CloudWalletService _cloudWalletService;
 
-        public RegisterPageViewModelV2(IUserDialogs userDialogs,
-            INavigationServiceV2 navigationService, 
+        public RegisterPageViewModel(IUserDialogs userDialogs,
+            INavigationService navigationService, 
             IEdgeProvisioningService edgeProvisioningService,
             IWalletAppConfiguration walletconfiguration,
             IOptions<AgentOptions> options,
-            CloudWalletService cloudWalletService) : base (nameof(RegisterPageViewModelV2), userDialogs, navigationService)
+            CloudWalletService cloudWalletService) : base (nameof(RegisterPageViewModel), userDialogs, navigationService)
         {
             _edgeProvisioningService = edgeProvisioningService;
             _walletConfiguration = walletconfiguration;

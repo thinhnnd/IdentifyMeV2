@@ -12,18 +12,18 @@ using Xamarin.Forms;
 
 namespace IdentifyMe.ViewModels.Credentials
 {
-    public class CredentialsViewModelV2 : ABaseViewModel
+    public class CredentialsViewModel : ABaseViewModel
     {
         private readonly IAgentProvider _agentProvider;
         private readonly ICredentialService _credentialService;
         private readonly ILifetimeScope _scope;
 
-        public CredentialsViewModelV2(IUserDialogs userDialogs,
-                                  INavigationServiceV2 navigationService,
+        public CredentialsViewModel(IUserDialogs userDialogs,
+                                  INavigationService navigationService,
                                   IAgentProvider agentProvider,
                                   ICredentialService credentialService, 
                                   ILifetimeScope scope ) : 
-            base(nameof(CredentialsViewModelV2), userDialogs, navigationService)
+            base(nameof(CredentialsViewModel), userDialogs, navigationService)
         {
             _agentProvider = agentProvider;
             _credentialService = credentialService;
@@ -56,7 +56,7 @@ namespace IdentifyMe.ViewModels.Credentials
                 {
                     //_listRecords.Add(item);
                     //_listProofRequest.Add(item);
-                    CredentialViewModelV2 credViewModel = _scope.Resolve<CredentialViewModelV2>();
+                    CredentialViewModel credViewModel = _scope.Resolve<CredentialViewModel>();
                     credViewModel.CredentialRecord = item;
                     _credentialVm.Add(credViewModel);
                 }
@@ -65,9 +65,9 @@ namespace IdentifyMe.ViewModels.Credentials
             IsRefreshing = false;
         }
 
-        private RangeEnabledObservableCollection<CredentialViewModelV2> _credentialVm = new RangeEnabledObservableCollection<CredentialViewModelV2>();
+        private RangeEnabledObservableCollection<CredentialViewModel> _credentialVm = new RangeEnabledObservableCollection<CredentialViewModel>();
 
-        public RangeEnabledObservableCollection<CredentialViewModelV2> CredentialViewModel
+        public RangeEnabledObservableCollection<CredentialViewModel> CredentialViewModel
         {
             get => _credentialVm;
             set => this.RaiseAndSetIfChanged(ref _credentialVm, value);

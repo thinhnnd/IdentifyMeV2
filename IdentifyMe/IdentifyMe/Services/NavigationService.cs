@@ -18,14 +18,14 @@ namespace IdentifyMe.Services
         Modal
     }
 
-    public class NavigationServiceV2 : INavigationServiceV2
+    public class NavigationService : INavigationService
     {
         private readonly ILifetimeScope _scope;
         protected readonly IList<Tuple<Type, Type, bool>> Mappings;
 
         protected Application CurrentApplication => Application.Current;
 
-        public NavigationServiceV2(ILifetimeScope scope)
+        public NavigationService(ILifetimeScope scope)
         {
             _scope = scope;
             Mappings = new List<Tuple<Type, Type, bool>>();

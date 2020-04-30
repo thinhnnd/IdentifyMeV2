@@ -13,15 +13,15 @@ using Xamarin.Forms;
 
 namespace IdentifyMe.ViewModels.Connections
 {
-    public class AcceptInvitationViewModelV2 : ABaseViewModel
+    public class AcceptInvitationViewModel : ABaseViewModel
     {
         private readonly IConnectionService _connectionService;
         private readonly IMessageService _messageService;
         private readonly IProvisioningService _provisioningService;
         private readonly IAgentProvider _mobileAgentProvider;
         private readonly IEventAggregator _eventAggregator;
-        public AcceptInvitationViewModelV2(IUserDialogs userDialogs, 
-            INavigationServiceV2 navigationService,
+        public AcceptInvitationViewModel(IUserDialogs userDialogs, 
+            INavigationService navigationService,
             IConnectionService connectionService,
             IProvisioningService provisioningService, 
             IMessageService messageService, 

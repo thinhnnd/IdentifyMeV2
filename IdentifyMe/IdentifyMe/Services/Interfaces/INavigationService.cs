@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace IdentifyMe.Services.Interfaces
 {
-    public interface INavigationServiceV2
+    public interface INavigationService
     {
         Task PopModalAsync();
 

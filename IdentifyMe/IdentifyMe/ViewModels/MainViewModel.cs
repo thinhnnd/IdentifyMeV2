@@ -20,10 +20,10 @@ namespace IdentifyMe.ViewModels
 
         public MainViewModel(
              IUserDialogs userDialogs,
-             INavigationServiceV2 navigationService,
-             ConnectionsViewModelV2 connectionsViewModel,
-             CredentialsViewModelV2 credentialsViewModel,
-             NotificationViewModelV2 notificationViewModel,
+             INavigationService navigationService,
+             ConnectionsViewModel connectionsViewModel,
+             CredentialsViewModel credentialsViewModel,
+             NotificationViewModel notificationViewModel,
              CloudWalletService cloudWalletService
          ) : base(
                  nameof(MainViewModel),
@@ -72,22 +72,22 @@ namespace IdentifyMe.ViewModels
         }
 
         #region Bindable Properties
-        private ConnectionsViewModelV2 _connections;
-        public ConnectionsViewModelV2 Connections
+        private ConnectionsViewModel _connections;
+        public ConnectionsViewModel Connections
         {
             get => _connections;
             set => this.RaiseAndSetIfChanged(ref _connections, value);
         }
 
-        private CredentialsViewModelV2 _credentials;
-        public CredentialsViewModelV2 Credentials
+        private CredentialsViewModel _credentials;
+        public CredentialsViewModel Credentials
         {
             get => _credentials;
             set => this.RaiseAndSetIfChanged(ref _credentials, value);
         }
 
-        private NotificationViewModelV2 _notification;
-        public NotificationViewModelV2 Notification
+        private NotificationViewModel _notification;
+        public NotificationViewModel Notification
         {
             get => _notification;
             set => this.RaiseAndSetIfChanged(ref _notification, value);

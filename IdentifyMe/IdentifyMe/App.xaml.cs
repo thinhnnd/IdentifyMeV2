@@ -80,22 +80,22 @@ namespace IdentifyMe
                     Container = containerBuilder.Build();
 
                     //Container.Resolve<MessageHandleMiddleWare>();
-                    _navigationService = Container.Resolve<INavigationServiceV2>();
+                    _navigationService = Container.Resolve<INavigationService>();
 
                 });
         Task InitializeTask;
-        static INavigationServiceV2 _navigationService;
+        static INavigationService _navigationService;
         private async Task Initialize()
         {
-            _navigationService.AddPageViewModelBinding<ConnectionsViewModelV2, ConnectionsPageV2>();
-            _navigationService.AddPageViewModelBinding<NotificationViewModelV2, NotificationV2>();
-            _navigationService.AddPageViewModelBinding<CredentialsViewModelV2, CredentialsPageV2>();
-            _navigationService.AddPageViewModelBinding<CredOfferViewModelV2, CredOfferPageV2>();
-            _navigationService.AddPageViewModelBinding<ProofRequestViewModelV2, ProofRequestPageV2>();
-            _navigationService.AddPageViewModelBinding<ScanCodeViewModelV2, ScanCodePageV2>();
-            _navigationService.AddPopupViewModelBinding<AcceptInvitationViewModelV2, AcceptInvitationPopupV2>();
+            _navigationService.AddPageViewModelBinding<ConnectionsViewModel, ConnectionsPageV2>();
+            _navigationService.AddPageViewModelBinding<NotificationViewModel, NotificationV2>();
+            _navigationService.AddPageViewModelBinding<CredentialsViewModel, CredentialsPageV2>();
+            _navigationService.AddPageViewModelBinding<CredOfferViewModel, CredOfferPageV2>();
+            _navigationService.AddPageViewModelBinding<ProofRequestViewModel, ProofRequestPageV2>();
+            _navigationService.AddPageViewModelBinding<ScanCodeViewModel, ScanCodePageV2>();
+            _navigationService.AddPopupViewModelBinding<AcceptInvitationViewModel, AcceptInvitationPopupV2>();
             _navigationService.AddPageViewModelBinding<MainViewModel, MainPageV2>();
-            _navigationService.AddPageViewModelBinding<RegisterPageViewModelV2, RegisterPageV2>();
+            _navigationService.AddPageViewModelBinding<RegisterPageViewModel, RegisterPageV2>();
             if (Preferences.Get("LocalWalletProvisioned", false))
             {
                 //Task.Run(async () => await _navigationService.NavigateToAsync<MainViewModel>());
@@ -105,7 +105,7 @@ namespace IdentifyMe
             {
                 //Task.Run(async () => await _navigationService.NavigateToAsync<RegisterPageViewModelV2>());
                 //Task.Run(async () => await _navigationService.NavigateToAsync<RegisterPageViewModelV2>());
-                await _navigationService.NavigateToAsync<RegisterPageViewModelV2>();
+                await _navigationService.NavigateToAsync<RegisterPageViewModel>();
             }
         }
         protected override void OnStart()

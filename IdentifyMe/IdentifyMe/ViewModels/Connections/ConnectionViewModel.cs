@@ -13,7 +13,7 @@ using System.Text;
 
 namespace IdentifyMe.ViewModels.Connections
 {
-    public class ConnectionViewModelV2 : ABaseViewModel
+    public class ConnectionViewModel : ABaseViewModel
     {
         private readonly IAgentProvider _agentProvider;
         private readonly IMessageService _messageService;
@@ -22,14 +22,14 @@ namespace IdentifyMe.ViewModels.Connections
         private readonly IEventAggregator _eventAggregator;
         private readonly ConnectionRecord _record;
 
-        public ConnectionViewModelV2(IUserDialogs userDialogs,
-            INavigationServiceV2 navigationService,
+        public ConnectionViewModel(IUserDialogs userDialogs,
+            INavigationService navigationService,
             IAgentProvider agentProvider,
             IMessageService messageService,
             IDiscoveryService discoveryService,
             IConnectionService connectionService,
             IEventAggregator eventAggregator,
-            ConnectionRecord record) : base (nameof(ConnectionsViewModelV2), userDialogs, navigationService)
+            ConnectionRecord record) : base (nameof(ConnectionsViewModel), userDialogs, navigationService)
         {
             _agentProvider = agentProvider;
             _messageService = messageService;

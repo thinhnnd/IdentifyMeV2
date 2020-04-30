@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace IdentifyMe.ViewModels.Credentials
 {
-    public class CredentialViewModelV2 : ABaseViewModel
+    public class CredentialViewModel : ABaseViewModel
     {
 
-        public CredentialViewModelV2(IUserDialogs userDialogs,
-            INavigationServiceV2 navigationService) : 
-            base (nameof(CredentialViewModelV2), userDialogs, navigationService )
+        public CredentialViewModel(IUserDialogs userDialogs,
+            INavigationService navigationService) : 
+            base (nameof(CredentialViewModel), userDialogs, navigationService )
         {
             Title = "Credential Detail";
         }
