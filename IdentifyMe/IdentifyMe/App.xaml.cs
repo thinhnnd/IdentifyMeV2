@@ -90,6 +90,7 @@ namespace IdentifyMe
             _navigationService.AddPageViewModelBinding<ConnectionsViewModel, ConnectionsPage>();
             _navigationService.AddPageViewModelBinding<NotificationViewModel, NotificationPage>();
             _navigationService.AddPageViewModelBinding<CredentialsViewModel, CredentialsPage>();
+            _navigationService.AddPageViewModelBinding<CredentialViewModel, CredentialPage>();
             _navigationService.AddPageViewModelBinding<CredOfferViewModel, CredOfferPage>();
             _navigationService.AddPageViewModelBinding<ProofRequestViewModel, ProofRequestPage>();
             _navigationService.AddPageViewModelBinding<ScanCodeViewModel, ScanCodePage>();

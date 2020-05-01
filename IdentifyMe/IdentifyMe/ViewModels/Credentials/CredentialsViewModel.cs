@@ -48,17 +48,18 @@ namespace IdentifyMe.ViewModels.Credentials
         {
             IsRefreshing = true;
             var context = await _agentProvider.GetContextAsync();
-            var credentialRecordsList = await _credentialService.ListAsync(context, null, 100);
+            var credentialRecordsList = await _credentialService.ListAsync(context);
             if (credentialRecordsList != null)
             {
                 _credentialVm.Clear();
-                foreach (var item in credentialRecordsList)
+                foreach (var record in credentialRecordsList)
                 {
                     //_listRecords.Add(item);
                     //_listProofRequest.Add(item);
-                    CredentialViewModel credViewModel = _scope.Resolve<CredentialViewModel>();
-                    credViewModel.CredentialRecord = item;
+                    CredentialViewModel credViewModel = _scope.Resolve<CredentialViewModel>(new NamedParameter("credential", record));
+                    //credViewModel.CredentialRecord = item;
                     _credentialVm.Add(credViewModel);
+                    var a = record.SchemaId;
                 }
             }
 
@@ -67,7 +68,7 @@ namespace IdentifyMe.ViewModels.Credentials
 
         private RangeEnabledObservableCollection<CredentialViewModel> _credentialVm = new RangeEnabledObservableCollection<CredentialViewModel>();
 
-        public RangeEnabledObservableCollection<CredentialViewModel> CredentialViewModel
+        public RangeEnabledObservableCollection<CredentialViewModel> CredentialViewModels
         {
             get => _credentialVm;
             set => this.RaiseAndSetIfChanged(ref _credentialVm, value);
@@ -83,11 +84,13 @@ namespace IdentifyMe.ViewModels.Credentials
             get => _isRefreshing;
             set => this.RaiseAndSetIfChanged(ref _isRefreshing, value);
         }
-        //public ICommand SelectCredOfferCommand => new Command<CredentialRecord>(async (credOfferViewModel) =>
-        //{
-        //    if (credOfferViewModel != null)
-        //        await NavigateToCredentialOfferPage(credOfferViewModel);
-        //    Console.WriteLine("Converted Worked");
-        //});
+
+        public ICommand SelectCredentialCommand => new Command<CredentialViewModel>(async (credentialVm) => {
+            if(credentialVm != null)
+            {
+               await NavigationService.NavigateToAsync<CredentialViewModel>(credentialVm);
+            }
+        });
+
     }
 }
