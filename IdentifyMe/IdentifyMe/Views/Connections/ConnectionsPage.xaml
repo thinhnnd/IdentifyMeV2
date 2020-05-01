@@ -3,9 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:behaviors="clr-namespace:IdentifyMe.Behaviors;assembly=IdentifyMe"
+             xmlns:converters="clr-namespace:IdentifyMe.Converters;assembly=IdentifyMe"
              mc:Ignorable="d"
              Title="{Binding Title}"
              x:Class="IdentifyMe.Views.Connections.ConnectionsPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="BooleanInverse" />
+            <converters:SelecteditemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
             <Label Text="{Binding Title}"
@@ -65,6 +73,13 @@
                     </DataTemplate>
 
                 </ListView.ItemTemplate>
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior 
+                        EventName="ItemSelected" 
+                        Command="{Binding OnSelectConnectionCommand}" 
+                        Converter="{StaticResource SelectedItemConverter}" 
+                        DeselectOnClick="True" />
+                </ListView.Behaviors>
                 <ListView.RowHeight>10</ListView.RowHeight>
             </ListView>
         </StackLayout>

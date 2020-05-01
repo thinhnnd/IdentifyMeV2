@@ -88,6 +88,7 @@ namespace IdentifyMe
         private async Task Initialize()
         {
             _navigationService.AddPageViewModelBinding<ConnectionsViewModel, ConnectionsPage>();
+            _navigationService.AddPageViewModelBinding<ConnectionViewModel, ConnectionPage>();
             _navigationService.AddPageViewModelBinding<NotificationViewModel, NotificationPage>();
             _navigationService.AddPageViewModelBinding<CredentialsViewModel, CredentialsPage>();
             _navigationService.AddPageViewModelBinding<CredentialViewModel, CredentialPage>();
