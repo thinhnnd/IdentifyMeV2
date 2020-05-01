@@ -142,13 +142,6 @@ namespace IdentifyMe.ViewModels.Notification
             //_credentialOffersVm.Add(credentialVm);
             //await DisplayAlert("Alert", "You have been alerted", "OK");
             await NavigationService.NavigateToAsync<CredOfferViewModel>(credentialVm);
-
-            // await Application.Current.MainPage.DisplayAlert(credentialVm.CredentialOffer.ConnectionId, "", "Ok");
-
-            //await Navigation.PushAsync(credentialVm);
-            //await Navigation.PushAsync(MakeVm<ScanCodeViewModel>());
-
-
         }
 
         public ICommand SelectCredOfferCommand => new Command<CredentialRecord>(async (credOfferViewModel) =>
@@ -167,8 +160,6 @@ namespace IdentifyMe.ViewModels.Notification
             if (proofRequestViewModel != null)
                 await NavigateToProofRequestPage(proofRequestViewModel);
         });
-        //public async Task SelectCredential(CredentialViewModel credential) => await NavigationService.NavigateToAsync(credential, null, NavigationType.Modal);
-
 
         #region Bindable Props 
 

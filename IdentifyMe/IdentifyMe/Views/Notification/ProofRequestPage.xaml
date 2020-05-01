@@ -35,7 +35,7 @@
                     Text="{Binding ProofRequestObject}"/>
                 </StackLayout>-->
 
-                <ListView ItemsSource="{Binding ProofRequestAndCredentialMaps}" >
+                <ListView IsRefreshing="{Binding IsBusy}" ItemsSource="{Binding ProofRequestAndCredentialMaps} " >
                     <ListView.ItemTemplate>
                         <DataTemplate >
                             <ViewCell >
@@ -90,12 +90,12 @@
                     Style="{DynamicResource RedButtonStyle}"
                     Command="{Binding RejectProofRequestCommand}"
                     HorizontalOptions="FillAndExpand"
-                    Text="Discline"/>
+                    Text="Reject"/>
                 <Button
                     HorizontalOptions="FillAndExpand"
                     Style="{DynamicResource BlueButtonStyle}"
                     Command="{Binding AcceptProofRequestCommand}"
-                    Text="Accept"/>
+                    Text="Present"/>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

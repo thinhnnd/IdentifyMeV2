@@ -42,22 +42,25 @@ namespace IdentifyMe.ViewModels.Notification
 
         public async override Task InitializeAsync(object navigationData)
         {
+            IsBusy = true;
+            await CreateRequestedCredential();
             await base.InitializeAsync(navigationData);
-            RequestedCredentials = await CreateRequestedCredential();
-           
+            IsBusy = false;
         }
 
         // private RangeEnabledObservableCollection<KeyValuePair<string, string>> _roofRequestCredentialsPairs = new RangeEnabledObservableCollection<KeyValuePair<string, string>>();
 
         //Dictionary<string, string> proofAndCredentialPredicatesMapping = new Dictionary<string, string>();
-        private async Task<RequestedCredentials> CreateRequestedCredential()
+        private async Task CreateRequestedCredential()
         {
             var requestedCredentials = new RequestedCredentials();
             var context = await _agentProvider.GetContextAsync();
             _proofRequestAndCredentialMaps.Clear();
+            RangeEnabledObservableCollection<ProofRequestAndCredentialMap> proofRequestMapList = new RangeEnabledObservableCollection<ProofRequestAndCredentialMap>();
             foreach (var requestedAttribute in ProofRequestObject.RequestedAttributes)
             {
                 ProofRequestAndCredentialMap proofCredMap = new ProofRequestAndCredentialMap();
+
                 proofCredMap.ProofKey = requestedAttribute.Key;
 
                 var credentials = await _proofService.ListCredentialsForProofRequestAsync(context, _proofRequest,
@@ -78,7 +81,7 @@ namespace IdentifyMe.ViewModels.Notification
                         CredentialId = credentials.First().CredentialInfo.Referent,
                         Revealed = true
                     });
-                ProofRequestAndCredentialMaps.Add(proofCredMap);
+                proofRequestMapList.Add(proofCredMap);
                 //requestedCredentials.RequestedAttributes.
                 //proofAndCredentialAttributesMapping.Add(requestedAttribute, credentials.First().CredentialInfo.Attributes.)
             }
@@ -104,9 +107,10 @@ namespace IdentifyMe.ViewModels.Notification
                         CredentialId = credentials.First().CredentialInfo.Referent,
                         Revealed = true
                     });
-                ProofRequestAndCredentialMaps.Add(proofCredMap);
+                proofRequestMapList.Add(proofCredMap);
             }
-            return requestedCredentials;
+            ProofRequestAndCredentialMaps = proofRequestMapList;
+            RequestedCredentials = requestedCredentials;
         }
 
 
