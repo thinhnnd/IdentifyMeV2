@@ -8,7 +8,9 @@ namespace IdentifyMe.Events
     public enum ApplicationEventType
     {
         ConnectionsUpdated,
-        CredentialsUpdated
+        CredentialsUpdated,
+        GotCredentialOffer,
+        GotProofRequestMessage
     }
     public class ApplicationEvent
     {

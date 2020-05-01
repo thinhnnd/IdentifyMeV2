@@ -61,7 +61,12 @@ namespace IdentifyMe.ViewModels.Notification
             _eventAggregator.GetEventByType<ApplicationEvent>()
                .Where(_ => _.Type == ApplicationEventType.CredentialsUpdated)
                .Subscribe(async _ => await GetRequiredRecord());
-
+            _eventAggregator.GetEventByType<ApplicationEvent>()
+                .Where(_ => _.Type == ApplicationEventType.GotCredentialOffer)
+                .Subscribe(async _ => await GetRequiredRecord());
+            _eventAggregator.GetEventByType<ApplicationEvent>()
+                .Where(_ => _.Type == ApplicationEventType.GotProofRequestMessage)
+                .Subscribe(async _ => await GetRequiredRecord());
             await GetRequiredRecord();
         }
 
