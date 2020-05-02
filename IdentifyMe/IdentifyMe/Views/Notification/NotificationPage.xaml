@@ -23,7 +23,7 @@
                     VerticalOptions="Start"
                     Command="{Binding FetchInboxCommand}"/>
             <Label Text="List Credential Offer:" />
-            <ListView ItemsSource="{Binding ListCredOffer}" 
+            <ListView ItemsSource="{Binding CredOffers}" 
                       HasUnevenRows="true" 
                       IsPullToRefreshEnabled="True"
                       RefreshCommand="{Binding RefreshRecordCommand}"
@@ -60,7 +60,7 @@
 
                                         </Frame>
                                         <Label Margin="10, 0, 0, 0" Grid.Column="0" 
-                                            Text="{Binding Path=Id}"
+                                            Text="{Binding Path=CredentialName}"
                                             VerticalOptions="Center"/>
 
                                     </Grid>
@@ -113,7 +113,7 @@
 
                                         </Frame>
                                         <Label Margin="10, 0, 0, 0" Grid.Column="0" 
-                                            Text="{Binding Path=ProofRequestRecord.Id}"
+                                            Text="{Binding Path=ProofRequestObject.Name}"
                                             VerticalOptions="Center"/>
 
                                     </Grid>

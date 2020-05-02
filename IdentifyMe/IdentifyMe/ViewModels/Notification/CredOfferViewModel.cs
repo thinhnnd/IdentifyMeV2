@@ -41,9 +41,10 @@ namespace IdentifyMe.ViewModels.Notification
             IPoolService poolService,
             IWalletRecordService recordService,
             IConnectionService connectionService, 
-            IEventAggregator eventAggregator) :
+            IEventAggregator eventAggregator, CredentialRecord credentialOffer) :
             base(nameof(CredOfferViewModel), userDialogs, navigationService)
         {
+            _credentialOffer = credentialOffer;
             _agentProvider = agentProvider;
             _credentialService = credentialService;
             _connectionService = connectionService;
@@ -52,21 +53,16 @@ namespace IdentifyMe.ViewModels.Notification
             _recordService = recordService;
             _eventAggregator = eventAggregator;
             Title = "Offer Detail";
+            CredentialName = ConvertNameFromeSchemaId(CredentialOffer.SchemaId);
         }
-
-        public void OnNavigatedTo()
+        private string ConvertNameFromeSchemaId(string schemaId)
         {
-            Console.WriteLine("On Navigated To");
-        }
-
-        public void OnNavigatingFrom()
-        {
-            Console.WriteLine("On Navigating From");
-        }
-
-        public void OnNavigatingTo()
-        {
-            Console.WriteLine("On Navigating To");
+            var arr = schemaId.Split(new string[] { ":" }, StringSplitOptions.None);
+            if (arr[2] != null)
+            {
+                return arr[2];
+            }
+            return "NoName";
         }
 
         #region Bindable Props 
@@ -83,6 +79,13 @@ namespace IdentifyMe.ViewModels.Notification
                 }
 
             }
+        }
+
+        private string _credentialName;
+        public string CredentialName
+        {
+            get => _credentialName;
+            set => this.RaiseAndSetIfChanged(ref _credentialName, value);
         }
 
         private IEnumerable<CredentialPreviewAttribute> _credentialAttributes;

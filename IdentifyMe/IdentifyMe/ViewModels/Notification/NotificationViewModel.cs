@@ -93,7 +93,7 @@ namespace IdentifyMe.ViewModels.Notification
         }
 
         private async Task GetRequiredRecord()
-        {
+            {
             IsRefreshing = true;
             var agentContext = await _agentProvider.GetContextAsync();
             //ISearchQuery credentialsQuery = ListOffersAsync
@@ -105,13 +105,14 @@ namespace IdentifyMe.ViewModels.Notification
             _listCredOffer.Clear();
             _listProofRequest.Clear();
             _proofRequestsVm.Clear();
+            _credentialOffersVm.Clear();
             foreach (var item in listCredentials)
             {
                 _listRecords.Add(item);
                 _listCredOffer.Add(item);
-                //CredOfferViewModel credentialVm = MakeVm<CredOfferViewModel>();
-                //credentialVm.CredentialOffer = item;
-                //_credentialOffersVm.Add(credentialVm);
+                CredOfferViewModel credOfferViewModel = _scope.Resolve<CredOfferViewModel>(new NamedParameter("credentialOffer", item));
+                credOfferViewModel.CredentialOffer = item;
+                _credentialOffersVm.Add(credOfferViewModel);
             }
 
             foreach (var item in listProofRequests)
@@ -138,18 +139,12 @@ namespace IdentifyMe.ViewModels.Notification
             }
         }
 
-        public async Task NavigateToCredentialOfferPage(CredentialRecord record)
+        public async Task NavigateToCredentialOfferPage(CredOfferViewModel credentialOfferVm)
         {
-            //await Navigation.PushModalAsync(credOfferViewModel);
-            //await Navigation.PushAsync(MakeVm<CredOfferViewModel>(credOfferViewModel));
-            CredOfferViewModel credentialVm = _scope.Resolve<CredOfferViewModel>();
-            credentialVm.CredentialOffer = record;
-            //_credentialOffersVm.Add(credentialVm);
-            //await DisplayAlert("Alert", "You have been alerted", "OK");
-            await NavigationService.NavigateToAsync<CredOfferViewModel>(credentialVm);
+            await NavigationService.NavigateToAsync<CredOfferViewModel>(credentialOfferVm);
         }
 
-        public ICommand SelectCredOfferCommand => new Command<CredentialRecord>(async (credOfferViewModel) =>
+        public ICommand SelectCredOfferCommand => new Command<CredOfferViewModel>(async (credOfferViewModel) =>
         {
             if (credOfferViewModel != null)
                 await NavigateToCredentialOfferPage(credOfferViewModel);
