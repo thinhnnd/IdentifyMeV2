@@ -1,11 +1,16 @@
 ﻿using Acr.UserDialogs;
 using Autofac;
 using Hyperledger.Aries.Agents;
+using Hyperledger.Aries.Features.DidExchange;
 using Hyperledger.Aries.Features.IssueCredential;
 using IdentifyMe.Extensions;
 using IdentifyMe.Services.Interfaces;
 using ReactiveUI;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -17,17 +22,21 @@ namespace IdentifyMe.ViewModels.Credentials
         private readonly IAgentProvider _agentProvider;
         private readonly ICredentialService _credentialService;
         private readonly ILifetimeScope _scope;
+        private readonly IConnectionService _connectionService;
 
         public CredentialsViewModel(IUserDialogs userDialogs,
                                   INavigationService navigationService,
                                   IAgentProvider agentProvider,
-                                  ICredentialService credentialService, 
-                                  ILifetimeScope scope ) : 
+                                  ICredentialService credentialService,
+                                  IConnectionService connectionService,
+                                  ILifetimeScope scope) :
             base(nameof(CredentialsViewModel), userDialogs, navigationService)
         {
             _agentProvider = agentProvider;
             _credentialService = credentialService;
             _scope = scope;
+            _connectionService = connectionService;
+
             Title = "Credentials";
         }
 
@@ -46,24 +55,37 @@ namespace IdentifyMe.ViewModels.Credentials
 
         private async Task LoadCredential()
         {
-            IsRefreshing = true;
-            var context = await _agentProvider.GetContextAsync();
-            var credentialRecordsList = await _credentialService.ListAsync(context);
-            if (credentialRecordsList != null)
+            try
             {
-                _credentialVm.Clear();
-                foreach (var record in credentialRecordsList)
+                IsRefreshing = true;
+                var context = await _agentProvider.GetContextAsync();
+                var credentialRecordsList = await _credentialService.ListAsync(context);
+                if (credentialRecordsList != null)
                 {
-                    //_listRecords.Add(item);
-                    //_listProofRequest.Add(item);
-                    CredentialViewModel credViewModel = _scope.Resolve<CredentialViewModel>(new NamedParameter("credential", record));
-                    //credViewModel.CredentialRecord = item;
-                    _credentialVm.Add(credViewModel);
-                    var a = record.SchemaId;
+                    IList<CredentialViewModel> credentialVms = new List<CredentialViewModel>();
+                    foreach (var record in credentialRecordsList)
+                    {
+                        //_listRecords.Add(item);
+                        //_listProofRequest.Add(item);
+                        var relatedConnection = await _connectionService.GetAsync(context, record.ConnectionId);
+                        CredentialViewModel credViewModel = _scope.Resolve<CredentialViewModel>(new NamedParameter("credential", record));
+                        credViewModel.RelatedConnection = relatedConnection;
+                        if (credViewModel.RelatedConnection.Alias.Name != null)
+                            credViewModel.OrganizeName = credViewModel.RelatedConnection.Alias.Name;
+                        //credViewModel.CredentialRecord = item;
+                        credentialVms.Add(credViewModel);
+                    }
+                    _credentialVm.Clear();
+                    _credentialVm.InsertRange(credentialVms);
                 }
-            }
 
-            IsRefreshing = false;
+                IsRefreshing = false;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                IsRefreshing = false;
+            }
         }
 
         private RangeEnabledObservableCollection<CredentialViewModel> _credentialVm = new RangeEnabledObservableCollection<CredentialViewModel>();
@@ -85,10 +107,11 @@ namespace IdentifyMe.ViewModels.Credentials
             set => this.RaiseAndSetIfChanged(ref _isRefreshing, value);
         }
 
-        public ICommand SelectCredentialCommand => new Command<CredentialViewModel>(async (credentialVm) => {
-            if(credentialVm != null)
+        public ICommand SelectCredentialCommand => new Command<CredentialViewModel>(async (credentialVm) =>
+        {
+            if (credentialVm != null)
             {
-               await NavigationService.NavigateToAsync<CredentialViewModel>(credentialVm);
+                await NavigationService.NavigateToAsync<CredentialViewModel>(credentialVm);
             }
         });
 

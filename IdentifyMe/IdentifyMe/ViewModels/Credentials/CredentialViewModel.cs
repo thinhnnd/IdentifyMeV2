@@ -44,8 +44,6 @@ namespace IdentifyMe.ViewModels.Credentials
         public async override Task InitializeAsync(object navigationData)
         {
             await base.InitializeAsync(navigationData);
-            var context = await _agentProvider.GetContextAsync();
-            _relatedConnection = await _connectionService.GetAsync(context, this._credential.ConnectionId);
         }
 
         private string ConvertNameFromeSchemaId(string schemaId)
@@ -140,6 +138,14 @@ namespace IdentifyMe.ViewModels.Credentials
         {
             get => _qRImageUrl;
             set => this.RaiseAndSetIfChanged(ref _qRImageUrl, value);
+        }
+
+        private string _organizeName = "";
+
+        public string OrganizeName
+        {
+            get => _organizeName;
+            set => this.RaiseAndSetIfChanged(ref _organizeName, value);
         }
 
         private IEnumerable<CredentialPreviewAttribute> _attributes;
