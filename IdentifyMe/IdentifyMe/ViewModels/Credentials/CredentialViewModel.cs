@@ -37,7 +37,8 @@ namespace IdentifyMe.ViewModels.Credentials
             _credentialName = ConvertNameFromeSchemaId(_credential.SchemaId).ToTitleCase();
             if (_credential.CreatedAtUtc != null)
             {
-                _issuedDate = _credential.CreatedAtUtc.ToString();
+                DateTime createdAt = (DateTime)_credential.CreatedAtUtc;
+                _issuedDate = createdAt.ToString("dd-MM-yyyy");
             }
             someMaterialColor = new Helpers.SomeMaterialColor();
         }
@@ -158,7 +159,7 @@ namespace IdentifyMe.ViewModels.Credentials
         private string _organizeColor = "009688";
         public string OrganizeColor 
         {
-            get => _organizeName;
+            get => _organizeColor;
             set => this.RaiseAndSetIfChanged(ref _organizeColor, value);
         }
 
