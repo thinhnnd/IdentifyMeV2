@@ -18,6 +18,7 @@ using Xamarin.Forms;
 using IdentifyMe.Messages;
 using IdentifyMe.Droid.Services;
 using Plugin.LocalNotification;
+using FFImageLoading.Forms.Platform;
 
 namespace IdentifyMe.Droid
 {
@@ -41,7 +42,12 @@ namespace IdentifyMe.Droid
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
 
+            //Initializing User Dialogs
             UserDialogs.Init(this);
+
+
+            // Initializing FFImageLoading
+            CachedImageRenderer.Init(false);
 
             //thinh nnd
             if ((int)Build.VERSION.SdkInt >= 23)

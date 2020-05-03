@@ -18,7 +18,7 @@ namespace IdentifyMe.ViewModels.Credentials
         private readonly CredentialRecord _credential;
         private readonly IConnectionService _connectionService;
         private readonly IAgentProvider _agentProvider;
-
+        Helpers.SomeMaterialColor someMaterialColor;
         public CredentialViewModel(IUserDialogs userDialogs,
             INavigationService navigationService,
             CredentialRecord credential,
@@ -39,6 +39,7 @@ namespace IdentifyMe.ViewModels.Credentials
             {
                 _issuedDate = _credential.CreatedAtUtc.ToString();
             }
+            someMaterialColor = new Helpers.SomeMaterialColor();
         }
 
         public async override Task InitializeAsync(object navigationData)
@@ -112,11 +113,11 @@ namespace IdentifyMe.ViewModels.Credentials
             set => this.RaiseAndSetIfChanged(ref _credentialType, value);
         }
 
-        private string _credentialImageUrl;
-        public string CredentialImageUrl
+        private string _organizeImageUrl = "";
+        public string OrganizeImageUrl
         {
-            get => _credentialImageUrl;
-            set => this.RaiseAndSetIfChanged(ref _credentialImageUrl, value);
+            get => _organizeImageUrl;
+            set => this.RaiseAndSetIfChanged(ref _organizeImageUrl, value);
         }
 
         private string _credentialSubtitle;
@@ -145,7 +146,20 @@ namespace IdentifyMe.ViewModels.Credentials
         public string OrganizeName
         {
             get => _organizeName;
-            set => this.RaiseAndSetIfChanged(ref _organizeName, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _organizeName, value);
+                _organizeColor = someMaterialColor.GetColorFromString(_organizeName);
+                if(RelatedConnection.Alias.ImageUrl == null)
+                    _organizeImageUrl = $"https://ui-avatars.com/api/?name={_organizeName}&length=1&background={_organizeColor}&color=fff&size=128";
+            }
+        }
+
+        private string _organizeColor = "009688";
+        public string OrganizeColor 
+        {
+            get => _organizeName;
+            set => this.RaiseAndSetIfChanged(ref _organizeColor, value);
         }
 
         private IEnumerable<CredentialPreviewAttribute> _attributes;

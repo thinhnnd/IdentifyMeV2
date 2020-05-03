@@ -153,6 +153,11 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Label">
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat-Regular}" />
+        <Setter Property="FontSize" Value="Small" />
+    </Style>
+
     <OnPlatform x:Key="FontIcons" x:TypeArguments="x:String">
         <OnPlatform.Platforms>
             <On Platform="Android" Value="UIFontIcons.ttf#UIFontIcons" />
