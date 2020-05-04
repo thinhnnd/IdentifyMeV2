@@ -58,12 +58,12 @@ namespace IdentifyMe.ViewModels.Notification
             set => this.RaiseAndSetIfChanged(ref _itemViewModel, value);
         }
 
-        private async Task OnSelectedItem(object item)
+        private DateTime _issuedDate = DateTime.Now;
+        public DateTime IssuedDate
         {
-            
+            get => _issuedDate;
+            set => this.RaiseAndSetIfChanged(ref _issuedDate, value);
         }
-
-        private ICommand OnSelectedItemCommand => new Command(() => Console.WriteLine("fdsa"));
         #endregion
     }
 }

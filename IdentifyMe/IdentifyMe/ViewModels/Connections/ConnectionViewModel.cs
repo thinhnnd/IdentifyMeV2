@@ -50,8 +50,7 @@ namespace IdentifyMe.ViewModels.Connections
                 _connectionImageUrl = _record.Alias.ImageUrl;
             if (_record.CreatedAtUtc != null)
             {
-                DateTime createdAt = (DateTime)_record.CreatedAtUtc;
-                _issuedDate = createdAt.ToString("dd-MM-yyyy");
+                _createdDate = (DateTime)_record.CreatedAtUtc;
             }
         }
 
@@ -89,11 +88,11 @@ namespace IdentifyMe.ViewModels.Connections
             set => this.RaiseAndSetIfChanged(ref _connectionImageUrl, value);
         }
 
-        private string _issuedDate;
-        public string IssuedDate
+        private DateTime _createdDate = DateTime.Now;
+        public DateTime CreatedDate
         {
-            get => _issuedDate;
-            set => this.RaiseAndSetIfChanged(ref _issuedDate, value);
+            get => _createdDate;
+            set => this.RaiseAndSetIfChanged(ref _createdDate, value);
         }
 
         private string _connectionSubtitle = "Lorem ipsum dolor sit amet";

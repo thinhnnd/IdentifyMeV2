@@ -37,8 +37,7 @@ namespace IdentifyMe.ViewModels.Credentials
             _credentialName = ConvertNameFromeSchemaId(_credential.SchemaId).ToTitleCase();
             if (_credential.CreatedAtUtc != null)
             {
-                DateTime createdAt = (DateTime)_credential.CreatedAtUtc;
-                _issuedDate = createdAt.ToString("dd-MM-yyyy");
+                IssuedDate = (DateTime)_credential.CreatedAtUtc;             
             }
             someMaterialColor = new Helpers.SomeMaterialColor();
         }
@@ -77,8 +76,8 @@ namespace IdentifyMe.ViewModels.Credentials
             }
         }
 
-        private string _issuedDate;
-        public string IssuedDate
+        private DateTime _issuedDate = DateTime.Now;
+        public DateTime IssuedDate
         {
             get => _issuedDate;
             set => this.RaiseAndSetIfChanged(ref _issuedDate, value);

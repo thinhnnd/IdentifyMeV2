@@ -72,8 +72,8 @@
                                                    TextColor="{DynamicResource Gray-900}"
                                             Text="{Binding NotificationTitle}"
                                             VerticalOptions="Center"/>
-                                            <Label Text="You've received a credential offer" FontSize="14" />
-                                            <Label  Text="From: Faber-Agent" FontSize="13" />
+                                            <Label Text="{Binding NotificationContent}" FontSize="14" />
+                                            <Label  Text="{Binding OrganizeAlias.Name, StringFormat='From: {0}' }" FontSize="13" />
 
                                         </StackLayout>
                                         <ffimageloading:CachedImage  Grid.Column="2" VerticalOptions="Center" HeightRequest="24" WidthRequest="24" DownsampleHeight="20" DownsampleWidth="10"  FadeAnimationEnabled="true" DownsampleUseDipUnits="true" Aspect="Fill" Source="chevron_right.png">

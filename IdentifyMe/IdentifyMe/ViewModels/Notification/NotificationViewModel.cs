@@ -112,7 +112,8 @@ namespace IdentifyMe.ViewModels.Notification
                     NotificationType = "Credential Offer",
                     NotificationTitle = credOfferViewModel.CredentialName,
                     NotificationContent = "You've received a credentital offer.",
-                    ItemViewModel = credOfferViewModel
+                    ItemViewModel = credOfferViewModel,
+                    IssuedDate = credOfferViewModel.IssuedDate
                 };
                 
                 var connection =  await _connectionService.GetAsync(agentContext, item.ConnectionId);              
@@ -133,7 +134,8 @@ namespace IdentifyMe.ViewModels.Notification
                     NotificationType = "Proof Request",
                     NotificationTitle = proofRequestVm.ProofRequestObject.Name,
                     NotificationContent = "You've received a request for proof of credential.",
-                    ItemViewModel = proofRequestVm
+                    ItemViewModel = proofRequestVm,
+                    IssuedDate = proofRequestVm.IssuedDate
                 };
 
                 var connection = await _connectionService.GetAsync(agentContext, item.ConnectionId);
@@ -150,7 +152,7 @@ namespace IdentifyMe.ViewModels.Notification
             //_credentialOfferVms.Clear();
             //_credentialOfferVms.InsertRange(credOfferViewModels);
             //--end old version of notification
-
+            notificationItemList.OrderBy(item => item.IssuedDate);
             NotificationItems.Clear();
             NotificationItems.InsertRange(notificationItemList);
             IsRefreshing = false;

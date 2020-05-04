@@ -41,6 +41,11 @@ namespace IdentifyMe.ViewModels.Notification
             _connectionService = connectionService;
             _proofRequestRecord = proofRequestRecord;
             _proofRequest = _proofRequestRecord.RequestJson.ToObject<ProofRequest>();
+
+            if (_proofRequestRecord.CreatedAtUtc != null)
+            {
+                IssuedDate = (DateTime)_proofRequestRecord.CreatedAtUtc;
+            }
         }
 
         public async override Task InitializeAsync(object navigationData)
@@ -206,6 +211,13 @@ namespace IdentifyMe.ViewModels.Notification
         {
             get => _proofRequestAndCredentialMaps;
             set => this.RaiseAndSetIfChanged(ref _proofRequestAndCredentialMaps, value);
+        }
+
+        private DateTime _issuedDate = DateTime.Now;
+        public DateTime IssuedDate
+        {
+            get => _issuedDate;
+            set => this.RaiseAndSetIfChanged(ref _issuedDate, value);
         }
         #endregion
 

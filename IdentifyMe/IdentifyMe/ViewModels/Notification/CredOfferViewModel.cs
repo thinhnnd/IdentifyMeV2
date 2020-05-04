@@ -45,6 +45,7 @@ namespace IdentifyMe.ViewModels.Notification
             base(nameof(CredOfferViewModel), userDialogs, navigationService)
         {
             _credentialOffer = credentialOffer;
+
             _agentProvider = agentProvider;
             _credentialService = credentialService;
             _connectionService = connectionService;
@@ -54,6 +55,11 @@ namespace IdentifyMe.ViewModels.Notification
             _eventAggregator = eventAggregator;
             Title = "Offer Detail";
             CredentialName = ConvertNameFromeSchemaId(CredentialOffer.SchemaId);
+
+            if (_credentialOffer.CreatedAtUtc != null)
+            {
+                IssuedDate = (DateTime)_credentialOffer.CreatedAtUtc;
+            }
         }
         private string ConvertNameFromeSchemaId(string schemaId)
         {
@@ -94,6 +100,13 @@ namespace IdentifyMe.ViewModels.Notification
         {
             get => _credentialAttributes;
             set => this.RaiseAndSetIfChanged(ref _credentialAttributes, value);
+        }
+
+        private DateTime _issuedDate = DateTime.Now;
+        public DateTime IssuedDate
+        {
+            get => _issuedDate;
+            set => this.RaiseAndSetIfChanged(ref _issuedDate, value);
         }
         #endregion
 

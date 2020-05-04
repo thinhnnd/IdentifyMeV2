@@ -17,17 +17,10 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding Title}"
-                   VerticalOptions="Start"
-                   HorizontalOptions="CenterAndExpand" />
             <Button Text="Open Scanner"
                     HorizontalOptions="CenterAndExpand"
                     VerticalOptions="Start"
                     Command="{Binding GoToScanCommand}"/>
-            <Button Text="Fetch Inbox"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="Start"
-                    Command="{Binding FetchInboxCommand}"/>
             <ListView ItemsSource="{Binding Connections}" 
                       HasUnevenRows="true" 
                       IsPullToRefreshEnabled="True"
@@ -94,7 +87,7 @@
                                                Padding="0" 
                                                FontSize="12" 
                                                TextColor="{DynamicResource Gray-700}"  
-                                               Text="{Binding Path=IssuedDate, StringFormat='{}{0:dd MMM yyyy}'}" />
+                                               Text="{Binding Path=CreatedDate, StringFormat='{0:dd-MM-yyyy}'}" />
                                         </StackLayout>
                                     </Grid>
 
