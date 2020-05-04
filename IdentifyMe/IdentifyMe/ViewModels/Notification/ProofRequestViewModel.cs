@@ -26,18 +26,21 @@ namespace IdentifyMe.ViewModels.Notification
         private readonly IAgentProvider _agentProvider;
         private readonly IMessageService _messageService;
         private readonly IConnectionService _connectionService;
+        private readonly ProofRecord _proofRecord;
         public ProofRequestViewModel(IUserDialogs userDialogs,
             INavigationService navigationService, 
             IProofService proofService, 
             IAgentProvider agentProvider, 
             IMessageService messageService, 
-            IConnectionService connectionService) : base (nameof(ProofRequestViewModel), userDialogs, navigationService)
+            IConnectionService connectionService, ProofRecord proofRequestRecord) : base (nameof(ProofRequestViewModel), userDialogs, navigationService)
         {
             Title = "Proof Request";
             _proofService = proofService;
             _agentProvider = agentProvider;
             _messageService = messageService;
             _connectionService = connectionService;
+            _proofRequestRecord = proofRequestRecord;
+            _proofRequest = _proofRequestRecord.RequestJson.ToObject<ProofRequest>();
         }
 
         public async override Task InitializeAsync(object navigationData)
@@ -181,7 +184,6 @@ namespace IdentifyMe.ViewModels.Notification
             set
             {
                 this.RaiseAndSetIfChanged(ref _proofRequestRecord, value);
-                _proofRequest = _proofRequestRecord.RequestJson.ToObject<ProofRequest>();
             }
         }
 

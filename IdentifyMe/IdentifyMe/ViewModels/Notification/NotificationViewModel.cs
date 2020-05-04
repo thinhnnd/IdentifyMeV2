@@ -21,6 +21,8 @@ using IdentifyMe.Extensions;
 using Hyperledger.Aries.Contracts;
 using IdentifyMe.Events;
 using System.Reactive.Linq;
+using Autofac.Core;
+using System.Collections.Generic;
 
 namespace IdentifyMe.ViewModels.Notification
 {
@@ -98,45 +100,60 @@ namespace IdentifyMe.ViewModels.Notification
             var agentContext = await _agentProvider.GetContextAsync();
             //ISearchQuery credentialsQuery = ListOffersAsync
             var listCredentials = await _credentialService.ListOffersAsync(agentContext);
-
             var listProofRequests = await _proofService.ListRequestedAsync(agentContext);
-            //List<RecordBase> list = new List<RecordBase>();
-            _listRecords.Clear();
-            _listCredOffer.Clear();
-            _listProofRequest.Clear();
-            _proofRequestsVm.Clear();
-            _credentialOffersVm.Clear();
+            IList<NotificationItem> notificationItemList = new List<NotificationItem>();
+
+            //old version of notification
+            //IList<CredOfferViewModel> credOfferViewModels = new List<CredOfferViewModel>();
             foreach (var item in listCredentials)
             {
-                _listRecords.Add(item);
-                _listCredOffer.Add(item);
                 CredOfferViewModel credOfferViewModel = _scope.Resolve<CredOfferViewModel>(new NamedParameter("credentialOffer", item));
-                credOfferViewModel.CredentialOffer = item;
-                _credentialOffersVm.Add(credOfferViewModel);
+                NotificationItem notificationItem = new NotificationItem() {
+                    NotificationType = "Credential Offer",
+                    NotificationTitle = credOfferViewModel.CredentialName,
+                    NotificationContent = "You've received a credentital offer.",
+                    ItemViewModel = credOfferViewModel
+                };
+                
+                var connection =  await _connectionService.GetAsync(agentContext, item.ConnectionId);              
+                notificationItem.OrganizeAlias = connection.Alias;
+
+                //old version of notification
+                //credOfferViewModels.Add(credOfferViewModel);
+                notificationItemList.Add(notificationItem);
             }
 
+            //old version of notification
+            //IList<ProofRequestViewModel> proofRequestViewModels = new List<ProofRequestViewModel>();
             foreach (var item in listProofRequests)
             {
-                _listRecords.Add(item);
-                _listProofRequest.Add(item);
-                ProofRequestViewModel proofRequestVm = _scope.Resolve<ProofRequestViewModel>();
-                proofRequestVm.ProofRequestRecord = item;
-                _proofRequestsVm.Add(proofRequestVm);
-            }
-            _listRecords.OrderBy(x => x.CreatedAtUtc);
-            IsRefreshing = false;
-        }
+                ProofRequestViewModel proofRequestVm = _scope.Resolve<ProofRequestViewModel>(new NamedParameter("proofRequestRecord", item));
+                NotificationItem notificationItem = new NotificationItem()
+                {
+                    NotificationType = "Proof Request",
+                    NotificationTitle = proofRequestVm.ProofRequestObject.Name,
+                    NotificationContent = "You've received a request for proof of credential.",
+                    ItemViewModel = proofRequestVm
+                };
 
-        private async Task FetchInbox()
-        {
-            try
-            {
-                var messageCount = await _cloudWalletService.FetchCloudMessagesAsync();
+                var connection = await _connectionService.GetAsync(agentContext, item.ConnectionId);
+                notificationItem.OrganizeAlias = connection.Alias;
+
+                //old version of notification
+                //proofRequestViewModels.Add(proofRequestVm);
+                notificationItemList.Add(notificationItem);
             }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-            }
+            //old version of notification
+            //_proofRequestVms.Clear();
+            //_proofRequestVms.InsertRange(proofRequestViewModels);
+
+            //_credentialOfferVms.Clear();
+            //_credentialOfferVms.InsertRange(credOfferViewModels);
+            //--end old version of notification
+
+            NotificationItems.Clear();
+            NotificationItems.InsertRange(notificationItemList);
+            IsRefreshing = false;
         }
 
         public async Task NavigateToCredentialOfferPage(CredOfferViewModel credentialOfferVm)
@@ -155,48 +172,8 @@ namespace IdentifyMe.ViewModels.Notification
             await NavigationService.NavigateToAsync<ProofRequestViewModel>(proofRequestViewModel);
         }
 
-        public ICommand SelectProofRequestCommand => new Command<ProofRequestViewModel>(async (proofRequestViewModel) =>
-        {
-            if (proofRequestViewModel != null)
-                await NavigateToProofRequestPage(proofRequestViewModel);
-        });
-
         #region Bindable Props 
 
-        private RangeEnabledObservableCollection<CredOfferViewModel> _credentialOffersVm = new RangeEnabledObservableCollection<CredOfferViewModel>();
-        public RangeEnabledObservableCollection<CredOfferViewModel> CredOffers
-        {
-            get => _credentialOffersVm;
-            set => this.RaiseAndSetIfChanged(ref _credentialOffersVm, value);
-        }
-
-        private RangeEnabledObservableCollection<ProofRequestViewModel> _proofRequestsVm = new RangeEnabledObservableCollection<ProofRequestViewModel>();
-        public RangeEnabledObservableCollection<ProofRequestViewModel> ProofRequests
-        {
-            get => _proofRequestsVm;
-            set => this.RaiseAndSetIfChanged(ref _proofRequestsVm, value);
-        }
-
-        private RangeEnabledObservableCollection<RecordBase> _listRecords = new RangeEnabledObservableCollection<RecordBase>();
-        public RangeEnabledObservableCollection<RecordBase> ListRecord
-        {
-            get => _listRecords;
-            set => this.RaiseAndSetIfChanged(ref _listRecords, value);
-        }
-
-        private RangeEnabledObservableCollection<CredentialRecord> _listCredOffer = new RangeEnabledObservableCollection<CredentialRecord>();
-        public RangeEnabledObservableCollection<CredentialRecord> ListCredOffer
-        {
-            get => _listCredOffer;
-            set => this.RaiseAndSetIfChanged(ref _listCredOffer, value);
-        }
-
-        private RangeEnabledObservableCollection<RecordBase> _listProofRequest = new RangeEnabledObservableCollection<RecordBase>();
-        public RangeEnabledObservableCollection<RecordBase> ListProofRequest
-        {
-            get => _listProofRequest;
-            set => this.RaiseAndSetIfChanged(ref _listProofRequest, value);
-        }
 
         private bool _isRefreshing = false;
 
@@ -205,12 +182,58 @@ namespace IdentifyMe.ViewModels.Notification
             get => _isRefreshing;
             set => this.RaiseAndSetIfChanged(ref _isRefreshing, value);
         }
+
+        private RangeEnabledObservableCollection<ReactiveObject> _notificationItems = new RangeEnabledObservableCollection<ReactiveObject>();
+
+        public RangeEnabledObservableCollection<ReactiveObject> NotificationItems
+        {
+            get => this._notificationItems; 
+            set => this.RaiseAndSetIfChanged(ref _notificationItems, value);
+        }
+
+        //old version of notification
+
+        //private RangeEnabledObservableCollection<CredOfferViewModel> _credentialOfferVms = new RangeEnabledObservableCollection<CredOfferViewModel>();
+        //public RangeEnabledObservableCollection<CredOfferViewModel> CredOffers
+        //{
+        //    get => _credentialOfferVms;
+        //    set => this.RaiseAndSetIfChanged(ref _credentialOfferVms, value);
+        //}
+
+        //private RangeEnabledObservableCollection<ProofRequestViewModel> _proofRequestVms = new RangeEnabledObservableCollection<ProofRequestViewModel>();
+        //public RangeEnabledObservableCollection<ProofRequestViewModel> ProofRequests
+        //{
+        //    get => _proofRequestVms;
+        //    set => this.RaiseAndSetIfChanged(ref _proofRequestVms, value);
+        //}     
+
         #endregion
 
         #region Bindable Command
-        public ICommand FetchInboxCommand => new Command(async () => await FetchInbox());
-
         public ICommand RefreshRecordCommand => new Command(async () => await GetRequiredRecord());
+
+        public ICommand SelectNotificationItemCommand => new Command<NotificationItem>(async (item) =>
+        {
+            if (item != null)
+            { 
+                if(item.ItemViewModel is ProofRequestViewModel)
+                {
+                    var viewModel = (ProofRequestViewModel)item.ItemViewModel;
+                    await NavigateToProofRequestPage(viewModel);
+                }
+                if(item.ItemViewModel is CredOfferViewModel)
+                {
+                    var viewModel = (CredOfferViewModel)item.ItemViewModel;
+                    await NavigateToCredentialOfferPage(viewModel);
+                }
+            }
+        });
+
+        public ICommand SelectProofRequestCommand => new Command<ProofRequestViewModel>(async (proofRequestViewModel) =>
+        {
+            if (proofRequestViewModel != null)
+                await NavigateToProofRequestPage(proofRequestViewModel);
+        });
         #endregion
 
     }
