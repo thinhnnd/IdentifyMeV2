@@ -21,6 +21,7 @@ namespace IdentifyMe.ViewModels.Connections
         private readonly IConnectionService _connectionService;
         private readonly IEventAggregator _eventAggregator;
         private readonly ConnectionRecord _record;
+        Helpers.SomeMaterialColor someMaterialColor;
 
         public ConnectionViewModel(IUserDialogs userDialogs,
             INavigationService navigationService,
@@ -37,12 +38,21 @@ namespace IdentifyMe.ViewModels.Connections
             _connectionService = connectionService;
             _eventAggregator = eventAggregator;
             _record = record;
+            someMaterialColor = new Helpers.SomeMaterialColor();
 
             MyDid = _record.MyDid;
             TheirDid = _record.TheirDid;
             ConnectionName = _record.Alias.Name;
             ConnectionSubtitle = $"{_record.State:G}";
-            ConnectionImageUrl = _record.Alias.ImageUrl;
+            if (this._connectionImageUrl == null)
+                _connectionImageUrl = $"https://ui-avatars.com/api/?name={_connectionName}&length=1&background={_organizeColor}&color=fff&size=128";
+            else
+                _connectionImageUrl = _record.Alias.ImageUrl;
+            if (_record.CreatedAtUtc != null)
+            {
+                DateTime createdAt = (DateTime)_record.CreatedAtUtc;
+                _issuedDate = createdAt.ToString("dd-MM-yyyy");
+            }
         }
 
         #region Bindable Properties
@@ -50,7 +60,12 @@ namespace IdentifyMe.ViewModels.Connections
         public string ConnectionName
         {
             get => _connectionName;
-            set => this.RaiseAndSetIfChanged(ref _connectionName, value);
+            set 
+            { 
+                this.RaiseAndSetIfChanged(ref _connectionName, value);
+                _organizeColor = someMaterialColor.GetColorFromString(_connectionName);
+                
+            }
         }
 
         private string _myDid;
@@ -72,6 +87,13 @@ namespace IdentifyMe.ViewModels.Connections
         {
             get => _connectionImageUrl;
             set => this.RaiseAndSetIfChanged(ref _connectionImageUrl, value);
+        }
+
+        private string _issuedDate;
+        public string IssuedDate
+        {
+            get => _issuedDate;
+            set => this.RaiseAndSetIfChanged(ref _issuedDate, value);
         }
 
         private string _connectionSubtitle = "Lorem ipsum dolor sit amet";
@@ -100,6 +122,13 @@ namespace IdentifyMe.ViewModels.Connections
         {
             get => _hasTransactions;
             set => this.RaiseAndSetIfChanged(ref _hasTransactions, value);
+        }
+
+        private string _organizeColor = "009688";
+        public string OrganizeColor
+        {
+            get => _organizeColor;
+            set => this.RaiseAndSetIfChanged(ref _organizeColor, value);
         }
 
         #endregion
