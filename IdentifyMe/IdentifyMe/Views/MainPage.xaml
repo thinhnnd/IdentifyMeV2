@@ -16,7 +16,7 @@
             CurrentPageChanged="CurrentPageChanged"
             android:TabbedPage.ToolbarPlacement="Bottom"
             android:TabbedPage.BarSelectedItemColor="{StaticResource SecondaryColor}"
-                         NavigationPage.HasNavigationBar="False"
+                         NavigationPage.HasNavigationBar="True"
 
             android:TabbedPage.BarItemColor="#787878">
 

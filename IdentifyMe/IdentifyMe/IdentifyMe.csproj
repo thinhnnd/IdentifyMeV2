@@ -66,6 +66,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\MainNavigationBar.xaml.cs">
+      <DependentUpon>MainNavigationBar.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Connections\AcceptInvitationPopup.xaml.cs">
       <DependentUpon>AcceptInvitationPopup.xaml</DependentUpon>
     </Compile>
@@ -99,6 +102,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Controls\MainNavigationBar.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\NavigationBarWithBackButton.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Connections\AcceptInvitationPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

@@ -34,21 +34,29 @@
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Example Item"
+                 IsEnabled="{Binding IsEnabled}"
+                 IconImageSource="qrscaning.png"
+                 Command="{Binding GoToScanCommand}"
+                 Order="Primary"
+                 Priority="0" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <Grid>
+            <!--<Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition x:Name="iOSSafeArea" Height="0" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="10" />
                 </Grid.RowDefinitions>
-                <!--<magic:GradientView Grid.RowSpan="3">
+                --><!--<magic:GradientView Grid.RowSpan="3">
                     <magic:LinearGradient Angle="-45">
                         <magic:GradientStop Color="#281483" />
                         <magic:GradientStop Color="#8F6ED5" />
                         <magic:GradientStop Color="#D782D9" />
                     </magic:LinearGradient>
-                </magic:GradientView>-->
+                </magic:GradientView>--><!--
                 <yummy:PancakeView Grid.RowSpan="3" BackgroundGradientAngle="45">
                     <yummy:PancakeView.BackgroundGradientStops>
                         <yummy:GradientStopCollection>
@@ -71,7 +79,7 @@
                         Style="{StaticResource ActionBarLabelStyle}"
                         Text="{Binding Title}"
                         VerticalOptions="CenterAndExpand" />
-                    <!--<ImageButton Margin="0,0,10,0" Command="{Binding GoToScanCommand}" BackgroundColor="Transparent" HeightRequest="45" WidthRequest="45" Padding="5"  Source="qrscaning.png" />-->
+                    --><!--<ImageButton Margin="0,0,10,0" Command="{Binding GoToScanCommand}" BackgroundColor="Transparent" HeightRequest="45" WidthRequest="45" Padding="5"  Source="qrscaning.png" />--><!--
 
                     <ffimageloading:CachedImage Margin="0,0,10,0"
                         VerticalOptions="Center"
@@ -89,7 +97,7 @@
                 </StackLayout>
                 <yummy:PancakeView Grid.Row="2" BackgroundColor="{DynamicResource Gray-100}" CornerRadius="0" HorizontalOptions="FillAndExpand" HeightRequest="10">
                 </yummy:PancakeView>
-            </Grid>
+            </Grid>-->
             <ListView ItemsSource="{Binding Connections}" 
                       HasUnevenRows="true" 
                       IsPullToRefreshEnabled="True"
