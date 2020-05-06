@@ -109,6 +109,7 @@
     <AndroidResource Include="Resources\drawable\award.svg" />
     <AndroidResource Include="Resources\drawable\credential.png" />
     <AndroidResource Include="Resources\drawable\credit_card.svg" />
+    <AndroidResource Include="Resources\drawable\qrscaning.png" />
     <AndroidResource Include="Resources\layout\Tabbar.xml" />
     <AndroidResource Include="Resources\layout\Toolbar.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />

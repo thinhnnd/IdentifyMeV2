@@ -39,6 +39,14 @@
                     </Frame>
                 </StackLayout>
             </Grid>
+
+            <StackLayout Grid.Row="2" VerticalOptions="Start">
+                <StackLayout BackgroundColor="Transparent" Margin="0,30,0,0">
+                    <!-- <Button ImageSource="back_icon" Command="{Binding NavigateBackCommand}" HeightRequest="60" WidthRequest="60" HorizontalOptions="Start" VerticalOptions="End" BackgroundColor="Transparent"/> -->
+                </StackLayout>
+                <Button Text="Close" Command="{Binding NavigationBackCommand}" BackgroundColor="Transparent" VerticalOptions="End" TextColor="White"
+                        FontSize="18"/>
+            </StackLayout>
         </Grid>
     </ContentPage.Content>
 

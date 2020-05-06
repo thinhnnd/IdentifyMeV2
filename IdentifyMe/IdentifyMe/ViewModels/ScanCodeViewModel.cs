@@ -56,7 +56,8 @@ namespace IdentifyMe.ViewModels
                 await NavigationService.NavigateBackAsync();
                 AcceptInvitationViewModel acceptInvitationViewModel = _scope.Resolve<AcceptInvitationViewModel>();
                 acceptInvitationViewModel.InvitationMessage = (ConnectionInvitationMessage)message;
-                await NavigationService.NavigateBackAsync();
+                //await NavigationService.NavigateBackAsync();
+                await NavigationService.PopModalAsync();
                 await NavigationService.NavigateToPopupAsync<AcceptInvitationViewModel>(true, acceptInvitationViewModel);
                 //await Application.Current.MainPage.DisplayAlert("Scanned code", scannedCode, "Close");
                 
@@ -64,7 +65,8 @@ namespace IdentifyMe.ViewModels
             catch (Exception e)
             {
                 Debug.WriteLine(e);
-                await NavigationService.NavigateBackAsync();
+                //await NavigationService.NavigateBackAsync();
+                await NavigationService.PopModalAsync();
                 await Application.Current.MainPage.DisplayAlert("Error", "Invalid QR Code", "Close");
             }
         }
@@ -84,6 +86,12 @@ namespace IdentifyMe.ViewModels
                     IsScanning = true;
                 });
               
+        });
+
+        public ICommand NavigationBackCommand => new Command(async () =>
+        {
+            await NavigationService.PopModalAsync();
+            //await NavigationService.NavigateBackAsync();
         });
 
     }
