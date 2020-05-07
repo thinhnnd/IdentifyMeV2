@@ -17,25 +17,20 @@
             </Grid.RowDefinitions>
             <StackLayout
                 Grid.Row="0"
-                Padding="10"
-                
                 VerticalOptions="FillAndExpand">
                 <Label
                     FontSize="14"
                     HorizontalTextAlignment="Center"
                     Text="{Binding CredentialOffer.Id}"/>
             </StackLayout>
-            <ScrollView 
-                Grid.Row="1"
-                Padding="0">
+            <ListView Grid.Row="1"
+                BackgroundColor="White" ItemsSource="{Binding CredentialOffer.CredentialAttributesValues}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <ViewCell IsEnabled="False"  >
+                            <ViewCell.View>
 
-                <ListView ItemsSource="{Binding CredentialOffer.CredentialAttributesValues}" >
-                    <ListView.ItemTemplate>
-                        <DataTemplate >
-                            <ViewCell >
-                                <ViewCell.View>
-
-                                    <!--<Grid  Padding="0"   >
+                                <!--<Grid  Padding="0"   >
                                             <Grid.RowDefinitions >
                                                 <RowDefinition Height="50" ></RowDefinition>
                                             </Grid.RowDefinitions>
@@ -49,22 +44,27 @@
                                             VerticalOptions="Center"/>
 
                                         </Grid>-->
-                                    <StackLayout Spacing="10" Padding="10,5" HeightRequest="100" >
-                                        <Label Margin="0,0,10,0" Padding="0" FontSize="Caption" TextColor="Gray"  Text="{Binding Path=Name}" />
-                                        <Label Margin="10,0,0,0"
+                                <StackLayout Spacing="10" Padding="10,5" HeightRequest="100" >
+                                    <Label Margin="0,0,10,0" Padding="0" FontSize="Caption" TextColor="Gray"  Text="{Binding Path=Name}" />
+                                    <Label Margin="10,0,0,0"
                                                FontSize="Body"
                                             Text="{Binding Path=Value}"
                                                TextColor="{DynamicResource AppMainColorLight}"
                                             VerticalOptions="Center"/>
-                                    </StackLayout>
+                                </StackLayout>
 
-                                </ViewCell.View>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.RowHeight>80</ListView.RowHeight>
-                </ListView>
-            </ScrollView>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.RowHeight>80</ListView.RowHeight>
+            </ListView>
+            <!--<ScrollView 
+                Grid.Row="1"
+                Padding="0">
+
+                
+            </ScrollView>-->
             <StackLayout                
                 Grid.Row="2"
                 Padding="5"

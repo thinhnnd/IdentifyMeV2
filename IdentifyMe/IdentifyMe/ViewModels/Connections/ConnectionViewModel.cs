@@ -20,7 +20,6 @@ namespace IdentifyMe.ViewModels.Connections
         private readonly IDiscoveryService _discoveryService;
         private readonly IConnectionService _connectionService;
         private readonly IEventAggregator _eventAggregator;
-        private readonly ConnectionRecord _record;
         Helpers.SomeMaterialColor someMaterialColor;
 
         public ConnectionViewModel(IUserDialogs userDialogs,
@@ -44,6 +43,7 @@ namespace IdentifyMe.ViewModels.Connections
             TheirDid = _record.TheirDid;
             ConnectionName = _record.Alias.Name;
             ConnectionSubtitle = $"{_record.State:G}";
+            Title = "Connection Detail";
             if (this._connectionImageUrl == null)
                 _connectionImageUrl = $"https://ui-avatars.com/api/?name={_connectionName}&length=1&background={_organizeColor}&color=fff&size=128";
             else
@@ -52,6 +52,12 @@ namespace IdentifyMe.ViewModels.Connections
             {
                 _createdDate = (DateTime)_record.CreatedAtUtc;
             }
+        }
+
+        private readonly ConnectionRecord _record;
+        public ConnectionRecord Record
+        {
+            get => this._record;
         }
 
         #region Bindable Properties
