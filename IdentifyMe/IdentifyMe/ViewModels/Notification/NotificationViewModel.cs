@@ -152,9 +152,9 @@ namespace IdentifyMe.ViewModels.Notification
             //_credentialOfferVms.Clear();
             //_credentialOfferVms.InsertRange(credOfferViewModels);
             //--end old version of notification
-            notificationItemList.OrderBy(item => item.IssuedDate);
+            var orderList = notificationItemList.OrderBy(item => item.IssuedDate);
             NotificationItems.Clear();
-            NotificationItems.InsertRange(notificationItemList);
+            NotificationItems.InsertRange(orderList);
             IsRefreshing = false;
         }
 
