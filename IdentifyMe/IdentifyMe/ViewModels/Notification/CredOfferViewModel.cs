@@ -1,10 +1,12 @@
 ﻿using Acr.UserDialogs;
+using Hyperledger.Aries;
 using Hyperledger.Aries.Agents;
 using Hyperledger.Aries.Contracts;
 using Hyperledger.Aries.Extensions;
 using Hyperledger.Aries.Features.DidExchange;
 using Hyperledger.Aries.Features.IssueCredential;
 using Hyperledger.Aries.Storage;
+using Hyperledger.Indy;
 using IdentifyMe.Events;
 using IdentifyMe.Framework.Services;
 using IdentifyMe.Services.Interfaces;
@@ -138,15 +140,29 @@ namespace IdentifyMe.ViewModels.Notification
                     DialogService.Toast(toastConfig);
                     _eventAggregator.Publish(new ApplicationEvent() { Type = ApplicationEventType.CredentialsUpdated });
                 }
-                catch (Exception e)
+                catch(IndyException e)
                 {
+                    Console.WriteLine($"Error: {e.Message}");
                     loadingDialog.Hide();
                     await NavigationService.NavigateBackAsync();
-                    await Application.Current.MainPage.DisplayAlert("Error", "", "Ok");
-                    Console.WriteLine($"Error: {e.Message}");
+                    if(e.SdkErrorCode == 309)
+                        await Application.Current.MainPage.DisplayAlert("Error", "Something wrong while connect to pool. Go to setting page to choose pool", "OK");
+                    
                 }
-
-
+                catch(AriesFrameworkException e)
+                {
+                    Console.WriteLine($"Error: {e.Message}");
+                    loadingDialog.Hide();
+                    await NavigationService.NavigateBackAsync();
+                    await Application.Current.MainPage.DisplayAlert("Error", "Can not send A2A message. Check your connection", "OK");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error: {e.Message}");
+                    loadingDialog.Hide();
+                    await NavigationService.NavigateBackAsync();
+                    await Application.Current.MainPage.DisplayAlert("Error", "Unknow errow. Don't worrry, we are working on it.", "OK");                  
+                }
             }
             //await _messageService.SendAsync<CredentialProposeMessage>()
             //await Application.Current.MainPage.DisplayAlert("Something error with this Offer", "", "Ok");

@@ -18,9 +18,10 @@ namespace IdentifyMe.Services
 
         private Dictionary<string, string> poolConfigs = new Dictionary<string, string>
         {
-            //{ "sovrin-staging", "pool_transactions_sandbox_genesis" },
             //{ "sovrin-live", "pool_transactions_live_genesis" },
             //{ "sovrin-builder", "pool_transactions_builder_genesis" },
+            //{ "sovrin-staging", "pool_transactions_sandbox_genesis" },
+            { "bcovrin-dev", "pool_transactions_bcovrin_dev_genesis" },
             { "bcovrin-test", "pool_transactions_bcovrin_test_genesis" }
         };
 

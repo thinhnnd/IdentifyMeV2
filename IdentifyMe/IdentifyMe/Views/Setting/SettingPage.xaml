@@ -7,13 +7,15 @@
              Title="{Binding Title}"
              x:Class="IdentifyMe.Views.Setting.SettingPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="{Binding Title}"
+        <StackLayout Padding="15,0">
+            <Label Text="Network"
+                   Margin="0,10,0,0"
+                   TextColor="{DynamicResource AppMainColorLight}"
                 VerticalOptions="Start" 
                 HorizontalOptions="Start" />
-            <StackLayout>
-                <Label>Network</Label>
-            </StackLayout>
+            <!--ItemDisplayBinding="{Binding NetworkItems.Name}"-->
+            <Picker Title="Network" FontFamily="{DynamicResource Montserrat-Regular}" ItemsSource="{Binding NetworkItems}"  SelectedItem="{Binding SelectedNetworkItem, Mode=TwoWay}" x:Name="NetworkPicker"  ItemDisplayBinding="{Binding Name}" >
+            </Picker>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
