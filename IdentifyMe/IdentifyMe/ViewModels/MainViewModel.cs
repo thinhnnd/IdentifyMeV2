@@ -5,6 +5,7 @@ using IdentifyMe.Services.Interfaces;
 using IdentifyMe.ViewModels.Connections;
 using IdentifyMe.ViewModels.Credentials;
 using IdentifyMe.ViewModels.Notification;
+using IdentifyMe.ViewModels.Setting;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace IdentifyMe.ViewModels
              ConnectionsViewModel connectionsViewModel,
              CredentialsViewModel credentialsViewModel,
              NotificationViewModel notificationViewModel,
+             SettingViewModel settingViewModel,
              CloudWalletService cloudWalletService
          ) : base(
                  nameof(MainViewModel),
@@ -34,6 +36,7 @@ namespace IdentifyMe.ViewModels
             Connections = connectionsViewModel;
             Credentials = credentialsViewModel;
             Notification = notificationViewModel;
+            Setting = settingViewModel;
             _cloudWalletService = cloudWalletService;
 
         }
@@ -93,12 +96,12 @@ namespace IdentifyMe.ViewModels
             set => this.RaiseAndSetIfChanged(ref _notification, value);
         }
 
-        //private SettingViewModelV2 _setting;
-        //public SettingViewModelV2 CreateInvitation
-        //{
-        //    get => _createInvitation;
-        //    set => this.RaiseAndSetIfChanged(ref _createInvitation, value);
-        //}
+        private SettingViewModel _setting;
+        public SettingViewModel Setting
+        {
+            get => _setting;
+            set => this.RaiseAndSetIfChanged(ref _setting, value);
+        }
         #endregion
     }
 }

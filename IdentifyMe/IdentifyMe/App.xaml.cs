@@ -29,6 +29,8 @@ using IdentifyMe.ViewModels.Notification;
 using IdentifyMe.Views.Notification;
 using IdentifyMe.ViewModels.Credentials;
 using IdentifyMe.Views.Credentials;
+using IdentifyMe.ViewModels.Setting;
+using IdentifyMe.Views.Setting;
 
 namespace IdentifyMe
 {
@@ -98,6 +100,7 @@ namespace IdentifyMe
             _navigationService.AddPopupViewModelBinding<AcceptInvitationViewModel, AcceptInvitationPopup>();
             _navigationService.AddPageViewModelBinding<MainViewModel, MainPage>();
             _navigationService.AddPageViewModelBinding<RegisterPageViewModel, RegisterPage>();
+            _navigationService.AddPageViewModelBinding<SettingViewModel, SettingPage>();
             if (Preferences.Get("LocalWalletProvisioned", false))
             {
                 //Task.Run(async () => await _navigationService.NavigateToAsync<MainViewModel>());

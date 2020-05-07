@@ -8,9 +8,12 @@
              x:Class="IdentifyMe.Views.Setting.SettingPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="{Binding Title}"
+                VerticalOptions="Start" 
+                HorizontalOptions="Start" />
+            <StackLayout>
+                <Label>Network</Label>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

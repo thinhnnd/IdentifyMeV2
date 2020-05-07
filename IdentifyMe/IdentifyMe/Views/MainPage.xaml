@@ -39,6 +39,7 @@
         </notification:NotificationPage>
         <setting:SettingPage Icon="setting.png"
             Title="Settings"
+            BindingContext="{Binding Setting}"
             ios:NavigationPage.PrefersLargeTitles="true">
         </setting:SettingPage>
 
