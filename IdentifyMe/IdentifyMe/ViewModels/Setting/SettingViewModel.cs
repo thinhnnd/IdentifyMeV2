@@ -10,7 +10,7 @@ namespace IdentifyMe.ViewModels.Setting
     public class SettingViewModel : ABaseViewModel
     {
         public SettingViewModel(IUserDialogs userDialogs, 
-            INavigationService navigationService, IAgentContext agentContext, IAgentProvider agentProvider) : 
+            INavigationService navigationService) : 
             base (nameof(SettingViewModel), userDialogs, navigationService)
         {
             Title = "Setting";
