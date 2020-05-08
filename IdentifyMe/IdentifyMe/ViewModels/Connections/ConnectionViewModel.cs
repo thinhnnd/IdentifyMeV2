@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace IdentifyMe.ViewModels.Connections
 {
@@ -135,7 +137,13 @@ namespace IdentifyMe.ViewModels.Connections
             get => _organizeColor;
             set => this.RaiseAndSetIfChanged(ref _organizeColor, value);
         }
+        #endregion
 
+
+        #region bindable command
+        ICommand OnSelectDeleleButtonCommad => new Command(async () => {
+            var context = await _agentProvider.GetContextAsync();
+        });
         #endregion
     }
 }

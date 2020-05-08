@@ -1,7 +1,11 @@
 ﻿using Acr.UserDialogs;
+using Hyperledger.Aries;
 using Hyperledger.Aries.Agents;
+using Hyperledger.Aries.Contracts;
 using Hyperledger.Aries.Features.DidExchange;
 using Hyperledger.Aries.Features.IssueCredential;
+using Hyperledger.Indy;
+using IdentifyMe.Events;
 using IdentifyMe.Services.Interfaces;
 using ReactiveUI;
 using System;
@@ -18,16 +22,22 @@ namespace IdentifyMe.ViewModels.Credentials
         private readonly CredentialRecord _credential;
         private readonly IConnectionService _connectionService;
         private readonly IAgentProvider _agentProvider;
+        private readonly ICredentialService _credentialService;
+        private readonly IEventAggregator _eventAggregator;
         Helpers.SomeMaterialColor someMaterialColor;
         public CredentialViewModel(IUserDialogs userDialogs,
             INavigationService navigationService,
             CredentialRecord credential,
             IAgentProvider agentProvider,
+            ICredentialService credentialService,
+            IEventAggregator eventAggregator,
             IConnectionService connectionService) :
             base(nameof(CredentialViewModel), userDialogs, navigationService)
         {
             _connectionService = connectionService;
             _agentProvider = agentProvider;
+            _credentialService = credentialService;
+            _eventAggregator = eventAggregator;
 
             Title = "Credential Detail";
             _credential = credential;
@@ -55,6 +65,56 @@ namespace IdentifyMe.ViewModels.Credentials
                 return arr[2];
             }
             return "NoName";
+        }
+
+        private async Task DeleteCredential()
+        {
+            var result = await UserDialogs.Instance.ConfirmAsync("This credential will be removed and can not undo?", "Alert");
+            if (result)
+            {
+                var dialog = DialogService.Loading("Deleting");
+                try
+                {
+                    var context = await _agentProvider.GetContextAsync();
+                    await _credentialService.DeleteCredentialAsync(context, this._credential.Id);
+                    _eventAggregator.Publish(new ApplicationEvent() { Type = ApplicationEventType.CredentialRemoved });
+                    if (dialog.IsShowing)
+                    {
+                        dialog.Hide();
+                        dialog.Dispose();
+                    }
+                    await NavigationService.NavigateBackAsync();
+                } 
+                catch(AriesFrameworkException e)
+                {
+                    if (dialog.IsShowing)
+                    {
+                        dialog.Hide();
+                        dialog.Dispose();
+                    }
+                    DialogService.Alert("Some thing with Aries!", "Error", "OK");
+                }
+                catch(IndyException e)
+                {
+                    if (dialog.IsShowing)
+                    {
+                        dialog.Hide();
+                        dialog.Dispose();
+                    }
+                    DialogService.Alert("Some thing with Indy!", "Error", "OK");
+
+                }
+                catch(Exception e)
+                {
+                    if (dialog.IsShowing)
+                    {
+                        dialog.Hide();
+                        dialog.Dispose();
+                    }
+                    DialogService.Alert("Some thing wrong!", "Error", "OK");
+                }
+                
+            }
         }
 
         private ConnectionRecord _relatedConnection;
@@ -170,6 +230,8 @@ namespace IdentifyMe.ViewModels.Credentials
         }
 
         #region Command
+
+        public ICommand OnSelectDeleleButtonCommad =>new Command(async () => await this.DeleteCredential());
 
         #endregion
     }

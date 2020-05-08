@@ -52,6 +52,11 @@ namespace IdentifyMe.Services.Middlewares
                         _eventAggregator.Publish(new ApplicationEvent() { Type = ApplicationEventType.GotProofRequestMessage });
                         return "You've got an Proof Request";
                     }
+                case MessageTypes.IssueCredentialNames.IssueCredential:
+                    {
+                        _eventAggregator.Publish(new ApplicationEvent() { Type = ApplicationEventType.CredentialsUpdated });
+                        return "Accept credential successfully";
+                    }
                 default:
                     return "You've got a message from mediator";
             }

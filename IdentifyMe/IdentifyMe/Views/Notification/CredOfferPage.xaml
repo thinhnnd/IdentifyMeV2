@@ -79,7 +79,7 @@
                     BorderWidth="0.5"
                     HorizontalOptions="FillAndExpand"
                     Text="Discline"/>
-                <Button
+                <Button                   
                     HorizontalOptions="FillAndExpand"
                     BackgroundColor="{DynamicResource AppMainColor}"
                     TextColor="White"

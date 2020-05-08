@@ -9315,13 +9315,16 @@ namespace IdentifyMe.Droid
 			public const int tooltip_frame_light = 2131165516;
 			
 			// aapt resource value: 0x7F07014D
-			public const int user = 2131165517;
+			public const int trash_2 = 2131165517;
 			
 			// aapt resource value: 0x7F07014E
-			public const int users = 2131165518;
+			public const int user = 2131165518;
 			
 			// aapt resource value: 0x7F07014F
-			public const int xamarin_logo = 2131165519;
+			public const int users = 2131165519;
+			
+			// aapt resource value: 0x7F070150
+			public const int xamarin_logo = 2131165520;
 			
 			static Drawable()
 			{

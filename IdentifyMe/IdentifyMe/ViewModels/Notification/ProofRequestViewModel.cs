@@ -1,10 +1,13 @@
 ﻿using Acr.UserDialogs;
 using Hyperledger.Aries.Agents;
+using Hyperledger.Aries.Contracts;
 using Hyperledger.Aries.Extensions;
 using Hyperledger.Aries.Features.DidExchange;
 using Hyperledger.Aries.Features.IssueCredential;
 using Hyperledger.Aries.Features.PresentProof;
+using Hyperledger.Indy;
 using Hyperledger.Indy.AnonCredsApi;
+using IdentifyMe.Events;
 using IdentifyMe.Extensions;
 using IdentifyMe.Services.Interfaces;
 using Newtonsoft.Json.Linq;
@@ -26,12 +29,14 @@ namespace IdentifyMe.ViewModels.Notification
         private readonly IAgentProvider _agentProvider;
         private readonly IMessageService _messageService;
         private readonly IConnectionService _connectionService;
+        private readonly IEventAggregator _eventAggregator;
         private readonly ProofRecord _proofRecord;
         public ProofRequestViewModel(IUserDialogs userDialogs,
             INavigationService navigationService, 
             IProofService proofService, 
             IAgentProvider agentProvider, 
             IMessageService messageService, 
+            IEventAggregator eventAggregator,
             IConnectionService connectionService, ProofRecord proofRequestRecord) : base (nameof(ProofRequestViewModel), userDialogs, navigationService)
         {
             Title = "Proof Request";
@@ -40,6 +45,7 @@ namespace IdentifyMe.ViewModels.Notification
             _messageService = messageService;
             _connectionService = connectionService;
             _proofRequestRecord = proofRequestRecord;
+            _eventAggregator = eventAggregator;
             _proofRequest = _proofRequestRecord.RequestJson.ToObject<ProofRequest>();
 
             if (_proofRequestRecord.CreatedAtUtc != null)
@@ -65,6 +71,7 @@ namespace IdentifyMe.ViewModels.Notification
             var context = await _agentProvider.GetContextAsync();
             _proofRequestAndCredentialMaps.Clear();
             RangeEnabledObservableCollection<ProofRequestAndCredentialMap> proofRequestMapList = new RangeEnabledObservableCollection<ProofRequestAndCredentialMap>();
+            
             foreach (var requestedAttribute in ProofRequestObject.RequestedAttributes)
             {
                 ProofRequestAndCredentialMap proofCredMap = new ProofRequestAndCredentialMap();
@@ -73,22 +80,43 @@ namespace IdentifyMe.ViewModels.Notification
 
                 var credentials = await _proofService.ListCredentialsForProofRequestAsync(context, _proofRequest,
                         requestedAttribute.Key);
-                proofCredMap.Referent = credentials.First().CredentialInfo.Referent;
-
-                var key = requestedAttribute.Value.Name;
-                if (credentials.First().CredentialInfo.Attributes.ContainsKey(key))
+                if(credentials.Count != 0 )
                 {
-                    var value = credentials.First().CredentialInfo.Attributes[key];
+                    _isSatisfied = true;
+                    proofCredMap.Referent = credentials.First().CredentialInfo.Referent;
+
+                    var key = requestedAttribute.Value.Name;
+                    if (credentials.First().CredentialInfo.Attributes.ContainsKey(key))
+                    {
+                        var value = credentials.First().CredentialInfo.Attributes[key];
+                        KeyValuePair<string, string> keyValuePair = new KeyValuePair<string, string>(key, value);
+                        proofCredMap.CredentialAttribute = keyValuePair;
+                    }
+
+                    requestedCredentials.RequestedAttributes.Add(requestedAttribute.Key,
+                        new RequestedAttribute
+                        {
+                            CredentialId = credentials.First().CredentialInfo.Referent,
+                            Revealed = true
+                        });
+                }
+                else
+                {
+                    _isSatisfied = false;
+                    proofCredMap.Referent = "Unavailable";
+                    var key = requestedAttribute.Value.Name;
+                    var value = "Unavailable";
                     KeyValuePair<string, string> keyValuePair = new KeyValuePair<string, string>(key, value);
                     proofCredMap.CredentialAttribute = keyValuePair;
-                }
 
-                requestedCredentials.RequestedAttributes.Add(requestedAttribute.Key,
-                    new RequestedAttribute
-                    {
-                        CredentialId = credentials.First().CredentialInfo.Referent,
-                        Revealed = true
-                    });
+                    requestedCredentials.RequestedAttributes.Add(requestedAttribute.Key,
+                        new RequestedAttribute
+                        {
+                            CredentialId = "Unavailable",
+                            Revealed = true
+                        });
+                }
+               
                 proofRequestMapList.Add(proofCredMap);
                 //requestedCredentials.RequestedAttributes.
                 //proofAndCredentialAttributesMapping.Add(requestedAttribute, credentials.First().CredentialInfo.Attributes.)
@@ -99,29 +127,48 @@ namespace IdentifyMe.ViewModels.Notification
                 var credentials = await _proofService.ListCredentialsForProofRequestAsync(context, ProofRequestObject,
                         requestedAttribute.Key);
                 ProofRequestAndCredentialMap proofCredMap = new ProofRequestAndCredentialMap();
-                proofCredMap.ProofKey = requestedAttribute.Key;
-                proofCredMap.Referent = credentials.First().CredentialInfo.Referent;
-
-                var key = requestedAttribute.Value.Name;
-                if (credentials.First().CredentialInfo.Attributes.ContainsKey(key))
+                if (credentials.Count != 0)
                 {
-                    var value = credentials.First().CredentialInfo.Attributes[key];
+                    _isSatisfied = true;
+                    proofCredMap.ProofKey = requestedAttribute.Key;
+                    proofCredMap.Referent = credentials.First().CredentialInfo.Referent;
+
+                    var key = requestedAttribute.Value.Name;
+                    if (credentials.First().CredentialInfo.Attributes.ContainsKey(key))
+                    {
+                        var value = credentials.First().CredentialInfo.Attributes[key];
+                        KeyValuePair<string, string> keyValuePair = new KeyValuePair<string, string>(key, value);
+                        proofCredMap.CredentialAttribute = keyValuePair;
+                    }
+                    requestedCredentials.RequestedPredicates.Add(requestedAttribute.Key,
+                        new RequestedAttribute
+                        {
+                            CredentialId = credentials.First().CredentialInfo.Referent,
+                            Revealed = true
+                        });
+                }
+                else
+                {
+                    _isSatisfied = false;
+                    proofCredMap.ProofKey = requestedAttribute.Key;
+                    proofCredMap.Referent = "Unavailable";
+                    var key = requestedAttribute.Value.Name;
+                    var value = "Unavailable";
                     KeyValuePair<string, string> keyValuePair = new KeyValuePair<string, string>(key, value);
                     proofCredMap.CredentialAttribute = keyValuePair;
+                    requestedCredentials.RequestedPredicates.Add(requestedAttribute.Key,
+                        new RequestedAttribute
+                        {
+                            CredentialId = "Unavailable",
+                            Revealed = true
+                        });
                 }
-                requestedCredentials.RequestedPredicates.Add(requestedAttribute.Key,
-                    new RequestedAttribute
-                    {
-                        CredentialId = credentials.First().CredentialInfo.Referent,
-                        Revealed = true
-                    });
+                
                 proofRequestMapList.Add(proofCredMap);
             }
             ProofRequestAndCredentialMaps = proofRequestMapList;
             RequestedCredentials = requestedCredentials;
         }
-
-
         private async Task AcceptProofRequest()
         {
             var loadingDialog = DialogService.Loading("Proccessing");
@@ -142,6 +189,15 @@ namespace IdentifyMe.ViewModels.Notification
                 toastConfig.SetDuration(3000);
                 DialogService.Toast(toastConfig);
             }
+            catch (IndyException e)
+            {
+                this.IsBusy = false;
+                loadingDialog.Hide();
+                if(e.SdkErrorCode == 212)
+                    DialogService.Alert("You don't have any suitable credential to present", "Error", "OK");
+                else 
+                    DialogService.Alert("Some error with libindy. We're working on it", "Error", "OK");
+            }
             catch (Exception e)
             {
                 this.IsBusy = false;
@@ -161,10 +217,11 @@ namespace IdentifyMe.ViewModels.Notification
                 var context = await _agentProvider.GetContextAsync();
                 // var (message, proofRecord) = await _proofService.CreatePresentationAsync(context, ProofRequestRecord.Id, RequestedCredentials);
                 await _proofService.RejectProofRequestAsync(context, ProofRequestRecord.Id);
+                _eventAggregator.Publish(new ApplicationEvent() { Type = ApplicationEventType.CredentialsUpdated });
                 loadingDialog.Hide();
+                await NavigationService.NavigateBackAsync();
                 this.IsBusy = false;
-                await NavigationService.CloseAllPopupsAsync();
-                var toastConfig = new ToastConfig("Rejected Proof!");
+                var toastConfig = new ToastConfig("Rejected successfully!");
                 toastConfig.BackgroundColor = Color.Green;
                 toastConfig.Position = ToastPosition.Top;
                 toastConfig.SetDuration(3000);
@@ -174,7 +231,7 @@ namespace IdentifyMe.ViewModels.Notification
             {
                 this.IsBusy = false;
                 loadingDialog.Hide();
-                DialogService.Alert("Error while accept Proof Request");
+                DialogService.Alert("Error while Reject Proof Request");
             }
 
         }
@@ -219,11 +276,21 @@ namespace IdentifyMe.ViewModels.Notification
             get => _issuedDate;
             set => this.RaiseAndSetIfChanged(ref _issuedDate, value);
         }
+
+        private bool _isSatisfied = false;
+        public bool IsSatisfied
+        {
+            get => _isSatisfied;
+            set 
+            { 
+                this.RaiseAndSetIfChanged(ref _isSatisfied, value);
+            }
+        }
         #endregion
 
         #region Bindable Command 
         public ICommand AcceptProofRequestCommand => new Command(async () => await AcceptProofRequest());
-        public ICommand RejectProofRequestCommand => new Command(async () => await Application.Current.MainPage.DisplayAlert("Rejected Proof Request", "", "Ok"));
+        public ICommand RejectProofRequestCommand => new Command(async () => await RejectProofRequest());
         #endregion
     }
 }

@@ -1,8 +1,10 @@
 ﻿using Acr.UserDialogs;
 using Autofac;
 using Hyperledger.Aries.Agents;
+using Hyperledger.Aries.Contracts;
 using Hyperledger.Aries.Features.DidExchange;
 using Hyperledger.Aries.Features.IssueCredential;
+using IdentifyMe.Events;
 using IdentifyMe.Extensions;
 using IdentifyMe.Services.Interfaces;
 using ReactiveUI;
@@ -11,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -23,12 +26,14 @@ namespace IdentifyMe.ViewModels.Credentials
         private readonly ICredentialService _credentialService;
         private readonly ILifetimeScope _scope;
         private readonly IConnectionService _connectionService;
+        private readonly IEventAggregator _eventAggregator;
 
         public CredentialsViewModel(IUserDialogs userDialogs,
                                   INavigationService navigationService,
                                   IAgentProvider agentProvider,
                                   ICredentialService credentialService,
                                   IConnectionService connectionService,
+                                  IEventAggregator eventAggregator,
                                   ILifetimeScope scope) :
             base(nameof(CredentialsViewModel), userDialogs, navigationService)
         {
@@ -36,13 +41,19 @@ namespace IdentifyMe.ViewModels.Credentials
             _credentialService = credentialService;
             _scope = scope;
             _connectionService = connectionService;
-
+            _eventAggregator = eventAggregator;
             Title = "Credentials";
         }
 
         public async override Task InitializeAsync(object navigationData)
         {
             await base.InitializeAsync(navigationData);
+            _eventAggregator.GetEventByType<ApplicationEvent>()
+              .Where(_ => _.Type == ApplicationEventType.CredentialRemoved)
+              .Subscribe(async _ => await LoadCredential());
+            _eventAggregator.GetEventByType<ApplicationEvent>()
+              .Where(_ => _.Type == ApplicationEventType.CredentialsUpdated)
+              .Subscribe(async _ => await LoadCredential());
             await LoadCredential();
         }
 
