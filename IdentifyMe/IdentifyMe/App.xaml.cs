@@ -31,6 +31,9 @@ using IdentifyMe.ViewModels.Credentials;
 using IdentifyMe.Views.Credentials;
 using IdentifyMe.ViewModels.Setting;
 using IdentifyMe.Views.Setting;
+using IdentifyMe.Models.Onboarding;
+using IdentifyMe.Views.Onboarding;
+using IdentifyMe.ViewModels.Onboarding;
 
 namespace IdentifyMe
 {
@@ -101,16 +104,19 @@ namespace IdentifyMe
             _navigationService.AddPageViewModelBinding<MainViewModel, MainPage>();
             _navigationService.AddPageViewModelBinding<RegisterPageViewModel, RegisterPage>();
             _navigationService.AddPageViewModelBinding<SettingViewModel, SettingPage>();
+            _navigationService.AddPageViewModelBinding<OnboardingViewModel, OnboardingPageV2>();
             if (Preferences.Get("LocalWalletProvisioned", false))
             {
                 //Task.Run(async () => await _navigationService.NavigateToAsync<MainViewModel>());
                 await _navigationService.NavigateToAsync<MainViewModel>();
+                
             }
             else
             {
                 //Task.Run(async () => await _navigationService.NavigateToAsync<RegisterPageViewModelV2>());
                 //Task.Run(async () => await _navigationService.NavigateToAsync<RegisterPageViewModelV2>());
-                await _navigationService.NavigateToAsync<RegisterPageViewModel>();
+                //await _navigationService.NavigateToAsync<RegisterPageViewModel>();
+                await _navigationService.NavigateToAsync<OnboardingViewModel>();
             }
         }
         protected override void OnStart()

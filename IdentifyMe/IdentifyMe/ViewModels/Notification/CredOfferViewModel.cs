@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -113,11 +114,6 @@ namespace IdentifyMe.ViewModels.Notification
         #endregion
 
         #region Bindable Command
-        private void RejectCredentialOffer ()
-        {
-
-        }
-
         private async Task AcceptCredentialOffer()
         {
             if(this.CredentialOffer != null)
@@ -168,8 +164,35 @@ namespace IdentifyMe.ViewModels.Notification
             //await Application.Current.MainPage.DisplayAlert("Something error with this Offer", "", "Ok");
 
         }
+
+        private async Task RejectCredentialOffer()
+        {
+            try
+            {
+                var context = await _agentProvider.GetContextAsync();
+                await _credentialService.RejectOfferAsync(context, this._credentialOffer.Id);
+                _eventAggregator.Publish(new ApplicationEvent() { Type = ApplicationEventType.CredentialsUpdated });
+            } 
+            catch (IndyException e)
+            {
+                UserDialogs.Instance.Alert("Some error occurs. Our team is working on it.");
+                Debug.WriteLine($"Reject Error - Indy: {e.Message}");
+            }
+            catch(AriesFrameworkException e)
+            {
+                UserDialogs.Instance.Alert("Some error occurs. Our team is working on it.");
+                Debug.WriteLine($"Reject Error - Aries: {e.Message}");
+            }
+            catch(Exception e)
+            {
+                UserDialogs.Instance.Alert("Some error occurs. Our team is working on it.");
+                Debug.WriteLine($"Reject Error - Xamarin: {e.Message}");
+            }
+           
+        }
+
         public ICommand AcceptCredentialOfferCommand => new Command(async () => await AcceptCredentialOffer());
-        public ICommand RejectCredentialOfferCommand => new Command(async () => await Application.Current.MainPage.DisplayAlert("Rejected Credential Offer", "", "Ok"));
+        public ICommand RejectCredentialOfferCommand => new Command(async () => await RejectCredentialOffer());
         #endregion
     }
 }

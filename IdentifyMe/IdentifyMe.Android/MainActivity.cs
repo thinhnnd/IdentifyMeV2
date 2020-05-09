@@ -36,6 +36,9 @@ namespace IdentifyMe.Droid
 
             base.OnCreate(savedInstanceState);
 
+            //for indicator view 
+            Xamarin.Forms.Forms.SetFlags(new string[] { "IndicatorView_Experimental" });
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
@@ -48,6 +51,8 @@ namespace IdentifyMe.Droid
 
             // Initializing FFImageLoading
             CachedImageRenderer.Init(false);
+
+            
 
             //thinh nnd
             if ((int)Build.VERSION.SdkInt >= 23)

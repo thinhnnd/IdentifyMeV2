@@ -242,6 +242,8 @@ namespace IdentifyMe.Services
 
             //TODO OS-195 throw an exception if this resolution was null i.e the bound type is not of type Page
             Page page = _scope.Resolve(pageType) as Page;
+            if (page == null)
+                throw new Exception($"Error for resolve  {pageType}");
 
             IABaseViewModel viewModel;
             if (viewModelObj != null)

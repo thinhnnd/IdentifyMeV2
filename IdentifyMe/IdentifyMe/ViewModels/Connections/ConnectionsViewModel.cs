@@ -21,6 +21,9 @@ using Xamarin.Forms;
 using IdentifyMe.Extensions;
 using IdentifyMe.Events;
 using System.Reactive.Linq;
+using Hyperledger.Indy;
+using Hyperledger.Aries;
+using System.Diagnostics;
 
 namespace IdentifyMe.ViewModels.Connections
 {
@@ -70,32 +73,53 @@ namespace IdentifyMe.ViewModels.Connections
 
         public async Task RefreshConnectionsList()
         {
-            RefreshingConnections = true;
-            var context = await _agentProvider.GetContextAsync();
-            if (context != null)
+            try
             {
-                var records = await _connectionService.ListAsync(context);
-
-                IList<ConnectionViewModel> connectionViewModels = new List<ConnectionViewModel>();
-
-                foreach (var record in records)
+                RefreshingConnections = true;
+                var context = await _agentProvider.GetContextAsync();
+                if (context != null)
                 {
-                    if (record.Alias != null)
+                    var records = await _connectionService.ListAsync(context);
+
+                    IList<ConnectionViewModel> connectionViewModels = new List<ConnectionViewModel>();
+
+                    foreach (var record in records)
                     {
-                        var connection = _scope.Resolve<ConnectionViewModel>(new NamedParameter("record", record));
-                        connectionViewModels.Add(connection);
+                        if (record.Alias != null)
+                        {
+                            var connection = _scope.Resolve<ConnectionViewModel>(new NamedParameter("record", record));
+                            connectionViewModels.Add(connection);
+                        }
+
                     }
 
-                }
+                    Connections.Clear();
 
-                Connections.Clear();
-
-                foreach (var connectionVm in connectionViewModels)
-                {
-                    Connections.Add(connectionVm);
+                    foreach (var connectionVm in connectionViewModels)
+                    {
+                        Connections.Add(connectionVm);
+                    }
+                    HasConnections = connectionViewModels.Any();
+                    RefreshingConnections = false;
                 }
-                HasConnections = connectionViewModels.Any();
+            }
+            catch (IndyException e)
+            {
                 RefreshingConnections = false;
+                UserDialogs.Instance.Alert("Some error occurs. Our team is working on it.");
+                Debug.WriteLine($"Reject Error - Indy: {e.Message}");
+            }
+            catch (AriesFrameworkException e)
+            {
+                RefreshingConnections = false;
+                UserDialogs.Instance.Alert("Some error occurs. Our team is working on it.");
+                Debug.WriteLine($"Reject Error - Aries: {e.Message}");
+            }
+            catch (Exception e)
+            {
+                RefreshingConnections = false;
+                UserDialogs.Instance.Alert("Some error occurs. Our team is working on it.");
+                Debug.WriteLine($"Reject Error - Xamarin: {e.Message}");
             }
 
         }
