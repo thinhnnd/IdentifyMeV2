@@ -267,5 +267,8 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ob_control_data.svg" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\identifyme_logo.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
