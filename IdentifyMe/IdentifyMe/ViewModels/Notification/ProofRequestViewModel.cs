@@ -20,6 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Text.RegularExpressions;
 
 namespace IdentifyMe.ViewModels.Notification
 {
@@ -65,6 +66,10 @@ namespace IdentifyMe.ViewModels.Notification
         // private RangeEnabledObservableCollection<KeyValuePair<string, string>> _roofRequestCredentialsPairs = new RangeEnabledObservableCollection<KeyValuePair<string, string>>();
 
         //Dictionary<string, string> proofAndCredentialPredicatesMapping = new Dictionary<string, string>();
+        public string RemoveAllSpaceAndToLower(string s)
+        {
+            return Regex.Replace(s.ToLower(), @"\s+", "");
+        }
         private async Task CreateRequestedCredential()
         {
             var requestedCredentials = new RequestedCredentials();
@@ -80,23 +85,26 @@ namespace IdentifyMe.ViewModels.Notification
 
                 var credentials = await _proofService.ListCredentialsForProofRequestAsync(context, _proofRequest,
                         requestedAttribute.Key);
-                if(credentials.Count != 0 )
+                if (credentials.Count != 0 )
                 {
+                    var firstSuitableCredential = credentials.First();
                     _isSatisfied = true;
-                    proofCredMap.Referent = credentials.First().CredentialInfo.Referent;
+                    proofCredMap.Referent = firstSuitableCredential.CredentialInfo.Referent;
 
-                    var key = requestedAttribute.Value.Name;
-                    if (credentials.First().CredentialInfo.Attributes.ContainsKey(key))
+                    var key = this.RemoveAllSpaceAndToLower(requestedAttribute.Value.Name);
+                    var proofKeyAndCredentialMap = firstSuitableCredential.CredentialInfo.Attributes.ToDictionary(k => RemoveAllSpaceAndToLower(k.Key), v => new KeyValuePair<string, string>(v.Key, v.Value));
+                    if (proofKeyAndCredentialMap.ContainsKey(key))
                     {
-                        var value = credentials.First().CredentialInfo.Attributes[key];
-                        KeyValuePair<string, string> keyValuePair = new KeyValuePair<string, string>(key, value);
+                        var value = proofKeyAndCredentialMap[key].Value;
+                        var credKey = proofKeyAndCredentialMap[key].Key;
+                        KeyValuePair<string, string> keyValuePair = new KeyValuePair<string, string>(credKey, value);
                         proofCredMap.CredentialAttribute = keyValuePair;
                     }
 
                     requestedCredentials.RequestedAttributes.Add(requestedAttribute.Key,
                         new RequestedAttribute
                         {
-                            CredentialId = credentials.First().CredentialInfo.Referent,
+                            CredentialId = firstSuitableCredential.CredentialInfo.Referent,
                             Revealed = true
                         });
                 }
@@ -129,21 +137,23 @@ namespace IdentifyMe.ViewModels.Notification
                 ProofRequestAndCredentialMap proofCredMap = new ProofRequestAndCredentialMap();
                 if (credentials.Count != 0)
                 {
+                    var firstSuitableCredential = credentials.First();
                     _isSatisfied = true;
-                    proofCredMap.ProofKey = requestedAttribute.Key;
-                    proofCredMap.Referent = credentials.First().CredentialInfo.Referent;
+                    proofCredMap.Referent = firstSuitableCredential.CredentialInfo.Referent;
 
-                    var key = requestedAttribute.Value.Name;
-                    if (credentials.First().CredentialInfo.Attributes.ContainsKey(key))
+                    var key = this.RemoveAllSpaceAndToLower(requestedAttribute.Value.Name);
+                    var proofKeyAndCredentialMap = firstSuitableCredential.CredentialInfo.Attributes.ToDictionary(k => RemoveAllSpaceAndToLower(k.Key), v => new KeyValuePair<string, string>(v.Key, v.Value));
+                    if (proofKeyAndCredentialMap.ContainsKey(key))
                     {
-                        var value = credentials.First().CredentialInfo.Attributes[key];
-                        KeyValuePair<string, string> keyValuePair = new KeyValuePair<string, string>(key, value);
+                        var value = proofKeyAndCredentialMap[key].Value;
+                        var credKey = proofKeyAndCredentialMap[key].Key;
+                        KeyValuePair<string, string> keyValuePair = new KeyValuePair<string, string>(credKey, value);
                         proofCredMap.CredentialAttribute = keyValuePair;
                     }
                     requestedCredentials.RequestedPredicates.Add(requestedAttribute.Key,
                         new RequestedAttribute
                         {
-                            CredentialId = credentials.First().CredentialInfo.Referent,
+                            CredentialId = firstSuitableCredential.CredentialInfo.Referent,
                             Revealed = true
                         });
                 }
