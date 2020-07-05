@@ -22,7 +22,7 @@ using FFImageLoading.Forms.Platform;
 
 namespace IdentifyMe.Droid
 {
-    [Activity(Label = "IdentifyMe", Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
+    [Activity(Label = "IdentifyMe", Icon = "@mipmap/idme_logo", Theme = "@style/MainTheme", 
         MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {

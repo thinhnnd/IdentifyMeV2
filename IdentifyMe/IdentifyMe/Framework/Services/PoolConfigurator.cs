@@ -22,7 +22,8 @@ namespace IdentifyMe.Services
             //{ "sovrin-builder", "pool_transactions_builder_genesis" },
             //{ "sovrin-staging", "pool_transactions_sandbox_genesis" },
             { "bcovrin-dev", "pool_transactions_bcovrin_dev_genesis" },
-            { "bcovrin-test", "pool_transactions_bcovrin_test_genesis" }
+            { "bcovrin-test", "pool_transactions_bcovrin_test_genesis" },
+            {"identifyme-test", "pool_transactions_idme_test_genesis" }
         };
 
         public PoolConfigurator(

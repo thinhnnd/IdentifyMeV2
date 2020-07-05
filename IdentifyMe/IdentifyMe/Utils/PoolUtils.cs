@@ -11,6 +11,7 @@ namespace IdentifyMe.Utils
                 case "sovrin-live": return "Sovrin Network";
                 case "sovrin-builder": return "Sovrin Builder Network";
                 case "bcovrin-test": return "Bcovrin Test Network";
+                case "identifyme-test": return "IdentifyMe Test Network";
             }
             return "Streetcred Development Network";
         }

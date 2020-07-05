@@ -23,6 +23,7 @@ namespace IdentifyMe.ViewModels.Setting
             IList<NetworkItem> networkItems = new List<NetworkItem>()
             {                
                 new NetworkItem("Bcovrin Test", "bcovrin-test"),
+                new NetworkItem("IdentifyMe Test Network", "identifyme-test"),
                 new NetworkItem("Bcovrin Green Dev", "bcovrin-dev")
             };
             _networkItems.InsertRange(networkItems);
