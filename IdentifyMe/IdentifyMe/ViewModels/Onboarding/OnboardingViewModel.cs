@@ -48,14 +48,14 @@ namespace IdentifyMe.ViewModels.Onboarding
 
         private void SetSkipButtonText(string skipButtonText) => SkipButtonText = skipButtonText;
 
-        private async Task CreateAgent()
+        private async Task CreateAgent(string agentName)
         {
             Preferences.Set(Constants.PoolConfigurationName, _walletConfiguration.PoolConfigurationName);
             var dialog = UserDialogs.Instance.Loading("Creating wallet");
             IsBusy = true;
             try
             {
-                _options.AgentName = DeviceInfo.Name;
+                _options.AgentName = agentName;
                 _options.WalletConfiguration.Id = Constants.LocalWalletIdKey;
                 _options.WalletCredentials.Key = await SyncedSecureStorage.GetOrCreateSecureAsync(
                     key: Constants.LocalWalletCredentialKey,
@@ -65,7 +65,11 @@ namespace IdentifyMe.ViewModels.Onboarding
                 await NavigationService.NavigateToAsync<MainViewModel>();
                 dialog?.Hide();
                 dialog?.Dispose();
-                DialogService.Alert("Wallet created successfully", "Info", "OK");
+                var toastConfig = new ToastConfig("Successfully created wallet");
+                toastConfig.BackgroundColor = Color.Green;
+                toastConfig.Position = ToastPosition.Top;
+                toastConfig.SetDuration(3000);
+                DialogService.Toast(toastConfig);
             }
             catch (Exception ex)
             {
@@ -150,7 +154,12 @@ namespace IdentifyMe.ViewModels.Onboarding
             {
                 if (LastPositionReached())
                 {
-                    await CreateAgent();
+                    var promptResult = await DialogService.PromptAsync(null, "Insert Agent Name", "OK", "Cancel", DeviceInfo.Name);
+                    if (promptResult.Ok)
+                        if (String.IsNullOrWhiteSpace(promptResult.Text))
+                            DialogService.Alert("Please insert your agent name", "Error", "OK");
+                        else
+                            await CreateAgent(promptResult.Text);
                 }
                 else
                 {
@@ -159,10 +168,10 @@ namespace IdentifyMe.ViewModels.Onboarding
             });
         }
 
-        private async Task CreateWalletAndExitOnBoarding()
-        {
-            await CreateAgent();
-        }
+        //private async Task CreateWalletAndExitOnBoarding()
+        //{
+        //    await CreateAgent();
+        //}
 
         private void ExitOnBoarding()
         {

@@ -11,7 +11,8 @@ namespace IdentifyMe.Events
         CredentialsUpdated,
         GotCredentialOffer,
         GotProofRequestMessage,
-        CredentialRemoved
+        CredentialRemoved,
+        NotificationUpdated,
     }
     public class ApplicationEvent
     {

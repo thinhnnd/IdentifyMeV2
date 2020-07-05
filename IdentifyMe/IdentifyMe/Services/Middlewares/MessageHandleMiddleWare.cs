@@ -71,9 +71,9 @@ namespace IdentifyMe.Services.Middlewares
             var notification = new NotificationRequest
             {
                 NotificationId = 100,
-                Title = "Test",
+                Title = "Notification",
                 Description = content,
-                ReturningData = "Dummy data", // Returning data when tapped on notification.
+                ReturningData = "Notification", // Returning data when tapped on notification.
             };
             NotificationCenter.Current.Show(notification);
             Console.WriteLine($"thinhnnd - Message Type: {messageContext.GetMessageType()}");

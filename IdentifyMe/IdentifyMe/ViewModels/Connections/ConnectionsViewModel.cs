@@ -80,7 +80,7 @@ namespace IdentifyMe.ViewModels.Connections
                 if (context != null)
                 {
                     var records = await _connectionService.ListAsync(context);
-
+                    RefreshingConnections = false;
                     IList<ConnectionViewModel> connectionViewModels = new List<ConnectionViewModel>();
 
                     foreach (var record in records)
@@ -100,7 +100,6 @@ namespace IdentifyMe.ViewModels.Connections
                         Connections.Add(connectionVm);
                     }
                     HasConnections = connectionViewModels.Any();
-                    RefreshingConnections = false;
                 }
             }
             catch (IndyException e)
