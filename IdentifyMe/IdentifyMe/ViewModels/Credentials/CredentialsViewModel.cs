@@ -71,6 +71,7 @@ namespace IdentifyMe.ViewModels.Credentials
                 IsRefreshing = true;
                 var context = await _agentProvider.GetContextAsync();
                 var credentialRecordsList = await _credentialService.ListAsync(context);
+                IsRefreshing = false;
                 if (credentialRecordsList != null)
                 {
                     IList<CredentialViewModel> credentialVms = new List<CredentialViewModel>();

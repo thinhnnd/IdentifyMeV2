@@ -61,6 +61,7 @@
                 BorderWidth="0.5"
                 FontSize="15"
                 Text="Decline"
+                Command="{Binding DeclineCommand}"
                 TextColor="{StaticResource AppMainColorLight}" 
                />
                 </Grid>

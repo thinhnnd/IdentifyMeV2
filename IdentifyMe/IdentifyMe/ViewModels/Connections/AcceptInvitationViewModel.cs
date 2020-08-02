@@ -93,6 +93,11 @@ namespace IdentifyMe.ViewModels.Connections
 
         }
 
+        private async Task DeclineInvitation()
+        {
+            await NavigationService.CloseAllPopupsAsync();
+        }
+
         private ConnectionInvitationMessage _invitation;
         public ConnectionInvitationMessage InvitationMessage
         {
@@ -102,6 +107,7 @@ namespace IdentifyMe.ViewModels.Connections
 
         #region Binding Command
         public ICommand AcceptInvitationCommand => new Command(async () => await AcceptInvitation());
+        public ICommand DeclineCommand => new Command(async () => await DeclineInvitation());
         #endregion
     }
 }

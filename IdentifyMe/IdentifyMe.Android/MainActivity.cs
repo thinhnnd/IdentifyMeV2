@@ -24,6 +24,15 @@ namespace IdentifyMe.Droid
 {
     [Activity(Label = "IdentifyMe", Icon = "@mipmap/idme_logo", Theme = "@style/MainTheme", 
         MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [IntentFilter(new[] { Android.Content.Intent.ActionView },
+                       AutoVerify = true,
+                       Categories = new[]
+                       {
+                            Android.Content.Intent.CategoryDefault,
+                            Android.Content.Intent.CategoryBrowsable
+                       },
+                       DataScheme = "didcomm",
+                       DataHost = "invite")]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         private App _application;

@@ -34,6 +34,8 @@ using IdentifyMe.Views.Setting;
 using IdentifyMe.Models.Onboarding;
 using IdentifyMe.Views.Onboarding;
 using IdentifyMe.ViewModels.Onboarding;
+using IdentifyMe.Framework.Utilities;
+using Hyperledger.Aries.Features.DidExchange;
 
 namespace IdentifyMe
 {
@@ -129,6 +131,28 @@ namespace IdentifyMe
         protected override void OnAppLinkRequestReceived(Uri uri)
         {
             // Deeplink functionality code here
+            Console.WriteLine(uri);
+            Task.Run(async () => {
+                try
+                {
+                    var message = await MessageDecorder.ParseMessageAsync(uri.ToString());
+                    Console.WriteLine($@"Decoded message {message}");
+                    AcceptInvitationViewModel acceptInvitationViewModel = Container.Resolve<AcceptInvitationViewModel>();
+                    acceptInvitationViewModel.InvitationMessage = (ConnectionInvitationMessage)message;
+                    //await NavigationService.NavigateBackAsync();             
+                    await _navigationService.NavigateToPopupAsync<AcceptInvitationViewModel>(true, acceptInvitationViewModel);
+                    //await Application.Current.MainPage.DisplayAlert("Scanned code", scannedCode, "Close");
+
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e);
+                    //await NavigationService.NavigateBackAsync();
+                    await Application.Current.MainPage.DisplayAlert("Error", "Invalid Invitation", "Close");
+                }
+
+            });
+            
         }
 
         protected override void OnSleep()

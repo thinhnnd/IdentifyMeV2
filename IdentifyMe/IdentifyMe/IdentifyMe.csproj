@@ -5,6 +5,8 @@
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <LangVersion>8</LangVersion>
     <UserSecretsId>34b96c87-3dca-46b8-80ad-4f43a3442398</UserSecretsId>
+    <Version>1.0.1</Version>
+    <RepositoryUrl>https://github.com/thinhnnd/IdentifyMeV2</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
